@@ -17,7 +17,6 @@ my file system:
     │       └── [...]
     ├── .vim-backup
     ├── .vim-swapfiles
-    ├── .viminfo
     └── .vimrc
 
 I'm [managing these files using stow][1].  If you wanted to do the same, don't
