@@ -25,8 +25,11 @@ forget to ignore the readme when you deploy it:
     stow --ignore "README.md|LICENSE.md" vim
 
 Please also note that I'm using [Vundle][2] to manage my plugins.  If you're
-just cloning this repository, then you should install those plugins with
-something like this:
+just cloning this repository, then you should install Vundle:
+
+    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
+And you should install those plugins with something like this:
 
     vim +PluginInstall +qall
 
