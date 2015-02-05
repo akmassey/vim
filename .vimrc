@@ -61,6 +61,9 @@ Plugin 'bimbalaszlo/vim-eightheader'
 " LaTeX related
 Plugin 'LaTeX-Box-Team/LaTeX-Box'
 
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+
 " HTML / XML related
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'tpope/vim-jdaddy'
