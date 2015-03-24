@@ -60,9 +60,14 @@ Plugin 'bimbalaszlo/vim-eightheader'
 
 " LaTeX related
 Plugin 'LaTeX-Box-Team/LaTeX-Box'
+" Plugin 'vim-pandoc/vim-pandoc'
+" Plugin 'vim-pandoc/vim-pandoc-syntax'
 
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+" Writing related
+Plugin 'kana/vim-textobj-user'
+Plugin 'reedes/vim-textobj-quote'
+Plugin 'reedes/vim-textobj-sentence'
+Plugin 'reedes/vim-wordy'
 
 " HTML / XML related
 Plugin 'vim-scripts/closetag.vim'
@@ -278,7 +283,19 @@ if has("autocmd")
 
   " Go syntax highlighting and formatting
   au BufRead,BufNewFile *.go set filetype=go
-  au BufWritePost *.go :silent Fmt
+  au FileType go nmap <Leader>s <Plug>(go-implements)
+  au FileType go nmap <Leader>i <Plug>(go-info)
+  au FileType go nmap <Leader>gd <Plug>(go-doc)
+  au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+  au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+  au FileType go nmap <Leader>r <Plug>(go-run)
+  au FileType go nmap <Leader>b <Plug>(go-build)
+  au FileType go nmap <Leader>t <Plug>(go-test)
+  au FileType go nmap <Leader>c <Plug>(go-coverage)
+  au FileType go nmap <Leader>ds <Plug>(go-def-split)
+  au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+  au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+  au FileType go nmap <Leader>e <Plug>(go-rename)
 
   " Unbreak 'crontab -e' with Vim: http://drawohara.com/post/6344279/crontab-temp-file-must-be-edited-in-place
   au FileType crontab set nobackup nowritebackup
