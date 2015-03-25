@@ -24,6 +24,7 @@ Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-sensible'
 Plugin 'machakann/vim-textobj-delimited'
 Plugin 'gorkunov/smartpairs.vim'
+Plugin 'edsono/vim-matchit'
 
 " Slightly less baseline plugins
 Plugin 'mileszs/ack.vim'
@@ -300,13 +301,25 @@ if has("autocmd")
   " Unbreak 'crontab -e' with Vim: http://drawohara.com/post/6344279/crontab-temp-file-must-be-edited-in-place
   au FileType crontab set nobackup nowritebackup
 
+  " Count ’ as a part of words like I’m and you’re
+  au FileType plaintex,context,tex,latex,mail,markdown,textile,text set iskeyword+=’
+
   " Use flowed text in email
   au FileType mail setlocal fo+=aw
   au FileType mail set spell
 
   " Ensure spell checking is enabled for LaTeX
   au FileType plaintex,context,tex,latex set spell
+
 endif
+
+augroup textobj_quote
+  autocmd!
+  autocmd FileType markdown call textobj#quote#init()
+  autocmd FileType textile call textobj#quote#init()
+  autocmd FileType mail call textobj#quote#init()
+  autocmd FileType text call textobj#quote#init({'educate': 0})
+augroup END
 
 " Center the screen more easily
 nmap <space> zz
