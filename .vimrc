@@ -25,6 +25,7 @@ Plugin 'tpope/vim-sensible'
 Plugin 'machakann/vim-textobj-delimited'
 Plugin 'gorkunov/smartpairs.vim'
 Plugin 'edsono/vim-matchit'
+Plugin 'chrisbra/vim-diff-enhanced'
 
 " Slightly less baseline plugins
 Plugin 'mileszs/ack.vim'
@@ -77,6 +78,7 @@ Plugin 'tpope/vim-jdaddy'
 " Movement / file browsing plugins
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
+Plugin 'thoughtbot/pick.vim'
 Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'majutsushi/tagbar'
 " Plugin 'vim-scripts/VOoM'
@@ -248,7 +250,14 @@ if has("gui_macvim")
 
   source ~/.gvimrc
 endif
-" }
+
+
+" TODO: Figure out why this isn't working
+if !has("gui_macvim")
+  " Pick Configuration.  More info: https://github.com/thoughtbot/pick.vim/
+  nnoremap <Leader>pf :call PickFile()<CR>
+  nnoremap <Leader>pb :call PickBuffer()<CR>
+endif
 
 
 if has("autocmd")
@@ -279,9 +288,6 @@ if has("autocmd")
   au FileType ruby,eruby let g:rubycomplete_rails = 1
   au FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
-  " " enables ctrl-_ for closing most recently opened tag
-  " autocmd Filetype html,xml,xsl source ~/.vim/scripts/closetag.vim
-
   " Go syntax highlighting and formatting
   au BufRead,BufNewFile *.go set filetype=go
   au FileType go nmap <Leader>s <Plug>(go-implements)
@@ -298,7 +304,8 @@ if has("autocmd")
   au FileType go nmap <Leader>dt <Plug>(go-def-tab)
   au FileType go nmap <Leader>e <Plug>(go-rename)
 
-  " Unbreak 'crontab -e' with Vim: http://drawohara.com/post/6344279/crontab-temp-file-must-be-edited-in-place
+  " Unbreak 'crontab -e' with Vim:
+  " http://drawohara.com/post/6344279/crontab-temp-file-must-be-edited-in-place
   au FileType crontab set nobackup nowritebackup
 
   " Count ’ as a part of words like I’m and you’re
@@ -691,3 +698,33 @@ for ft_name in keys(ft_execute_mappings)
         \. ft_execute_mappings[ft_name] . '<CR>'
 endfor
 
+" Added from: http://vim.wikia.com/wiki/Super_retab#Script
+"
+" Return indent (all whitespace at start of a line), converted from
+" tabs to spaces if what = 1, or from spaces to tabs otherwise.
+" When converting to tabs, result has no redundant spaces.
+function! Indenting(indent, what, cols)
+  let spccol = repeat(' ', a:cols)
+  let result = substitute(a:indent, spccol, '\t', 'g')
+  let result = substitute(result, ' \+\ze\t', '', 'g')
+  if a:what == 1
+    let result = substitute(result, '\t', spccol, 'g')
+  endif
+  return result
+endfunction
+
+" Convert whitespace used for indenting (before first non-whitespace).
+" what = 0 (convert spaces to tabs), or 1 (convert tabs to spaces).
+" cols = string with number of columns per tab, or empty to use 'tabstop'.
+" The cursor position is restored, but the cursor will be in a different
+" column when the number of characters in the indent of the line is changed.
+function! IndentConvert(line1, line2, what, cols)
+  let savepos = getpos('.')
+  let cols = empty(a:cols) ? &tabstop : a:cols
+  execute a:line1 . ',' . a:line2 . 's/^\s\+/\=Indenting(submatch(0), a:what, cols)/e'
+  call histdel('search', -1)
+  call setpos('.', savepos)
+endfunction
+command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-args>)
+command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
+command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
