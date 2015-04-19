@@ -308,18 +308,17 @@ if has("autocmd")
   " http://drawohara.com/post/6344279/crontab-temp-file-must-be-edited-in-place
   au FileType crontab set nobackup nowritebackup
 
-  " Count ’ as a part of words like I’m and you’re
-  au FileType plaintex,context,tex,latex,mail,markdown,textile,text set iskeyword+=’
-
   " Use flowed text in email
   au FileType mail setlocal fo+=aw
   au FileType mail set spell
+  au BufRead ~/.mutt/temp/mutt-* execute 'normal gg}jQgg}'
 
   " Ensure spell checking is enabled for LaTeX
   au FileType plaintex,context,tex,latex set spell
 
 endif
 
+" Automatically convert things to smartquotes for these filetypes
 augroup textobj_quote
   autocmd!
   autocmd FileType markdown call textobj#quote#init()
@@ -334,9 +333,6 @@ nmap <space> zz
 " Center the screen on searches
 nmap n nzz
 nmap N Nzz
-
-" Toggle spell checking on and off with `,s`
-nmap <silent> <Leader>5 :set spell!<CR>
 
 set spelllang=en_us
 
