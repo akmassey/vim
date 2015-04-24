@@ -311,7 +311,7 @@ if has("autocmd")
   " Use flowed text in email
   au FileType mail setlocal fo+=aw
   au FileType mail set spell
-  au BufRead ~/.mutt/temp/mutt-* execute 'normal gg}jQgg}'
+  au BufRead ~/.mutt/temp/mutt-* execute 'normal gg}'
 
   " Ensure spell checking is enabled for LaTeX
   au FileType plaintex,context,tex,latex set spell
@@ -321,6 +321,7 @@ endif
 " Automatically convert things to smartquotes for these filetypes
 augroup textobj_quote
   autocmd!
+  autocmd FileType plaintex,context,tex,latex call textobj#quote#init()
   autocmd FileType markdown call textobj#quote#init()
   autocmd FileType textile call textobj#quote#init()
   autocmd FileType mail call textobj#quote#init()
