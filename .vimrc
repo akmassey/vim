@@ -72,8 +72,8 @@ Plugin 'reedes/vim-textobj-sentence'
 Plugin 'reedes/vim-wordy'
 
 " HTML / XML related
-Plugin 'vim-scripts/closetag.vim'
 Plugin 'tpope/vim-jdaddy'
+Plugin 'tpope/vim-ragtag'
 
 " Movement / file browsing plugins
 Plugin 'scrooloose/nerdtree'
