@@ -34,14 +34,17 @@ Plugin 'ervandew/supertab'
 " Plugin 'godlygeek/tabular'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'bling/vim-airline'
-" Commenting this out in favor of sneak
-" Plugin 'Lokaltog/vim-easymotion'
-Plugin 'justinmk/vim-sneak'
 Plugin 'vim-scripts/zoom.vim'
-Plugin 'nelstrom/vim-visual-star-search'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'Keithbsmiley/investigate.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
+Plugin 'szw/vim-ctrlspace'
+
+" Search-related
+" Commenting this out in favor of sneak
+" Plugin 'Lokaltog/vim-easymotion'
+Plugin 'justinmk/vim-sneak'
+Plugin 'nelstrom/vim-visual-star-search'
 
 " epub
 " Plugin 'etnadji/vim-epub'
@@ -111,7 +114,7 @@ Plugin 'fatih/vim-go'
 " Plugin 'botandrose/vim-testkey'
 Plugin 'janko-m/vim-test'
 
-" Plugind colorschemes
+" Plugin colorschemes
 Plugin 'chriskempson/vim-tomorrow-theme'
 Plugin 'therubymug/vim-pyte'
 Plugin 'altercation/vim-colors-solarized'
@@ -171,9 +174,19 @@ set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
 " Disable temp and backup files
 set wildignore+=*.swp,*~,._*
 
+" Set hidden so that all buffers are available to Vim-CtrlSpace
+set hidden
+" Hide the tabline and rely only on Vim-CtrlSpace
+set showtabline=0
+
 " Ensure airline fonts are loaded properly.  More info:
 "     https://github.com/bling/vim-airline
 let g:airline_powerline_fonts = 1
+
+" Let airline clean up the tabline as well
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 " Custom Whitespace Modifiers
 set textwidth=78
@@ -251,6 +264,23 @@ if has("gui_macvim")
   source ~/.gvimrc
 endif
 
+" replace 'f' with 1-char Sneak
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+" replace 't' with 1-char Sneak
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
+" manually specify a SneakNext and SneakPrevious
+map ]z <Plug>SneakNext
+map [z <Plug>SneakPrevious
 
 " TODO: Figure out why this isn't working
 if !has("gui_macvim")
@@ -486,15 +516,15 @@ endfunction
 map <Leader>n :call RenameFile()<cr>
 
 " Promote variable to let for RSpec
-function! PromoteToLet()
-  :normal! dd
-  " :exec '?^\s*it\>'
-  :normal! P
-  :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
-  :normal ==
-endfunction
-:command! PromoteToLet :call PromoteToLet()
-:map <leader>p :PromoteToLet<cr>
+" function! PromoteToLet()
+"   :normal! dd
+"   " :exec '?^\s*it\>'
+"   :normal! P
+"   :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
+"   :normal ==
+" endfunction
+" :command! PromoteToLet :call PromoteToLet()
+" :map <leader>p :PromoteToLet<cr>
 
 " Switch Between Test and Production code
 function! OpenTestAlternate()
@@ -560,7 +590,6 @@ xnoremap & :&&<CR>
 " vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
 " nmap <C-v> :call setreg("\"", system("pbpaste"))<CR>p
 
-" TODO: this may not actually be all that useful
 " Use very magic for searches by default
 nnoremap / /\v
 vnoremap / /\v
