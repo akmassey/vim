@@ -110,6 +110,9 @@ Plugin 'tpope/vim-markdown'
 " Plugin 'jnwhiteh/vim-golang'
 Plugin 'fatih/vim-go'
 
+" Rust support
+Plugin 'rust-lang/rust.vim'
+
 " Testing support
 " Plugin 'botandrose/vim-testkey'
 Plugin 'janko-m/vim-test'
