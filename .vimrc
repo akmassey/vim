@@ -99,6 +99,9 @@ Plugin 'vim-ruby/vim-ruby'
 " Plugin 'thoughtbot/vim-rspec'
 Plugin 'vim-scripts/ruby-matchit'
 
+" JavaScript related plugins
+Plugin 'pangloss/vim-javascript'
+
 " Python related plugins
 Plugin 'klen/python-mode'
 
@@ -129,6 +132,7 @@ Plugin 'akmassey/vim-codeschool'
 Plugin 'twerth/ir_black'
 Plugin 'jnurmine/Zenburn'
 Plugin 'rainux/vim-desert-warm-256'
+Plugin 'NLKNguyen/papercolor-theme'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -412,7 +416,7 @@ highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
 
 " Allow easy opening of files in Marked
-:nnoremap <Leader>m :silent !open -a Marked.app '%:p'<cr>
+:nnoremap <Leader>m :silent !open -a "Marked 2.app" '%:p'<cr>:redraw!<cr>
 " command! Marked :silent !open -a "Marked.app" expand("%:p")
 " :nnoremap <Leader>m :silent !open -a "Marked.app" expand("%:p")
 
@@ -458,6 +462,10 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
+" Since we just remapped the defaults for UltiSnips...
+let g:UltiSnipsJumpForwardTrigger="]u"
+let g:UltiSnipsJumpBackwardTrigger="[u"
 
 " Insert a hash rocket with <c-l>
 imap <c-l> <space>=><space>
