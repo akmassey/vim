@@ -80,6 +80,7 @@ Plugin 'tpope/vim-ragtag'
 
 " Movement / file browsing plugins
 Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-vinegar'
 Plugin 'kien/ctrlp.vim'
 Plugin 'thoughtbot/pick.vim'
 Plugin 'vim-scripts/bufexplorer.zip'
