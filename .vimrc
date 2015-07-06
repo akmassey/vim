@@ -320,6 +320,9 @@ if has("autocmd")
   " These files are also Markdown.
   au BufRead,BufNewFile *.{md,mdown,mkd,mkdn} set ft=markdown
 
+  " These files are also muttrc files.
+  au BufRead,BufNewFile *.muttrc set ft=muttrc
+
   " Ruby completions
   au FileType ruby,eruby set omnifunc=rubycomplete#Complete
   au FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
