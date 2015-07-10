@@ -600,6 +600,10 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
+" Setup indentation for Visual mode
+xnoremap < <gv
+xnoremap > >gv
+
 " Saner way to copy / paste from the OS X system pasteboard
 " TODO: turn these into functions that won't override these keyboard shortcuts
 " vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
