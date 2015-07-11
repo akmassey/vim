@@ -45,6 +45,7 @@ Plugin 'szw/vim-ctrlspace'
 " Plugin 'Lokaltog/vim-easymotion'
 Plugin 'justinmk/vim-sneak'
 Plugin 'nelstrom/vim-visual-star-search'
+Plugin 'wincent/loupe'
 
 " epub
 " Plugin 'etnadji/vim-epub'
