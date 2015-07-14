@@ -18,7 +18,7 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-characterize'
-Plugin 'tpope/vim-dispatch'
+Plugin 'tpope/vim-dispatch' " for asynchronous Make
 Plugin 'wellle/targets.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-speeddating'
@@ -47,7 +47,7 @@ Plugin 'szw/vim-ctrlspace'
 Plugin 'justinmk/vim-sneak'
 Plugin 'nelstrom/vim-visual-star-search'
 Plugin 'wincent/loupe'
-Plugin 'wincent/ferret'
+Plugin 'wincent/ferret' " for multi-file search and replace
 
 " epub
 " Plugin 'etnadji/vim-epub'
