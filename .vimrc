@@ -1,3 +1,5 @@
+" vim:fdm=marker
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -10,7 +12,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-" Baseline Plugins
+" Baseline Plugins {{{
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-haml'
@@ -27,8 +29,9 @@ Plugin 'machakann/vim-textobj-delimited'
 Plugin 'gorkunov/smartpairs.vim'
 Plugin 'edsono/vim-matchit'
 Plugin 'chrisbra/vim-diff-enhanced'
+" }}}
 
-" Slightly less baseline plugins
+" Slightly less baseline plugins {{{
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
@@ -40,19 +43,21 @@ Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'Keithbsmiley/investigate.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'szw/vim-ctrlspace'
+" }}}
 
-" Search-related
+" Search-related plugins {{{
 " Commenting this out in favor of sneak
 " Plugin 'Lokaltog/vim-easymotion'
 Plugin 'justinmk/vim-sneak'
 Plugin 'nelstrom/vim-visual-star-search'
 Plugin 'wincent/loupe'
 Plugin 'wincent/ferret' " for multi-file search and replace
+" }}}
 
-" epub
+" epub plugins
 " Plugin 'etnadji/vim-epub'
 
-" Dash
+" Dash plugins
 Plugin 'rizzatti/funcoo.vim'
 Plugin 'rizzatti/dash.vim'
 
@@ -66,18 +71,18 @@ Plugin 'rbonvall/snipmate-snippets-bib'
 " Folding plugins
 Plugin 'bimbalaszlo/vim-eightheader'
 
-" LaTeX related
+" LaTeX related plugins
 Plugin 'LaTeX-Box-Team/LaTeX-Box'
 " Plugin 'vim-pandoc/vim-pandoc'
 " Plugin 'vim-pandoc/vim-pandoc-syntax'
 
-" Writing related
+" Writing related plugins
 Plugin 'kana/vim-textobj-user'
 Plugin 'reedes/vim-textobj-quote'
 Plugin 'reedes/vim-textobj-sentence'
 Plugin 'reedes/vim-wordy'
 
-" HTML / XML related
+" HTML / XML related plugins
 Plugin 'tpope/vim-jdaddy'
 Plugin 'tpope/vim-ragtag'
 
@@ -90,10 +95,10 @@ Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'majutsushi/tagbar'
 " Plugin 'vim-scripts/VOoM'
 
-" Improved terminal vim
+" Terminal vim plugins
 Plugin 'sjl/vitality.vim'
 
-" Git related plugins
+" Git related plugins plugins
 Plugin 'tpope/vim-fugitive'
 " Plugin 'airblade/vim-gitgutter'
 
@@ -144,16 +149,6 @@ filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
 " AKM Reminder -- You can use :scriptnames to see which scripts are executed
 " when loading vim.
 
@@ -162,7 +157,7 @@ filetype plugin indent on    " required
 let mapleader=","
 noremap \ ,
 
-" Basic Settings
+" Basic Settings {{{
 set nocompatible      " Use vim, no vi defaults
 set number            " Show line numbers
 set ruler             " Show line and column number
@@ -184,20 +179,22 @@ set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
 "
 " Disable temp and backup files
 set wildignore+=*.swp,*~,._*
+" }}}
 
 " Set hidden so that all buffers are available to Vim-CtrlSpace
 set hidden
 " Hide the tabline and rely only on Vim-CtrlSpace
 set showtabline=0
 
-" Ensure airline fonts are loaded properly.  More info:
-"     https://github.com/bling/vim-airline
+" Ensure airline fonts are loaded properly. {{{
+"     More info: https://github.com/bling/vim-airline
 let g:airline_powerline_fonts = 1
 
 " Let airline clean up the tabline as well
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+" }}}
 
 " Custom Whitespace Modifiers
 set textwidth=78
@@ -215,7 +212,7 @@ set scrolloff=3
 " Set the title when you're in terminal mode
 set title
 
-" Statusline.
+" Statusline settings {{{
 " %< truncation point
 " \ space
 " %f relative path to file
@@ -229,6 +226,7 @@ set title
 " %V current virtual column as -{num} if different from %c
 " %P percentage through buffer
 set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
+" }}}
 
 " non-GUI colorschemes
 " set background=dark
@@ -238,7 +236,7 @@ set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
 " colorscheme tomorrow-night-bright
 colorscheme jellybeans
 
-" GUI Settings {
+" GUI Settings {{{
 if has("gui_macvim")
   " Emulate TextMate's shift left/right key commands (only works in MacVim)
   nmap <D-[> <<
@@ -274,7 +272,18 @@ if has("gui_macvim")
 
   source ~/.gvimrc
 endif
+" }}}
 
+" Non-GUI Settings {{{
+" TODO: Figure out why this isn't working
+if !has("gui_macvim")
+  " Pick Configuration.  More info: https://github.com/thoughtbot/pick.vim/
+  nnoremap <Leader>pf :call PickFile()<CR>
+  nnoremap <Leader>pb :call PickBuffer()<CR>
+endif
+" }}}
+
+" Sneak settings {{{
 " replace 'f' with 1-char Sneak
 nmap f <Plug>Sneak_f
 nmap F <Plug>Sneak_F
@@ -292,15 +301,9 @@ omap T <Plug>Sneak_T
 " manually specify a SneakNext and SneakPrevious
 map ]z <Plug>SneakNext
 map [z <Plug>SneakPrevious
+" }}}
 
-" TODO: Figure out why this isn't working
-if !has("gui_macvim")
-  " Pick Configuration.  More info: https://github.com/thoughtbot/pick.vim/
-  nnoremap <Leader>pf :call PickFile()<CR>
-  nnoremap <Leader>pb :call PickBuffer()<CR>
-endif
-
-
+" AutoCommand Settings {{{
 if has("autocmd")
   " make and python use real tabs
   au FileType make set noexpandtab
@@ -371,6 +374,7 @@ augroup textobj_quote
   autocmd FileType mail call textobj#quote#init()
   autocmd FileType text call textobj#quote#init({'educate': 0})
 augroup END
+" }}}
 
 " Center the screen more easily
 nmap <space> zz
@@ -389,6 +393,7 @@ let NERDSpaceDelims=1
 map <Leader>b :w<CR>:!./build<CR>
 
 " vim-rspec mappings
+" TODO: Determine whether to keep these
 " map <Leader>t :call RunCurrentSpecFile()<CR>
 " map <Leader>s :call RunNearestSpec()<CR>
 " map <Leader>l :call RunLastSpec()<CR>
@@ -485,6 +490,7 @@ nnoremap <S-Enter> O<Esc>jo<Esc>
 " Same as above, but reflow the line
 nnoremap <C-Enter> O<Esc>jo<Esc>kgqap
 
+" Preserve Commands {{{
 " A command to preserve last search and cursor position after running another
 " command.  See: http://vimcasts.org/episodes/tidying-whitespace/
 function! Preserve(command) range
@@ -516,12 +522,13 @@ map <Leader>7 :call Preserve("%!poppins")<CR>
 " Don't use Ex mode, use Q for formatting
 " map Q gqap
 map Q :call Preserve("normal gqap")<CR>
+" }}}
 
 " Toggle NERDTree and Tagbar
 map <Leader>8 :NERDTreeToggle<CR>
 map <Leader>9 :TagbarToggle<CR>
 
-" Rename current file
+" Function to rename current file {{{
 function! RenameFile()
     let old_name = expand('%')
     let new_name = input('Rename this file as: ', expand('%'), 'file')
@@ -532,6 +539,7 @@ function! RenameFile()
     endif
 endfunction
 map <Leader>n :call RenameFile()<cr>
+" }}}
 
 " Promote variable to let for RSpec
 " function! PromoteToLet()
@@ -584,12 +592,14 @@ set hlsearch   " highlight search results
 set ignorecase " ignore case when searching
 set smartcase  " but if we search for big letters, make search case sensitive again
 
-" Correct for common typos and mis-keys
-command! Q q       " bind :Q to :q
-command! W w       " bind :W to :w
-command! Qall qall " bind :Qall to :qall
-command! Qq qall   " bind :qq to :qall
-command! Wqq wqall " bind :wqq to :qall
+" Correct for common command typos and mis-keys {{{
+command! Q q
+command! W w
+command! Qall qall
+command! Qq qall
+command! Wqq wqall
+command! WQa wqall
+" }}}
 
 " Move based on screen-viewable lines
 nnoremap <Up> gk
@@ -673,7 +683,7 @@ let g:LatexBox_Folding = 1
 let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$', '\.dvi$', '\.fdb_latexmk$', '\.glg$', '\.glo$', '\.gls$', '\.idx$', '\.ilg$', '\.ind$', '\.ist$', '\.lof$', '\.log$', '\.lot$', '\.maf$', '\.mtc$', '\.mtc0$', '\.nav$', '\.nlo$', '\.out$', '\.pdfsync$', '\.ps$', '\.snm$', '\.synctex.gz$', '\.toc$', '\.vrb$', '\.xdy$', '\.tdo$', '\.make$', '\.temp$', '\.d$', '\.fls$', '\.run\.xml$', '\.bcf$' ]
 
 
-" gotags configuration for Tagbar
+" gotags configuration for Tagbar {{{
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
@@ -701,7 +711,7 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
-
+" }}}
 
 " investigate.vim configuration
 let g:investigate_use_dash=1
