@@ -72,7 +72,8 @@ Plugin 'rbonvall/snipmate-snippets-bib'
 Plugin 'bimbalaszlo/vim-eightheader'
 
 " LaTeX related plugins
-Plugin 'LaTeX-Box-Team/LaTeX-Box'
+Plugin 'lervag/vimtex'
+" Plugin 'LaTeX-Box-Team/LaTeX-Box'
 " Plugin 'vim-pandoc/vim-pandoc'
 " Plugin 'vim-pandoc/vim-pandoc-syntax'
 
