@@ -43,6 +43,7 @@ Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'Keithbsmiley/investigate.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'szw/vim-ctrlspace'
+Plugin 'sjl/gundo.vim'
 " }}}
 
 " Search-related plugins {{{
@@ -389,6 +390,9 @@ set spelllang=en_us
 " NERDCommenter for non-gui setup
 map <Leader>/ <plug>NERDCommenterToggle<CR>
 let NERDSpaceDelims=1
+
+" Toggle gundo
+nnoremap <Leader>u :GundoToggle<CR>
 
 " Create a default build mapping
 map <Leader>b :w<CR>:!./build<CR>
