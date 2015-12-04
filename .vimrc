@@ -362,8 +362,8 @@ if has("autocmd")
   au FileType mail set spell
   au BufRead ~/.mutt/temp/mutt-* execute 'normal gg}'
 
-  " Ensure spell checking is enabled for LaTeX
-  au FileType plaintex,context,tex,latex set spell
+  " Ensure spell checking is enabled for LaTeX and Markdown
+  au FileType plaintex,context,tex,latex,markdown set spell
 
 endif
 
