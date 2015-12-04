@@ -387,6 +387,17 @@ nmap N Nzz
 
 set spelllang=en_us
 
+" Some spelling-related stuff from here:
+" https://vi.stackexchange.com/questions/68/autocorrect-spelling-mistakes
+"
+" Go back to last misspelled word and pick first suggestion.
+inoremap <C-L> <C-G>u<Esc>[s1z=`]a<C-G>u
+
+" Select last misspelled word (typing will edit).
+nnoremap <C-K> <Esc>[sve<C-G>
+inoremap <C-K> <Esc>[sve<C-G>
+snoremap <C-K> <Esc>b[sviw<C-G>
+
 " NERDCommenter for non-gui setup
 map <Leader>/ <plug>NERDCommenterToggle<CR>
 let NERDSpaceDelims=1
@@ -483,9 +494,6 @@ nnoremap <c-l> <c-w>l
 " Since we just remapped the defaults for UltiSnips...
 let g:UltiSnipsJumpForwardTrigger="]u"
 let g:UltiSnipsJumpBackwardTrigger="[u"
-
-" Insert a hash rocket with <c-l>
-imap <c-l> <space>=><space>
 
 " Clear the search buffer when hitting return
 nnoremap <CR> :nohlsearch<cr>
