@@ -55,6 +55,10 @@ Plugin 'wincent/loupe'
 Plugin 'wincent/ferret' " for multi-file search and replace
 " }}}
 
+" Email-related plugins {{{
+Plugin 'vim-scripts/CheckAttach.vim'
+" }}}
+
 " epub plugins
 " Plugin 'etnadji/vim-epub'
 
