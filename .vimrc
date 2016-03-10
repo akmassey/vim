@@ -29,6 +29,8 @@ Plugin 'machakann/vim-textobj-delimited'
 Plugin 'gorkunov/smartpairs.vim'
 Plugin 'edsono/vim-matchit'
 Plugin 'chrisbra/vim-diff-enhanced'
+Plugin 'b4winckler/vim-angry'
+Plugin 'sheerun/vim-polyglot'
 " }}}
 
 " Slightly less baseline plugins {{{
@@ -53,6 +55,14 @@ Plugin 'justinmk/vim-sneak'
 Plugin 'nelstrom/vim-visual-star-search'
 Plugin 'wincent/loupe'
 Plugin 'wincent/ferret' " for multi-file search and replace
+" }}}
+
+" Random Language or Markup related plugins {{{
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'tpope/vim-jdaddy'
+Plugin 'tpope/vim-ragtag'
+Plugin 'vim-scripts/paredit.vim'
+Plugin 'Shougo/unite.vim'
 " }}}
 
 " Email-related plugins {{{
@@ -84,13 +94,10 @@ Plugin 'lervag/vimtex'
 
 " Writing related plugins
 Plugin 'kana/vim-textobj-user'
+Plugin 'kana/vim-textobj-indent'
 Plugin 'reedes/vim-textobj-quote'
 Plugin 'reedes/vim-textobj-sentence'
 Plugin 'reedes/vim-wordy'
-
-" HTML / XML related plugins
-Plugin 'tpope/vim-jdaddy'
-Plugin 'tpope/vim-ragtag'
 
 " Movement / file browsing plugins
 Plugin 'scrooloose/nerdtree'
@@ -110,15 +117,21 @@ Plugin 'tpope/vim-fugitive'
 
 " Ruby related plugins
 Plugin 'tpope/vim-rails'
-Plugin 'vim-ruby/vim-ruby'
+" Commenting out in favor of polyglot
+" Plugin 'vim-ruby/vim-ruby'
 " Plugin 'thoughtbot/vim-rspec'
 Plugin 'vim-scripts/ruby-matchit'
 
 " JavaScript related plugins
-Plugin 'pangloss/vim-javascript'
+Plugin 'moll/vim-node'
+" Commenting out in favor of polyglot
+" Plugin 'pangloss/vim-javascript'
+" Commenting out in favor of polyglot
+" Plugin 'kchmck/vim-coffee-script'
 
 " Python related plugins
-Plugin 'klen/python-mode'
+" Commenting out in favor of polyglot
+" Plugin 'klen/python-mode'
 
 " Markdown related plugins
 " Plugin 'plasticboy/vim-markdown'
@@ -126,10 +139,12 @@ Plugin 'tpope/vim-markdown'
 
 " Google Go support
 " Plugin 'jnwhiteh/vim-golang'
-Plugin 'fatih/vim-go'
+" Commenting out in favor of polyglot
+" Plugin 'fatih/vim-go'
 
 " Rust support
-Plugin 'rust-lang/rust.vim'
+" Commenting out in favor of polyglot
+" Plugin 'rust-lang/rust.vim'
 
 " Testing support
 " Plugin 'botandrose/vim-testkey'
@@ -242,7 +257,7 @@ set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
 " colorscheme tomorrow-night-bright
 colorscheme jellybeans
 
-" GUI Settings {{{
+" GUI Settings {{{"{{{"}}}
 if has("gui_macvim")
   " Emulate TextMate's shift left/right key commands (only works in MacVim)
   nmap <D-[> <<
