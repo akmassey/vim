@@ -1,0 +1,12 @@
+# Create a multiple choice question in an exam environment.
+snippet mcquestion "Create a multiple choice question." b
+	\question[${1:points}] ${2:question}
+
+	\begin{choices}
+		\choice $3
+		\choice $4
+		\CorrectChoice $5
+		\choice $6
+	\end{choices}
+	\answerline
+endsnippet
