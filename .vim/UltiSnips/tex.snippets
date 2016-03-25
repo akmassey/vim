@@ -1,12 +1,54 @@
-# Create a multiple choice question in an exam environment.
-snippet mcquestion "Create a multiple choice question." b
-	\question[${1:points}] ${2:question}
+# Snippets for the exam document class
 
-	\begin{choices}
-		\choice $3
-		\choice $4
-		\CorrectChoice $5
-		\choice $6
-	\end{choices}
-	\answerline
+## Multiple Choice
+snippet mcq "Create a multiple choice question." b
+\question[${1:points}] ${2:question}
+
+\begin{choices}
+	\choice ${3:first}
+	\choice ${4:second}
+	\CorrectChoice ${5:third}
+	\choice ${6:fourth}
+\end{choices}
+\answerline
+endsnippet
+
+## Short Answer
+snippet sq "Create a short answer question." b
+\question[${1:points}] ${2:question}
+
+\begin{solution}[${3:1.5in}]
+	$0
+\end{solution}
+endsnippet
+
+## True / False
+##   Note: this relies on the following new command being somewhere else in
+##   the document:
+##     \newcommand{\tf}[1][{}]{%
+##     \fillin[#1][0.5in]%
+##     }
+snippet tf "Create a true / false question." b
+\question[${1:points}] \tf[${2:answer}] $0
+endsnippet
+
+## Multi-part Question
+snippet mpq "Create a multi-part question." b
+\qformat{${1:question name} \dotfill \emph{\totalpoints\ ${2:total points}}}
+
+${3:instructions}
+
+\begin{questions}
+  \question
+  \begin{parts}
+
+    \part[${4:points}] $0
+
+  \end{parts}
+\end{questions}
+endsnippet
+
+## New Part
+snippet part "Add a new part to a multi-part question" b
+\part[${1:points}] $0
 endsnippet
