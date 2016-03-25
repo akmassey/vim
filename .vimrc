@@ -511,8 +511,8 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 " Since we just remapped the defaults for UltiSnips...
-let g:UltiSnipsJumpForwardTrigger="]u"
-let g:UltiSnipsJumpBackwardTrigger="[u"
+let g:UltiSnipsJumpForwardTrigger="<Leader>j"
+let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
 
 " Clear the search buffer when hitting return
 nnoremap <CR> :nohlsearch<cr>
