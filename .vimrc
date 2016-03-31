@@ -418,6 +418,11 @@ nnoremap <C-K> <Esc>[sve<C-G>
 inoremap <C-K> <Esc>[sve<C-G>
 snoremap <C-K> <Esc>b[sviw<C-G>
 
+" Replace a misspelled word with the first suggestion.
+nnoremap <C-S> [s1z=
+inoremap <C-S> [s1z=
+snoremap <C-S> [s1z=
+
 " NERDCommenter for non-gui setup
 map <Leader>/ <plug>NERDCommenterToggle<CR>
 let NERDSpaceDelims=1
