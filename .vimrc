@@ -37,6 +37,7 @@ Plugin 'sheerun/vim-polyglot'
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
+" Plugin 'Shougo/neocomplete.vim'
 " Plugin 'godlygeek/tabular'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'bling/vim-airline'
@@ -63,6 +64,7 @@ Plugin 'tpope/vim-jdaddy'
 Plugin 'tpope/vim-ragtag'
 Plugin 'vim-scripts/paredit.vim'
 Plugin 'Shougo/unite.vim'
+Plugin 'sukima/xmledit'
 " }}}
 
 " Email-related plugins {{{
@@ -80,7 +82,7 @@ Plugin 'rizzatti/dash.vim'
 " Plugin "MarcWeber/vim-addon-mw-utils"
 " Plugin "tomtom/tlib_vim"
 Plugin 'sirver/ultisnips'
-Plugin 'honza/vim-snippets'
+Plugin 'akmassey/vim-snippets'
 Plugin 'rbonvall/snipmate-snippets-bib'
 
 " Folding plugins
@@ -88,7 +90,6 @@ Plugin 'bimbalaszlo/vim-eightheader'
 
 " LaTeX related plugins
 Plugin 'lervag/vimtex'
-" Plugin 'LaTeX-Box-Team/LaTeX-Box'
 " Plugin 'vim-pandoc/vim-pandoc'
 " Plugin 'vim-pandoc/vim-pandoc-syntax'
 
@@ -452,6 +453,78 @@ endif
 " Don't compelete at the start of a line or after whitespace
 let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
 
+" Currently, there's a bug in vimtex that doesn't let SuperTab work
+" let g:vimtex_complete_enabled=0
+
+" " neocomplete {{{
+" "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+" " Disable AutoComplPop.
+" let g:acp_enableAtStartup = 0
+" " Use neocomplete.
+" let g:neocomplete#enable_at_startup = 1
+" " Use smartcase.
+" let g:neocomplete#enable_smart_case = 1
+" " Set minimum syntax keyword length.
+" let g:neocomplete#sources#syntax#min_keyword_length = 3
+" let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" " Define dictionary.
+" let g:neocomplete#sources#dictionary#dictionaries = {
+    " \ 'default' : '',
+    " \ 'vimshell' : $HOME.'/.vimshell_hist',
+    " \ 'scheme' : $HOME.'/.gosh_completions'
+        " \ }
+
+" " Define keyword.
+" if !exists('g:neocomplete#keyword_patterns')
+    " let g:neocomplete#keyword_patterns = {}
+" endif
+" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" " Plugin key-mappings.
+" inoremap <expr><C-g>     neocomplete#undo_completion()
+" inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" " Recommended key-mappings.
+" " <CR>: close popup and save indent.
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+  " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " " For no inserting <CR> key.
+  " "return pumvisible() ? "\<C-y>" : "\<CR>"
+" endfunction
+" " <TAB>: completion.
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" " <C-h>, <BS>: close popup and delete backword char.
+" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" " Close popup by <Space>.
+" "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" " AutoComplPop like behavior.
+" "let g:neocomplete#enable_auto_select = 1
+
+" " Enable omni completion.
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" if !exists('g:neocomplete#sources#omni#input_patterns')
+  " let g:neocomplete#sources#omni#input_patterns = {}
+" endif
+" let g:neocomplete#sources#omni#input_patterns.tex =
+      " \ '\v\\%('
+      " \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+      " \ . '|\a*ref%(\s*\{[^}]*|range\s*\{[^,}]*%(}\{)?)'
+      " \ . '|hyperref\s*\[[^]]*'
+      " \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+      " \ . '|%(include%(only)?|input)\s*\{[^}]*'
+      " \ . ')'
+
+" " neocomplete }}}
+
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 "
@@ -513,6 +586,8 @@ nnoremap <c-l> <c-w>l
 " Since we just remapped the defaults for UltiSnips...
 let g:UltiSnipsJumpForwardTrigger="<Leader>j"
 let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsEnableSnipMate=0
 
 " Clear the search buffer when hitting return
 nnoremap <CR> :nohlsearch<cr>
@@ -706,10 +781,6 @@ let g:TestKey = { 'testkey': '<Leader><Enter>' }
 
 " Use Silver Searcher instead of grep
 set grepprg=ag
-
-" Enable folding for LatexBox
-" TODO: This does not currently seem to work.
-let g:LatexBox_Folding = 1
 
 " Ignore some LaTeX things in NERDTree
 let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$', '\.dvi$', '\.fdb_latexmk$', '\.glg$', '\.glo$', '\.gls$', '\.idx$', '\.ilg$', '\.ind$', '\.ist$', '\.lof$', '\.log$', '\.lot$', '\.maf$', '\.mtc$', '\.mtc0$', '\.nav$', '\.nlo$', '\.out$', '\.pdfsync$', '\.ps$', '\.snm$', '\.synctex.gz$', '\.toc$', '\.vrb$', '\.xdy$', '\.tdo$', '\.make$', '\.temp$', '\.d$', '\.fls$', '\.run\.xml$', '\.bcf$' ]
