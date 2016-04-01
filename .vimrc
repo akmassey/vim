@@ -36,6 +36,7 @@ Plugin 'sheerun/vim-polyglot'
 " Slightly less baseline plugins {{{
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/syntastic'
+Plugin 'akmassey/syntastic_proselint'
 Plugin 'ervandew/supertab'
 " Plugin 'Shougo/neocomplete.vim'
 " Plugin 'godlygeek/tabular'
@@ -47,6 +48,7 @@ Plugin 'Keithbsmiley/investigate.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'szw/vim-ctrlspace'
 Plugin 'sjl/gundo.vim'
+Plugin 'mbadran/headlights'
 " }}}
 
 " Search-related plugins {{{
