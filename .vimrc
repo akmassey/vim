@@ -48,7 +48,7 @@ Plugin 'Keithbsmiley/investigate.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'szw/vim-ctrlspace'
 Plugin 'sjl/gundo.vim'
-Plugin 'mbadran/headlights'
+" Plugin 'mbadran/headlights'
 " }}}
 
 " Search-related plugins {{{
