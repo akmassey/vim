@@ -48,7 +48,9 @@ Plugin 'Keithbsmiley/investigate.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'szw/vim-ctrlspace'
 Plugin 'sjl/gundo.vim'
-Plugin 'mbadran/headlights'
+" Plugin 'mbadran/headlights'
+Plugin 'myusuf3/numbers.vim'
+Plugin 'ktonga/vim-follow-my-lead'
 " }}}
 
 " Search-related plugins {{{
@@ -91,7 +93,8 @@ Plugin 'rbonvall/snipmate-snippets-bib'
 Plugin 'bimbalaszlo/vim-eightheader'
 
 " LaTeX related plugins
-Plugin 'lervag/vimtex'
+" Plugin 'lervag/vimtex'
+Plugin 'LaTeX-Box-Team/LaTeX-Box'
 " Plugin 'vim-pandoc/vim-pandoc'
 " Plugin 'vim-pandoc/vim-pandoc-syntax'
 
@@ -219,6 +222,22 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 " }}}
+
+" Ensure line numbers are not shown in these file types.
+let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m', 'nerdtree']
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
+
+" Show leaders for plugins as well as ~/.vimrc
+let g:fml_all_sources = 1
+" Open Leader mappings in new window
+nmap <Leader>2 <Plug>(FollowMyLead)
+
+" Remap Ferret's default leader keys
+nmap <Leader>aa <Plug>(FerretAck)
+nmap <Leader>al <Plug>(FerretLack)
+nmap <Leader>as <Plug>(FerretAckWord)
+nmap <Leader>ar <Plug>(FerretAcks)
 
 " Custom Whitespace Modifiers
 set textwidth=78

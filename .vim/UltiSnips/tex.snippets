@@ -39,16 +39,37 @@ snippet mpq "Create a multi-part question." b
 ${3:instructions}
 
 \begin{questions}
-  \question
-  \begin{parts}
+	\question
+	\begin{parts}
 
-    \part[${4:points}] $0
+		\part[${4:points}] $0
 
-  \end{parts}
+	\end{parts}
 \end{questions}
 endsnippet
 
 ## New Part
 snippet part "Add a new part to a multi-part question" b
 \part[${1:points}] $0
+endsnippet
+
+snippet table "Create a simple table" b
+\begin{table}[htbp]
+\centering
+\caption{${1:caption}}
+\label{${2:label}}
+\begin{tabular}{llr}
+\toprule
+\multicolumn{2}{c}{Item} & \\\\
+\cmidrule(r){1-2}
+Animal                   & Description & Price \\\\
+\midrule
+Gnat      & per gram & 13.65  \\\\
+          & each     & 0.0173 \\\\
+Gnu       & stuffed  & 92.59  \\\\
+Emu       & stuffed  & 33.33  \\\\
+Armadillo & frozen   & 8.99   \\\\
+\bottomrule
+\end{tabular}
+\end{table}
 endsnippet
