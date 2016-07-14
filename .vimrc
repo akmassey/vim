@@ -131,6 +131,8 @@ Plugin 'vim-scripts/ruby-matchit'
 " JavaScript related plugins
 Plugin 'moll/vim-node'
 " Commenting out in favor of polyglot
+" Plugin 'HerringtonDarkholme/yats.vim'
+" Commenting out in favor of polyglot
 " Plugin 'pangloss/vim-javascript'
 " Commenting out in favor of polyglot
 " Plugin 'kchmck/vim-coffee-script'
@@ -405,6 +407,9 @@ if has("autocmd")
 
   " Ensure spell checking is enabled for LaTeX and Markdown
   au FileType plaintex,context,tex,latex,markdown set spell
+
+  " Word count macro for LaTeX
+  au FileType plaintex,context,tex,latex nmap <Leader>w :!texcount %<CR>
 
 endif
 
