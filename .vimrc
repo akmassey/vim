@@ -35,6 +35,7 @@ Plugin 'edsono/vim-matchit'
 Plugin 'chrisbra/vim-diff-enhanced'
 Plugin 'b4winckler/vim-angry'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'akmassey/vim-cheat'
 " }}}
 
 " Slightly less baseline plugins {{{
@@ -50,11 +51,11 @@ Plugin 'vim-scripts/zoom.vim'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'Keithbsmiley/investigate.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
-Plugin 'szw/vim-ctrlspace'
 Plugin 'sjl/gundo.vim'
 " Plugin 'mbadran/headlights'
 Plugin 'myusuf3/numbers.vim'
 Plugin 'ktonga/vim-follow-my-lead'
+Plugin 'severin-lemaignan/vim-minimap'
 " }}}
 
 " Search-related plugins {{{
@@ -213,11 +214,6 @@ set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
 " Disable temp and backup files
 set wildignore+=*.swp,*~,._*
 " }}}
-
-" Set hidden so that all buffers are available to Vim-CtrlSpace
-set hidden
-" Hide the tabline and rely only on Vim-CtrlSpace
-set showtabline=0
 
 " Ensure airline fonts are loaded properly. {{{
 "     More info: https://github.com/bling/vim-airline
@@ -480,10 +476,10 @@ set list!
 " Use context-based completion in SuperTab
 if has("autocmd")
   autocmd FileType *
-    \ if &omnifunc != '' |
-    \   call SuperTabChain(&omnifunc, "<c-p>") |
-    \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-    \ endif
+        \ if &omnifunc != '' |
+        \   call SuperTabChain(&omnifunc, "<c-p>") |
+        \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+        \ endif
 endif
 " Don't compelete at the start of a line or after whitespace
 let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
@@ -505,14 +501,14 @@ let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
 
 " " Define dictionary.
 " let g:neocomplete#sources#dictionary#dictionaries = {
-    " \ 'default' : '',
-    " \ 'vimshell' : $HOME.'/.vimshell_hist',
-    " \ 'scheme' : $HOME.'/.gosh_completions'
-        " \ }
+" \ 'default' : '',
+" \ 'vimshell' : $HOME.'/.vimshell_hist',
+" \ 'scheme' : $HOME.'/.gosh_completions'
+" \ }
 
 " " Define keyword.
 " if !exists('g:neocomplete#keyword_patterns')
-    " let g:neocomplete#keyword_patterns = {}
+" let g:neocomplete#keyword_patterns = {}
 " endif
 " let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
@@ -524,9 +520,9 @@ let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
 " " <CR>: close popup and save indent.
 " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 " function! s:my_cr_function()
-  " return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " " For no inserting <CR> key.
-  " "return pumvisible() ? "\<C-y>" : "\<CR>"
+" return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+" " For no inserting <CR> key.
+" "return pumvisible() ? "\<C-y>" : "\<CR>"
 " endfunction
 " " <TAB>: completion.
 " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -547,16 +543,16 @@ let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
 " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " if !exists('g:neocomplete#sources#omni#input_patterns')
-  " let g:neocomplete#sources#omni#input_patterns = {}
+" let g:neocomplete#sources#omni#input_patterns = {}
 " endif
 " let g:neocomplete#sources#omni#input_patterns.tex =
-      " \ '\v\\%('
-      " \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-      " \ . '|\a*ref%(\s*\{[^}]*|range\s*\{[^,}]*%(}\{)?)'
-      " \ . '|hyperref\s*\[[^]]*'
-      " \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-      " \ . '|%(include%(only)?|input)\s*\{[^}]*'
-      " \ . ')'
+" \ '\v\\%('
+" \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+" \ . '|\a*ref%(\s*\{[^}]*|range\s*\{[^,}]*%(}\{)?)'
+" \ . '|hyperref\s*\[[^]]*'
+" \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+" \ . '|%(include%(only)?|input)\s*\{[^}]*'
+" \ . ')'
 
 " " neocomplete }}}
 
@@ -672,13 +668,13 @@ map <Leader>9 :TagbarToggle<CR>
 
 " Function to rename current file {{{
 function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('Rename this file as: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
+  let old_name = expand('%')
+  let new_name = input('Rename this file as: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
 endfunction
 map <Leader>n :call RenameFile()<cr>
 " }}}
@@ -726,7 +722,9 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
 
 " Flush CtrlP Cachce
-nnoremap <silent> <leader>P :ClearCtrlPCache<cr>\|:CtrlP<cr>
+nnoremap <silent> <Leader>P :ClearCtrlPCache<cr>\|:CtrlP<cr>
+" Needed for CtrlP Runtime
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 " Searching options
 set incsearch  " search while you're typing the search string
@@ -788,6 +786,7 @@ nnoremap <Leader>3 :call Preserve("g/^$/d")<CR>
 vnoremap <Leader>3 :call Preserve("g/^$/d")<CR>
 
 " Convert single spaces after a sentence to double spaces.
+" TODO: Doesn't currently handle ?, !, or sentences ending in a quotation.
 map <Leader>6 :call Preserve("%s/\\.\\s\\([A-Z]\\)/\\.  \\1/g")<CR>
 
 " Squeeze newlines.
@@ -814,8 +813,21 @@ map <Leader>d :call Preserve("%s/\\r/\\r/g")<CR>
 "   Hit <Leader><Enter> in any other file to save it and rerun the last test.
 let g:TestKey = { 'testkey': '<Leader><Enter>' }
 
-" Use Silver Searcher instead of grep
-set grepprg=ag
+" The Silver Searcher {{{
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" }}}
 
 " Ignore some LaTeX things in NERDTree
 let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$', '\.dvi$', '\.fdb_latexmk$', '\.glg$', '\.glo$', '\.gls$', '\.idx$', '\.ilg$', '\.ind$', '\.ist$', '\.lof$', '\.log$', '\.lot$', '\.maf$', '\.mtc$', '\.mtc0$', '\.nav$', '\.nlo$', '\.out$', '\.pdfsync$', '\.ps$', '\.snm$', '\.synctex.gz$', '\.toc$', '\.vrb$', '\.xdy$', '\.tdo$', '\.make$', '\.temp$', '\.d$', '\.fls$', '\.run\.xml$', '\.bcf$' ]
@@ -823,39 +835,42 @@ let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$'
 
 " gotags configuration for Tagbar {{{
 let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
+      \ 'ctagstype' : 'go',
+      \ 'kinds'     : [
+      \ 'p:package',
+      \ 'i:imports:1',
+      \ 'c:constants',
+      \ 'v:variables',
+      \ 't:types',
+      \ 'n:interfaces',
+      \ 'w:fields',
+      \ 'e:embedded',
+      \ 'm:methods',
+      \ 'r:constructor',
+      \ 'f:functions'
+      \ ],
+      \ 'sro' : '.',
+      \ 'kind2scope' : {
+      \ 't' : 'ctype',
+      \ 'n' : 'ntype'
+      \ },
+      \ 'scope2kind' : {
+      \ 'ctype' : 't',
+      \ 'ntype' : 'n'
+      \ },
+      \ 'ctagsbin'  : 'gotags',
+      \ 'ctagsargs' : '-sort -silent'
+      \ }
 " }}}
 
-" investigate.vim configuration
+" investigate.vim configuration {{{
 let g:investigate_use_dash=1
-nnoremap <leader>K :call investigate#Investigate()<CR>
+nnoremap <leader>K :call investigate#Investigate('n')<CR>
+vnoremap <leader>K :call investigate#Investigate('v')<CR>
+" }}}
 
-" Running one-off scripts...
+" Running one-off scripts...  {{{
+" TODO: Add Go and Rust mappings
 "
 " See this post for more information: http://www.oinksoft.com/blog/view/6/
 let ft_stdout_mappings = {
@@ -870,6 +885,7 @@ let ft_stdout_mappings = {
       \'perl': 'perl',
       \'php': 'php',
       \'python': 'python',
+      \'python3': 'python3',
       \'ruby': 'ruby',
       \'scheme': 'scheme',
       \'sh': 'sh',
@@ -893,8 +909,17 @@ for ft_name in keys(ft_execute_mappings)
         \. ' nnoremap <buffer> <Leader>y :write \| !'
         \. ft_execute_mappings[ft_name] . '<CR>'
 endfor
+" }}}
 
+" Commands to convert spaces to tabs and vice versa.  {{{
 " Added from: http://vim.wikia.com/wiki/Super_retab#Script
+"
+" These commands are provided:
+"
+" Space2Tab – Convert spaces to tabs, only in indents.
+" Tab2Space – Convert tabs to spaces, only in indents.
+" RetabIndent – Execute Space2Tab (if 'expandtab' is set), or Tab2Space
+" (otherwise).
 "
 " Return indent (all whitespace at start of a line), converted from
 " tabs to spaces if what = 1, or from spaces to tabs otherwise.
@@ -924,3 +949,4 @@ endfunction
 command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-args>)
 command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
 command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
+" }}}
