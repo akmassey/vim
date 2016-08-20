@@ -1,6 +1,7 @@
 " vim:fdm=marker
 
 set nocompatible              " be iMproved, required
+
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
@@ -56,6 +57,7 @@ Plugin 'sjl/gundo.vim'
 Plugin 'myusuf3/numbers.vim'
 Plugin 'ktonga/vim-follow-my-lead'
 Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'powerman/vim-plugin-viewdoc'
 " }}}
 
 " Search-related plugins {{{
@@ -826,8 +828,12 @@ if executable('ag')
 endif
 
 " bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap <Leader>k :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " }}}
+" viewdoc settings {{{
+let g:viewdoc_open = 'new'
+" }}}
+
 
 " Ignore some LaTeX things in NERDTree
 let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$', '\.dvi$', '\.fdb_latexmk$', '\.glg$', '\.glo$', '\.gls$', '\.idx$', '\.ilg$', '\.ind$', '\.ist$', '\.lof$', '\.log$', '\.lot$', '\.maf$', '\.mtc$', '\.mtc0$', '\.nav$', '\.nlo$', '\.out$', '\.pdfsync$', '\.ps$', '\.snm$', '\.synctex.gz$', '\.toc$', '\.vrb$', '\.xdy$', '\.tdo$', '\.make$', '\.temp$', '\.d$', '\.fls$', '\.run\.xml$', '\.bcf$' ]
