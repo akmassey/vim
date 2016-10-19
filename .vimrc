@@ -836,8 +836,36 @@ let g:viewdoc_open = 'new'
 
 
 " Ignore some LaTeX things in NERDTree
-let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$', '\.dvi$', '\.fdb_latexmk$', '\.glg$', '\.glo$', '\.gls$', '\.idx$', '\.ilg$', '\.ind$', '\.ist$', '\.lof$', '\.log$', '\.lot$', '\.maf$', '\.mtc$', '\.mtc0$', '\.nav$', '\.nlo$', '\.out$', '\.pdfsync$', '\.ps$', '\.snm$', '\.synctex.gz$', '\.toc$', '\.vrb$', '\.xdy$', '\.tdo$', '\.make$', '\.temp$', '\.d$', '\.fls$', '\.run\.xml$', '\.bcf$' ]
+let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$', '\.dvi$', '\.fdb_latexmk$', '\.glg$', '\.glo$', '\.gls$', '\.idx$', '\.ilg$', '\.ind$', '\.ist$', '\.lof$', '\.log$', '\.lot$', '\.maf$', '\.mtc$', '\.mtc0$', '\.nav$', '\.nlo$', '\.out$', '\.pdfsync$', '\.ps$', '\.snm$', '\.synctex.gz$', '\.toc$', '\.vrb$', '\.xdy$', '\.tdo$', '\.make$', '\.temp$', '\.d$', '\.fls$', '\.run\.xml$', '\.bcf$', '\.orig$' ]
 
+" Disable display of '?' text and 'Bookmarks' label.
+let g:NERDTreeMinimalUI=1
+
+" Let <Leader><Leader> (^#) return from NERDTree window.
+let g:NERDTreeCreatePrefix='silent keepalt keepjumps'
+
+" Single-click to toggle directory nodes, double-click to open non-directory
+" nodes.
+let g:NERDTreeMouseMode=2
+
+" TODO: Add functionality from Wincent here:
+" https://www.youtube.com/watch?v=OgQW07saWb0
+" if has('autocmd')
+  " augroup akmNERDTree
+    " autocmd!
+    " autocmd User NERDTreeInit call autocmds#attempt_select_last_file()
+  " augroup END
+" endif
+
+" function! autocmds#attempt_select_last_file()
+  " let l:previous=expand('#:t')
+  " if l:previous != ''
+    " call search('\v<' . l:previous . '>')
+  " endif
+" endfunction
+
+" " Move up a directory using "-" like vim-vinegar (usually "u" does this).
+" nmap <buffer> <expr> - g:NERDTreeMapUpdir
 
 " gotags configuration for Tagbar {{{
 let g:tagbar_type_go = {
