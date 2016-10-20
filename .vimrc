@@ -15,28 +15,28 @@ Plugin 'gmarik/Vundle.vim'
 
 " Baseline Plugins {{{
 Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-haml'
+Plugin 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
 Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-abolish'  " for coercion to various cases: https://github.com/tpope/vim-abolish#coercion
+Plugin 'tpope/vim-repeat'   " to repeat Plugin-mapped commands
 Plugin 'tpope/vim-characterize'
 Plugin 'tpope/vim-dispatch' " for asynchronous Make
 Plugin 'tpope/vim-rsi'
 Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-eunuch'
-Plugin 'wellle/targets.vim'
-Plugin 'scrooloose/nerdcommenter'
-" Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-sensible'
+Plugin 'wellle/targets.vim'
 Plugin 'machakann/vim-textobj-delimited'
-Plugin 'gorkunov/smartpairs.vim'
 Plugin 'edsono/vim-matchit'
 Plugin 'chrisbra/vim-diff-enhanced'
-Plugin 'b4winckler/vim-angry'
 Plugin 'sheerun/vim-polyglot'
-Plugin 'akmassey/vim-cheat'
+Plugin 'duggiefresh/vim-easydir'
+Plugin 'wincent/terminus'
+Plugin 'akmassey/vim-cheat' " personal vim cheatsheet
+" Plugin 'b4winckler/vim-angry'
+" Plugin 'gorkunov/smartpairs.vim'
 " }}}
 
 " Slightly less baseline plugins {{{
@@ -65,11 +65,13 @@ Plugin 'powerman/vim-plugin-viewdoc'
 " Plugin 'Lokaltog/vim-easymotion'
 Plugin 'justinmk/vim-sneak'
 Plugin 'nelstrom/vim-visual-star-search'
-Plugin 'wincent/loupe'
+Plugin 'wincent/scalpel'  " for improved search/replace for words under the cursor
+Plugin 'wincent/loupe' " for improve default searching
 Plugin 'wincent/ferret' " for multi-file search and replace
 " }}}
 
 " Random Language or Markup related plugins {{{
+Plugin 'tpope/vim-haml'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-jdaddy'
 Plugin 'tpope/vim-ragtag'
@@ -97,7 +99,7 @@ Plugin 'akmassey/vim-snippets'
 Plugin 'rbonvall/snipmate-snippets-bib'
 
 " Folding plugins
-Plugin 'bimbalaszlo/vim-eightheader'
+" Plugin 'bimbalaszlo/vim-eightheader'
 
 " LaTeX related plugins
 " Plugin 'lervag/vimtex'
@@ -114,14 +116,14 @@ Plugin 'reedes/vim-wordy'
 
 " Movement / file browsing plugins
 Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-vinegar'
+" Plugin 'tpope/vim-vinegar'
 Plugin 'kien/ctrlp.vim'
 Plugin 'thoughtbot/pick.vim'
 Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'majutsushi/tagbar'
 " Plugin 'vim-scripts/VOoM'
 
-" Terminal vim plugins
+" Terminal or tmux vim plugins
 Plugin 'sjl/vitality.vim'
 
 " Git related plugins plugins
@@ -134,6 +136,7 @@ Plugin 'tpope/vim-rails'
 " Plugin 'vim-ruby/vim-ruby'
 " Plugin 'thoughtbot/vim-rspec'
 Plugin 'vim-scripts/ruby-matchit'
+Plugin 'nelstrom/vim-textobj-rubyblock'
 
 " JavaScript related plugins
 Plugin 'moll/vim-node'
@@ -145,6 +148,7 @@ Plugin 'moll/vim-node'
 " Plugin 'kchmck/vim-coffee-script'
 
 " Python related plugins
+" Plugin 'davidhalter/jedi-vim'
 " Commenting out in favor of polyglot
 " Plugin 'klen/python-mode'
 
@@ -305,9 +309,15 @@ if has("gui_macvim")
   map <D-9> 9gt
   map <D-0> :tablast<CR>
 
+  " Old NERDCommenter settings, preserved for posterity.  {{{
   " Setup keybindings for NERDCommenter
-  map <D-/> <plug>NERDCommenterToggle<CR>
-  imap <D-/> <plug>NERDCommenterToggle<CR>i
+  " map <D-/> <plug>NERDCommenterToggle<CR>
+  " imap <D-/> <plug>NERDCommenterToggle<CR>i
+  "
+  " Setup NERDCommenter for non-gui setup
+  " map <Leader>/ <plug>NERDCommenterToggle<CR>
+  " let NERDSpaceDelims=1
+  " }}}
 
   " Stop the annoying bell
   set vb
@@ -322,12 +332,24 @@ endif
 " }}}
 
 " Non-GUI Settings {{{
-" TODO: Figure out why this isn't working
-if !has("gui_macvim")
+if has("gui_running")
+  " Do nothing.
+else
   " Pick Configuration.  More info: https://github.com/thoughtbot/pick.vim/
+  let g:pick_height = 10
+  let g:pick_executable = "/usr/local/bin/pick"
   nnoremap <Leader>pf :call PickFile()<CR>
+  nnoremap <Leader>ps :call PickFileSplit()<CR>
+  nnoremap <Leader>pv :call PickFileVerticalSplit()<CR>
+  nnoremap <Leader>pt :call PickFileTab()<CR>
   nnoremap <Leader>pb :call PickBuffer()<CR>
+  nnoremap <Leader>pg :call PickTag()<CR>
 endif
+" }}}
+
+" Scalpel settings {{{
+" Use <Leader>s instead of default <Leader>e:
+nmap <Leader>s <Plug>(Scalpel)
 " }}}
 
 " Sneak settings {{{
@@ -349,6 +371,11 @@ omap T <Plug>Sneak_T
 map ]z <Plug>SneakNext
 map [z <Plug>SneakPrevious
 " }}}
+
+" Open files in directory of current file with Leader mappings
+cnoremap <expr> %% expand('%:h').'/'
+map <leader>e :edit %%
+map <leader>v :view %%
 
 " AutoCommand Settings {{{
 if has("autocmd")
@@ -427,12 +454,15 @@ augroup END
 " }}}
 
 " Center the screen more easily
-nmap <space> zz
+nmap <Space> zz
+" Open folds more easily
+nmap <Leader><Space> za
 
 " Center the screen on searches
 nmap n nzz
 nmap N Nzz
 
+" Mappings for Spelling {{{
 set spelllang=en_us
 
 " Some spelling-related stuff from here:
@@ -450,10 +480,7 @@ snoremap <C-K> <Esc>b[sviw<C-G>
 nnoremap <C-S> [s1z=
 inoremap <C-S> [s1z=
 snoremap <C-S> [s1z=
-
-" NERDCommenter for non-gui setup
-map <Leader>/ <plug>NERDCommenterToggle<CR>
-let NERDSpaceDelims=1
+"}}}
 
 " Toggle gundo
 nnoremap <Leader>u :GundoToggle<CR>
@@ -572,10 +599,6 @@ highlight SpecialKey guifg=#4a4a59
 :nnoremap <Leader>m :silent !open -a "Marked 2.app" '%:p'<cr>:redraw!<cr>
 " command! Marked :silent !open -a "Marked.app" expand("%:p")
 " :nnoremap <Leader>m :silent !open -a "Marked.app" expand("%:p")
-
-" Allow easy opening of files in Hemingway
-" :nnoremap <Leader>h :silent !open -a 'Hemingway Editor.app' expand("%:p")<cr>
-" command! Hemingway :silent open -a "Hemingway Editor.app" expand("%:p")<cr>
 
 " OS X only due to use of `open`. Adapted from
 " http://vim.wikia.com/wiki/Open_a_web-browser_with_the_URL_in_the_current_line
@@ -735,8 +758,9 @@ set ignorecase " ignore case when searching
 set smartcase  " but if we search for big letters, make search case sensitive again
 
 " Correct for common command typos and mis-keys {{{
-command! Q q
 command! W w
+command! Wa wall
+command! Q q
 command! Qall qall
 command! Qq qall
 command! Wqq wqall
@@ -847,6 +871,11 @@ let g:NERDTreeCreatePrefix='silent keepalt keepjumps'
 " Single-click to toggle directory nodes, double-click to open non-directory
 " nodes.
 let g:NERDTreeMouseMode=2
+
+" Would be useful mappings, but they interfe with my default window movement
+" bindings (<C-j> and <C-k>).
+let g:NERDTreeMapJumpPrevSibling='<Nop>'
+let g:NERDTreeMapJumpNextSibling='<Nop>'
 
 " TODO: Add functionality from Wincent here:
 " https://www.youtube.com/watch?v=OgQW07saWb0
