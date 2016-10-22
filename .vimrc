@@ -241,6 +241,11 @@ let g:fml_all_sources = 1
 " Open Leader mappings in new window
 nmap <Leader>2 <Plug>(FollowMyLead)
 
+" Mappings to edit and source vim configuration
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+
+
 " Remap Ferret's default leader keys
 nmap <Leader>aa <Plug>(FerretAck)
 nmap <Leader>al <Plug>(FerretLack)
@@ -782,6 +787,9 @@ xnoremap & :&&<CR>
 " Setup indentation for Visual mode
 xnoremap < <gv
 xnoremap > >gv
+
+" Send last yanked text to system pasteboard
+nnoremap <Leader>y :call system('nc localhost 8377', @0)<CR>
 
 " Saner way to copy / paste from the OS X system pasteboard
 " TODO: turn these into functions that won't override these keyboard shortcuts
