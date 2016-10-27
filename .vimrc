@@ -44,7 +44,6 @@ Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'akmassey/syntastic_proselint'
 Plugin 'ervandew/supertab'
-" Plugin 'Shougo/neocomplete.vim'
 " Plugin 'godlygeek/tabular'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'bling/vim-airline'
@@ -134,7 +133,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rails'
 " Commenting out in favor of polyglot
 " Plugin 'vim-ruby/vim-ruby'
-" Plugin 'thoughtbot/vim-rspec'
+Plugin 'thoughtbot/vim-rspec'
 Plugin 'vim-scripts/ruby-matchit'
 Plugin 'nelstrom/vim-textobj-rubyblock'
 
@@ -195,6 +194,7 @@ filetype plugin indent on    " required
 " Map the leader to something more reasonable.  Also, keep the reverse
 " motion command available by mapping it to the old leader key.
 let mapleader=","
+let maplocalleader=","
 noremap \ ,
 
 " Basic Settings {{{
@@ -221,6 +221,10 @@ set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
 set wildignore+=*.swp,*~,._*
 " }}}
 
+" Finding files
+set path +=**  " Recursive search into subfolders enables tab completion for many file-related tasks.
+set wildmenu   " Display all matching files when tab completing
+
 " Ensure airline fonts are loaded properly. {{{
 "     More info: https://github.com/bling/vim-airline
 let g:airline_powerline_fonts = 1
@@ -236,15 +240,13 @@ let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
 
+" User <Leader>fml to open leader mappings
 " Show leaders for plugins as well as ~/.vimrc
 let g:fml_all_sources = 1
-" Open Leader mappings in new window
-nmap <Leader>2 <Plug>(FollowMyLead)
 
 " Mappings to edit and source vim configuration
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
-
 
 " Remap Ferret's default leader keys
 nmap <Leader>aa <Plug>(FerretAck)
@@ -494,11 +496,10 @@ nnoremap <Leader>u :GundoToggle<CR>
 map <Leader>b :w<CR>:!./build<CR>
 
 " vim-rspec mappings
-" TODO: Determine whether to keep these
-" map <Leader>t :call RunCurrentSpecFile()<CR>
-" map <Leader>s :call RunNearestSpec()<CR>
-" map <Leader>l :call RunLastSpec()<CR>
-" let g:rspec_command="!rspec -fp {spec}"
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+let g:rspec_command="bundle exec rspec --format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out  {spec}\n"
 
 " Shortcut to toggle invisibles
 nmap <Leader>i :set list!<CR>
@@ -520,75 +521,34 @@ let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
 
 " Currently, there's a bug in vimtex that doesn't let SuperTab work
 " let g:vimtex_complete_enabled=0
+let g:LatexBox_Folding=1
+let g:LatexBox_latexmk_options = "-bibtex -pdf"
+let g:LatexBox_latexmk_preview_continuously=1
+let g:LatexBox_quickfix=2
+" let g:LatexBox_quickfix=4 " only open errors in the quickfix list
+" let g:LatexBox_show_warnings=0 " don't show warnings as errors
 
-" " neocomplete {{{
-" "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" " Disable AutoComplPop.
-" let g:acp_enableAtStartup = 0
-" " Use neocomplete.
-" let g:neocomplete#enable_at_startup = 1
-" " Use smartcase.
-" let g:neocomplete#enable_smart_case = 1
-" " Set minimum syntax keyword length.
-" let g:neocomplete#sources#syntax#min_keyword_length = 3
-" let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" " Define dictionary.
-" let g:neocomplete#sources#dictionary#dictionaries = {
-" \ 'default' : '',
-" \ 'vimshell' : $HOME.'/.vimshell_hist',
-" \ 'scheme' : $HOME.'/.gosh_completions'
-" \ }
-
-" " Define keyword.
-" if !exists('g:neocomplete#keyword_patterns')
-" let g:neocomplete#keyword_patterns = {}
-" endif
-" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" " Plugin key-mappings.
-" inoremap <expr><C-g>     neocomplete#undo_completion()
-" inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" " Recommended key-mappings.
-" " <CR>: close popup and save indent.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-" function! s:my_cr_function()
-" return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-" " For no inserting <CR> key.
-" "return pumvisible() ? "\<C-y>" : "\<CR>"
-" endfunction
-" " <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" " <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" " Close popup by <Space>.
-" "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-" " AutoComplPop like behavior.
-" "let g:neocomplete#enable_auto_select = 1
-
-" " Enable omni completion.
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" if !exists('g:neocomplete#sources#omni#input_patterns')
-" let g:neocomplete#sources#omni#input_patterns = {}
-" endif
-" let g:neocomplete#sources#omni#input_patterns.tex =
-" \ '\v\\%('
-" \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-" \ . '|\a*ref%(\s*\{[^}]*|range\s*\{[^,}]*%(}\{)?)'
-" \ . '|hyperref\s*\[[^]]*'
-" \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-" \ . '|%(include%(only)?|input)\s*\{[^}]*'
-" \ . ')'
-
-" " neocomplete }}}
+" Toggle the display of the LaTeX Table of Contents window
+nnoremap <LocalLeader>lt :LatexTOCToggle<CR>
+" Other LaTeX mappings:
+"
+"<LocalLeader>ll                                                     |:Latexmk|
+"        Compile with latexmk.
+"<LocalLeader>lL                                                    |:Latexmk!|
+"        Force compilation with latexmk.
+"<LocalLeader>lc                                                |:LatexmkClean|
+"        Clean temporary output from LaTeX.
+"<LocalLeader>lC                                               |:LatexmkClean!|
+"        Clean all output from LaTeX.
+"<LocalLeader>lk                                                 |:LatexmkStop|
+"        Stop latexmk if it is running.
+"<LocalLeader>lg                                               |:LatexmkStatus|
+"        Show the running status of latexmk for the current buffer.
+"<LocalLeader>lG                                              |:LatexmkStatus!|
+"        Show the running status of latexmk for all buffers with process group
+"        ID's.
+"<LocalLeader>le                                                 |:LatexErrors|
+"        Load the log file for the current document and jump to the first error.
 
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
