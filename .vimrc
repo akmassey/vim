@@ -29,7 +29,6 @@ Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-sensible'
 Plugin 'wellle/targets.vim'
 Plugin 'machakann/vim-textobj-delimited'
-Plugin 'edsono/vim-matchit'
 Plugin 'chrisbra/vim-diff-enhanced'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'duggiefresh/vim-easydir'
@@ -48,14 +47,14 @@ Plugin 'ervandew/supertab'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'bling/vim-airline'
 Plugin 'vim-scripts/zoom.vim'
-Plugin 'bronson/vim-trailing-whitespace'
-Plugin 'Keithbsmiley/investigate.vim'
-Plugin 'AndrewRadev/splitjoin.vim'
+Plugin 'severin-lemaignan/vim-minimap'  " <Leader>mm to see the minimap
+Plugin 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace
+Plugin 'AndrewRadev/splitjoin.vim'  " gS to split and gJ to join
 Plugin 'sjl/gundo.vim'
 " Plugin 'mbadran/headlights'
 Plugin 'myusuf3/numbers.vim'
 Plugin 'ktonga/vim-follow-my-lead'
-Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'Keithbsmiley/investigate.vim'
 Plugin 'powerman/vim-plugin-viewdoc'
 " }}}
 
@@ -75,7 +74,6 @@ Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-jdaddy'
 Plugin 'tpope/vim-ragtag'
 Plugin 'vim-scripts/paredit.vim'
-Plugin 'Shougo/unite.vim'
 Plugin 'sukima/xmledit'
 " }}}
 
@@ -133,7 +131,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rails'
 " Commenting out in favor of polyglot
 " Plugin 'vim-ruby/vim-ruby'
-Plugin 'thoughtbot/vim-rspec'
+" Plugin 'thoughtbot/vim-rspec'
 Plugin 'vim-scripts/ruby-matchit'
 Plugin 'nelstrom/vim-textobj-rubyblock'
 
@@ -185,8 +183,9 @@ Plugin 'NLKNguyen/papercolor-theme'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
+
+" Enable the builtin matchit plugin
+runtime macros/matchit.vim
 
 " AKM Reminder -- You can use :scriptnames to see which scripts are executed
 " when loading vim.
@@ -495,11 +494,23 @@ nnoremap <Leader>u :GundoToggle<CR>
 " Create a default build mapping
 map <Leader>b :w<CR>:!./build<CR>
 
-" vim-rspec mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-let g:rspec_command="bundle exec rspec --format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out  {spec}\n"
+" " vim-rspec mappings {{{
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" let g:rspec_command="bundle exec rspec --format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out  {spec}\n"
+" " }}}
+
+" vim-test mappings {{{
+" make test commands execute using dispatch.vim
+let test#strategy = "dispatch"
+let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
+nnoremap <silent> <Leader>t :TestNearest<CR>
+nnoremap <silent> <Leader>T :TestFile<CR>
+nnoremap <silent> <Leader>a :TestSuite<CR>
+nnoremap <silent> <Leader>l :TestLast<CR>
+nnoremap <silent> <Leader>g :TestVisit<CR>
+" }}}
 
 " Shortcut to toggle invisibles
 nmap <Leader>i :set list!<CR>
@@ -509,13 +520,11 @@ set listchars=nbsp:·,tab:▸\ ,trail:·,eol:¬
 set list!
 
 " Use context-based completion in SuperTab
-if has("autocmd")
-  autocmd FileType *
-        \ if &omnifunc != '' |
-        \   call SuperTabChain(&omnifunc, "<c-p>") |
-        \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-        \ endif
-endif
+let g:SuperTabDefaultCompletionType = 'context'
+autocmd FileType *
+      \ if &omnifunc != '' |
+      \   call SuperTabChain(&omnifunc, "<c-p>") |
+      \ endif
 " Don't compelete at the start of a line or after whitespace
 let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
 
@@ -527,6 +536,11 @@ let g:LatexBox_latexmk_preview_continuously=1
 let g:LatexBox_quickfix=2
 " let g:LatexBox_quickfix=4 " only open errors in the quickfix list
 " let g:LatexBox_show_warnings=0 " don't show warnings as errors
+
+" Set FastFold options
+let g:tex_fold_enabled=1
+let g:vimsyn_folding='af'
+let g:xml_syntax_folding = 1
 
 " Toggle the display of the LaTeX Table of Contents window
 nnoremap <LocalLeader>lt :LatexTOCToggle<CR>
@@ -893,6 +907,19 @@ let g:tagbar_type_go = {
       \ 'ctagsargs' : '-sort -silent'
       \ }
 " }}}
+
+" LaTeX Configuration for TagBar
+let g:tagbar_type_plaintex = {
+    \ 'ctagstype' : 'plaintex',
+    \ 'kinds'     : [
+        \ 's:sections',
+        \ 'g:graphics:0:0',
+        \ 'l:labels',
+        \ 'r:refs:1:0',
+        \ 'p:pagerefs:1:0'
+    \ ],
+    \ 'sort'    : 0,
+\ }
 
 " investigate.vim configuration {{{
 let g:investigate_use_dash=1
