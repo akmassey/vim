@@ -17,12 +17,12 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
 Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-abolish'  " for coercion to various cases: https://github.com/tpope/vim-abolish#coercion
+Plugin 'tpope/vim-abolish'  " Press crs (coerce to snake_case). MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru).
 Plugin 'tpope/vim-repeat'   " to repeat Plugin-mapped commands
 Plugin 'tpope/vim-characterize'
 Plugin 'tpope/vim-dispatch' " for asynchronous Make
 Plugin 'tpope/vim-rsi'
-Plugin 'tpope/vim-projectionist'
+" Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-speeddating'
@@ -47,7 +47,7 @@ Plugin 'ervandew/supertab'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'bling/vim-airline'
 Plugin 'vim-scripts/zoom.vim'
-Plugin 'severin-lemaignan/vim-minimap'  " <Leader>mm to see the minimap
+" Plugin 'severin-lemaignan/vim-minimap'  " <Leader>mm to see the minimap
 Plugin 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace
 Plugin 'AndrewRadev/splitjoin.vim'  " gS to split and gJ to join
 Plugin 'sjl/gundo.vim'
@@ -63,9 +63,9 @@ Plugin 'powerman/vim-plugin-viewdoc'
 " Plugin 'Lokaltog/vim-easymotion'
 Plugin 'justinmk/vim-sneak'
 Plugin 'nelstrom/vim-visual-star-search'
-Plugin 'wincent/scalpel'  " for improved search/replace for words under the cursor
-Plugin 'wincent/loupe' " for improve default searching
-Plugin 'wincent/ferret' " for multi-file search and replace
+" Plugin 'wincent/scalpel'  " for improved search/replace for words under the cursor
+" Plugin 'wincent/loupe' " for improve default searching
+" Plugin 'wincent/ferret' " for multi-file search and replace
 " }}}
 
 " Random Language or Markup related plugins {{{
@@ -84,16 +84,18 @@ Plugin 'vim-scripts/CheckAttach.vim'
 " epub plugins
 " Plugin 'etnadji/vim-epub'
 
-" Dash plugins
+" Dash plugins {{{
 Plugin 'rizzatti/funcoo.vim'
 Plugin 'rizzatti/dash.vim'
+" }}}
 
-" Snippets
+" Snippets {{{
 " Plugin "MarcWeber/vim-addon-mw-utils"
 " Plugin "tomtom/tlib_vim"
 Plugin 'sirver/ultisnips'
 Plugin 'akmassey/vim-snippets'
 Plugin 'rbonvall/snipmate-snippets-bib'
+" }}}
 
 " Folding plugins
 " Plugin 'bimbalaszlo/vim-eightheader'
@@ -115,9 +117,9 @@ Plugin 'reedes/vim-wordy'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'tpope/vim-vinegar'
 Plugin 'kien/ctrlp.vim'
-Plugin 'thoughtbot/pick.vim'
+" Plugin 'thoughtbot/pick.vim'
 Plugin 'vim-scripts/bufexplorer.zip'
-" Plugin 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 " Plugin 'vim-scripts/VOoM'
 
 " Terminal or tmux vim plugins
@@ -324,6 +326,10 @@ if has("gui_macvim")
   " map <Leader>/ <plug>NERDCommenterToggle<CR>
   " let NERDSpaceDelims=1
   " }}}
+
+  " Setup keybindings for tpope's vim-commentary
+  map <D-/> gcc
+  map <Leader>c gcc
 
   " Stop the annoying bell
   set vb
@@ -908,18 +914,19 @@ let g:tagbar_type_go = {
       \ }
 " }}}
 
-" " LaTeX Configuration for TagBar
-" let g:tagbar_type_plaintex = {
-"     \ 'ctagstype' : 'plaintex',
-"     \ 'kinds'     : [
-"         \ 's:sections',
-"         \ 'g:graphics:0:0',
-"         \ 'l:labels',
-"         \ 'r:refs:1:0',
-"         \ 'p:pagerefs:1:0'
-"     \ ],
-"     \ 'sort'    : 0,
-" \ }
+" LaTeX Configuration for TagBar {{{
+let g:tagbar_type_plaintex = {
+    \ 'ctagstype' : 'plaintex',
+    \ 'kinds'     : [
+        \ 's:sections',
+        \ 'g:graphics:0:0',
+        \ 'l:labels',
+        \ 'r:refs:1:0',
+        \ 'p:pagerefs:1:0'
+    \ ],
+    \ 'sort'    : 0,
+\ }
+" }}}
 
 " investigate.vim configuration {{{
 let g:investigate_use_dash=1
