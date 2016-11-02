@@ -168,7 +168,7 @@ Plugin 'tpope/vim-markdown'
 " Plugin 'botandrose/vim-testkey'
 Plugin 'janko-m/vim-test'
 
-" Plugin colorschemes
+" Colorschemes {{{
 Plugin 'chriskempson/vim-tomorrow-theme'
 Plugin 'therubymug/vim-pyte'
 Plugin 'altercation/vim-colors-solarized'
@@ -181,6 +181,7 @@ Plugin 'twerth/ir_black'
 Plugin 'jnurmine/Zenburn'
 Plugin 'rainux/vim-desert-warm-256'
 Plugin 'NLKNguyen/papercolor-theme'
+" }}}
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -197,6 +198,10 @@ runtime macros/matchit.vim
 let mapleader=","
 let maplocalleader=","
 noremap \ ,
+
+" adjust timeout settings
+set timeout
+set timeoutlen=500
 
 " Basic Settings {{{
 set nocompatible      " Use vim, no vi defaults
@@ -846,7 +851,7 @@ nnoremap <Leader>k :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 let g:viewdoc_open = 'new'
 " }}}
 
-
+" NERDTree Settings {{{
 " Ignore some LaTeX things in NERDTree
 let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$', '\.dvi$', '\.fdb_latexmk$', '\.glg$', '\.glo$', '\.gls$', '\.idx$', '\.ilg$', '\.ind$', '\.ist$', '\.lof$', '\.log$', '\.lot$', '\.maf$', '\.mtc$', '\.mtc0$', '\.nav$', '\.nlo$', '\.out$', '\.pdfsync$', '\.ps$', '\.snm$', '\.synctex.gz$', '\.toc$', '\.vrb$', '\.xdy$', '\.tdo$', '\.make$', '\.temp$', '\.d$', '\.fls$', '\.run\.xml$', '\.bcf$', '\.orig$' ]
 
@@ -864,6 +869,7 @@ let g:NERDTreeMouseMode=2
 " bindings (<C-j> and <C-k>).
 let g:NERDTreeMapJumpPrevSibling='<Nop>'
 let g:NERDTreeMapJumpNextSibling='<Nop>'
+" }}}
 
 " TODO: Add functionality from Wincent here:
 " https://www.youtube.com/watch?v=OgQW07saWb0
