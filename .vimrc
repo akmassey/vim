@@ -117,7 +117,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'thoughtbot/pick.vim'
 Plugin 'vim-scripts/bufexplorer.zip'
-Plugin 'majutsushi/tagbar'
+" Plugin 'majutsushi/tagbar'
 " Plugin 'vim-scripts/VOoM'
 
 " Terminal or tmux vim plugins
@@ -908,18 +908,18 @@ let g:tagbar_type_go = {
       \ }
 " }}}
 
-" LaTeX Configuration for TagBar
-let g:tagbar_type_plaintex = {
-    \ 'ctagstype' : 'plaintex',
-    \ 'kinds'     : [
-        \ 's:sections',
-        \ 'g:graphics:0:0',
-        \ 'l:labels',
-        \ 'r:refs:1:0',
-        \ 'p:pagerefs:1:0'
-    \ ],
-    \ 'sort'    : 0,
-\ }
+" " LaTeX Configuration for TagBar
+" let g:tagbar_type_plaintex = {
+"     \ 'ctagstype' : 'plaintex',
+"     \ 'kinds'     : [
+"         \ 's:sections',
+"         \ 'g:graphics:0:0',
+"         \ 'l:labels',
+"         \ 'r:refs:1:0',
+"         \ 'p:pagerefs:1:0'
+"     \ ],
+"     \ 'sort'    : 0,
+" \ }
 
 " investigate.vim configuration {{{
 let g:investigate_use_dash=1
