@@ -187,8 +187,8 @@ Plugin 'NLKNguyen/papercolor-theme'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-" Enable the builtin matchit plugin
-runtime macros/matchit.vim
+" Enable the builtin matchit plugin, requires vim version > 8.0
+packadd! matchit
 
 " AKM Reminder -- You can use :scriptnames to see which scripts are executed
 " when loading vim.
