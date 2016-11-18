@@ -2,193 +2,190 @@
 
 set nocompatible              " be iMproved, required
 
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" initialize vim-plug
+call plug#begin('~/.vim/plugged')
 
 " Baseline Plugins {{{
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-abolish'  " Press crs (coerce to snake_case). MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru).
-Plugin 'tpope/vim-repeat'   " to repeat Plugin-mapped commands
-Plugin 'tpope/vim-characterize'
-Plugin 'tpope/vim-dispatch' " for asynchronous Make
-Plugin 'tpope/vim-rsi'
-" Plugin 'tpope/vim-projectionist'
-Plugin 'tpope/vim-eunuch'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-speeddating'
-Plugin 'tpope/vim-sensible'
-Plugin 'wellle/targets.vim'
-Plugin 'machakann/vim-textobj-delimited'
-Plugin 'chrisbra/vim-diff-enhanced'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'duggiefresh/vim-easydir'
-Plugin 'wincent/terminus'
-Plugin 'akmassey/vim-cheat' " personal vim cheatsheet
-" Plugin 'b4winckler/vim-angry'
-" Plugin 'gorkunov/smartpairs.vim'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-abolish'  " Press crs (coerce to snake_case). MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru).
+Plug 'tpope/vim-repeat'   " to repeat Plugin-mapped commands
+Plug 'tpope/vim-characterize'
+Plug 'tpope/vim-dispatch' " for asyncrhonous Make
+Plug 'tpope/vim-rsi'
+" Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-sensible'
+Plug 'wellle/targets.vim'
+Plug 'machakann/vim-textobj-delimited'
+Plug 'chrisbra/vim-diff-enhanced'
+Plug 'duggiefresh/vim-easydir'
+" Plug 'wincent/terminus'  " enhanced terminal support
+" Plug 'neomake/neomake'  " could replace vim-dispatch and syntastic
+" Plug 'Chiel92/vim-autoformat'
+Plug 'akmassey/vim-cheat' " personal vim cheatsheet
+" Plug 'b4winckler/vim-angry'
+" Plug 'gorkunov/smartpairs.vim'
 " }}}
 
 " Slightly less baseline plugins {{{
-Plugin 'mileszs/ack.vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'akmassey/syntastic_proselint'
-Plugin 'ervandew/supertab'
-" Plugin 'godlygeek/tabular'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'bling/vim-airline'
-Plugin 'vim-scripts/zoom.vim'
-" Plugin 'severin-lemaignan/vim-minimap'  " <Leader>mm to see the minimap
-Plugin 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace
-Plugin 'AndrewRadev/splitjoin.vim'  " gS to split and gJ to join
-Plugin 'sjl/gundo.vim'
-" Plugin 'mbadran/headlights'
-Plugin 'myusuf3/numbers.vim'
-Plugin 'ktonga/vim-follow-my-lead'
-Plugin 'Keithbsmiley/investigate.vim'
-Plugin 'powerman/vim-plugin-viewdoc'
+Plug 'mileszs/ack.vim'
+Plug 'scrooloose/syntastic'
+Plug 'akmassey/syntastic_proselint'
+Plug 'ervandew/supertab'
+" Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-scripts/zoom.vim'
+" Plug 'severin-lemaignan/vim-minimap'  " <Leader>mm to see the minimap
+Plug 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace
+Plug 'AndrewRadev/splitjoin.vim'  " gS to split and gJ to join
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+" Plug 'mbadran/headlights'
+Plug 'myusuf3/numbers.vim'
+Plug 'ktonga/vim-follow-my-lead'
+Plug 'Keithbsmiley/investigate.vim'
+Plug 'powerman/vim-plugin-viewdoc'
 " }}}
 
 " Search-related plugins {{{
 " Commenting this out in favor of sneak
-" Plugin 'Lokaltog/vim-easymotion'
-Plugin 'justinmk/vim-sneak'
-Plugin 'nelstrom/vim-visual-star-search'
-" Plugin 'wincent/scalpel'  " for improved search/replace for words under the cursor
-" Plugin 'wincent/loupe' " for improve default searching
-" Plugin 'wincent/ferret' " for multi-file search and replace
+" Plug 'Lokaltog/vim-easymotion'
+Plug 'justinmk/vim-sneak'
+Plug 'nelstrom/vim-visual-star-search'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/vim-slash'
+Plug 'wincent/scalpel'  " for improved search/replace for words under the cursor
+" Plug 'wincent/loupe' " for improve default searching
+" Plug 'wincent/ferret' " for multi-file search and replace
 " }}}
 
 " Random Language or Markup related plugins {{{
-Plugin 'tpope/vim-haml'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'tpope/vim-jdaddy'
-Plugin 'tpope/vim-ragtag'
-Plugin 'vim-scripts/paredit.vim'
-Plugin 'sukima/xmledit'
+Plug 'tpope/vim-haml'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'tpope/vim-jdaddy'
+Plug 'tpope/vim-ragtag'
+Plug 'vim-scripts/paredit.vim'
+Plug 'sukima/xmledit'
 " }}}
 
 " Email-related plugins {{{
-Plugin 'vim-scripts/CheckAttach.vim'
+Plug 'vim-scripts/CheckAttach.vim'
 " }}}
 
 " epub plugins
-" Plugin 'etnadji/vim-epub'
+" Plug 'etnadji/vim-epub'
 
 " Dash plugins {{{
-Plugin 'rizzatti/funcoo.vim'
-Plugin 'rizzatti/dash.vim'
+Plug 'rizzatti/funcoo.vim'
+Plug 'rizzatti/dash.vim'
 " }}}
 
 " Snippets {{{
-" Plugin "MarcWeber/vim-addon-mw-utils"
-" Plugin "tomtom/tlib_vim"
-Plugin 'sirver/ultisnips'
-Plugin 'akmassey/vim-snippets'
-Plugin 'rbonvall/snipmate-snippets-bib'
+" Plug "MarcWeber/vim-addon-mw-utils"
+" Plug "tomtom/tlib_vim"
+Plug 'sirver/ultisnips' | Plug 'akmassey/vim-snippets' | Plug 'rbonvall/snipmate-snippets-bib'
 " }}}
 
 " Folding plugins
-" Plugin 'bimbalaszlo/vim-eightheader'
+" Plug 'bimbalaszlo/vim-eightheader'
 
-" LaTeX related plugins
-" Plugin 'lervag/vimtex'
-Plugin 'LaTeX-Box-Team/LaTeX-Box'
-" Plugin 'vim-pandoc/vim-pandoc'
-" Plugin 'vim-pandoc/vim-pandoc-syntax'
-
-" Writing related plugins
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-indent'
-Plugin 'reedes/vim-textobj-quote'
-Plugin 'reedes/vim-textobj-sentence'
-Plugin 'reedes/vim-wordy'
-
-" Movement / file browsing plugins
-Plugin 'scrooloose/nerdtree'
-" Plugin 'tpope/vim-vinegar'
-Plugin 'kien/ctrlp.vim'
-" Plugin 'thoughtbot/pick.vim'
-Plugin 'vim-scripts/bufexplorer.zip'
-Plugin 'majutsushi/tagbar'
-" Plugin 'vim-scripts/VOoM'
-
-" Terminal or tmux vim plugins
-Plugin 'sjl/vitality.vim'
-
-" Git related plugins plugins
-Plugin 'tpope/vim-fugitive'
-" Plugin 'airblade/vim-gitgutter'
-
-" Ruby related plugins
-Plugin 'tpope/vim-rails'
-" Commenting out in favor of polyglot
-" Plugin 'vim-ruby/vim-ruby'
-" Plugin 'thoughtbot/vim-rspec'
-Plugin 'vim-scripts/ruby-matchit'
-Plugin 'nelstrom/vim-textobj-rubyblock'
-
-" JavaScript related plugins
-Plugin 'moll/vim-node'
-" Commenting out in favor of polyglot
-" Plugin 'HerringtonDarkholme/yats.vim'
-" Commenting out in favor of polyglot
-" Plugin 'pangloss/vim-javascript'
-" Commenting out in favor of polyglot
-" Plugin 'kchmck/vim-coffee-script'
-
-" Python related plugins
-" Plugin 'davidhalter/jedi-vim'
-" Commenting out in favor of polyglot
-" Plugin 'klen/python-mode'
-
-" Markdown related plugins
-" Plugin 'plasticboy/vim-markdown'
-Plugin 'tpope/vim-markdown'
-
-" Google Go support
-" Plugin 'jnwhiteh/vim-golang'
-" Commenting out in favor of polyglot
-" Plugin 'fatih/vim-go'
-
-" Rust support
-" Commenting out in favor of polyglot
-" Plugin 'rust-lang/rust.vim'
-
-" Testing support
-" Plugin 'botandrose/vim-testkey'
-Plugin 'janko-m/vim-test'
-
-" Colorschemes {{{
-Plugin 'chriskempson/vim-tomorrow-theme'
-Plugin 'therubymug/vim-pyte'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tpope/vim-vividchalk'
-Plugin 'dsolstad/vim-wombat256i'
-Plugin 'tomasr/molokai'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'akmassey/vim-codeschool'
-Plugin 'twerth/ir_black'
-Plugin 'jnurmine/Zenburn'
-Plugin 'rainux/vim-desert-warm-256'
-Plugin 'NLKNguyen/papercolor-theme'
+" LaTeX related plugins {{{
+" Plug 'lervag/vimtex'
+Plug 'LaTeX-Box-Team/LaTeX-Box'
+" Plug 'vim-pandoc/vim-pandoc'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
 " }}}
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" Writing related plugins {{{
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-indent'
+Plug 'reedes/vim-textobj-quote'
+Plug 'reedes/vim-textobj-sentence'
+Plug 'reedes/vim-wordy'
+Plug 'reedes/vim-pencil'
+" }}}
+
+" Movement / file browsing plugins {{{
+Plug 'scrooloose/nerdtree'
+" Plug 'tpope/vim-vinegar'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-scripts/bufexplorer.zip'
+Plug 'majutsushi/tagbar'
+" Plug 'vim-scripts/VOoM'
+" }}}
+
+" Terminal or tmux vim plugins
+Plug 'sjl/vitality.vim'
+
+" Git related plugins plugins
+Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
+" Plug 'mhinz/vim-signify'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Ruby related plugins {{{
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+" Plug 'thoughtbot/vim-rspec'
+Plug 'vim-scripts/ruby-matchit'
+Plug 'nelstrom/vim-textobj-rubyblock'
+" }}}
+
+" JavaScript related plugins {{{
+Plug 'moll/vim-node'
+" Plug 'HerringtonDarkholme/yats.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'kchmck/vim-coffee-script'
+" }}}
+
+" Python related plugins {{{
+Plug 'davidhalter/jedi-vim'
+Plug 'nvie/vim-flake8'
+" }}}
+
+" Markdown related plugins
+Plug 'tpope/vim-markdown'
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+
+" Google Go support
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+
+" Rust support
+Plug 'rust-lang/rust.vim'
+
+" Testing support
+" Plug 'botandrose/vim-testkey'
+Plug 'janko-m/vim-test'
+
+" Colorschemes {{{
+Plug 'chriskempson/vim-tomorrow-theme'
+Plug 'therubymug/vim-pyte'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-vividchalk'
+Plug 'dsolstad/vim-wombat256i'
+Plug 'tomasr/molokai'
+Plug 'nanotech/jellybeans.vim'
+Plug 'akmassey/vim-codeschool'
+Plug 'twerth/ir_black'
+Plug 'jnurmine/Zenburn'
+Plug 'rainux/vim-desert-warm-256'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'jacoborus/tender.vim'
+" }}}
+
+" we want this one to load last
+Plug 'ryanoasis/vim-devicons'
+
+call plug#end()
 
 " Enable the builtin matchit plugin, requires vim version > 8.0
-packadd! matchit
+if !has('nvim')
+  packadd! matchit
+endif
 
 " AKM Reminder -- You can use :scriptnames to see which scripts are executed
 " when loading vim.
@@ -199,9 +196,10 @@ let mapleader=","
 let maplocalleader=","
 noremap \ ,
 
-" adjust timeout settings
+" Timeout Settings {{{
 set timeout
 set timeoutlen=500
+" }}}
 
 " Basic Settings {{{
 set nocompatible      " Use vim, no vi defaults
@@ -225,15 +223,31 @@ set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
 "
 " Disable temp and backup files
 set wildignore+=*.swp,*~,._*
+
+" Show partially typed command sequences.
+set showcmd
+
+" Minimal number of lines to always show above/below the caret.
+set scrolloff=3
+
+" Set the title when you're in terminal mode
+set title
+
+" Toggle folds more easily
+nmap <Leader><Space> za
 " }}}
 
-" Finding files
+" Finding files {{{
 set path +=**  " Recursive search into subfolders enables tab completion for many file-related tasks.
 set wildmenu   " Display all matching files when tab completing
+" }}}
 
-" Ensure airline fonts are loaded properly. {{{
+" Airline Settings {{{
 "     More info: https://github.com/bling/vim-airline
 let g:airline_powerline_fonts = 1
+
+" Set airline colorscheme
+let g:airline_theme = 'jellybeans'
 
 " Let airline clean up the tabline as well
 let g:airline#extensions#tabline#enabled = 1
@@ -242,7 +256,7 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 " }}}
 
 " Ensure line numbers are not shown in these file types.
-let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m', 'nerdtree']
+let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'vimshell', 'w3m', 'nerdtree']
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
 
@@ -254,27 +268,23 @@ let g:fml_all_sources = 1
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
 
-" Remap Ferret's default leader keys
+" Remap Ferret's default leader keys {{{
 nmap <Leader>aa <Plug>(FerretAck)
 nmap <Leader>al <Plug>(FerretLack)
 nmap <Leader>as <Plug>(FerretAckWord)
 nmap <Leader>ar <Plug>(FerretAcks)
+" }}}
 
-" Custom Whitespace Modifiers
+" Configure fzf using Homebrew
+set rtp+=/usr/local/opt/fzf
+
+" Custom Whitespace Modifiers {{{
 set textwidth=78
 set backspace=indent,eol,start    " backspace through everything in insert mode
 set tabstop=2                     " a tab is two spaces
 set shiftwidth=2                  " an autoindent (with <<) is two spaces
 set expandtab                     " use spaces, not tabs
-
-" Show partially typed command sequences.
-set showcmd
-
-" Minimal number of lines to always show above/below the caret.
-set scrolloff=3
-
-" Set the title when you're in terminal mode
-set title
+" }}}
 
 " Statusline settings {{{
 " %< truncation point
@@ -299,8 +309,12 @@ set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
 " colorscheme wombat
 " colorscheme tomorrow-night-bright
 colorscheme jellybeans
+" colorscheme tender
+if has("termguicolors")
+  set termguicolors
+endif
 
-" GUI Settings {{{"{{{"}}}
+" GUI Settings {{{
 if has("gui_macvim")
   " Emulate TextMate's shift left/right key commands (only works in MacVim)
   nmap <D-[> <<
@@ -322,16 +336,6 @@ if has("gui_macvim")
   map <D-9> 9gt
   map <D-0> :tablast<CR>
 
-  " Old NERDCommenter settings, preserved for posterity.  {{{
-  " Setup keybindings for NERDCommenter
-  " map <D-/> <plug>NERDCommenterToggle<CR>
-  " imap <D-/> <plug>NERDCommenterToggle<CR>i
-  "
-  " Setup NERDCommenter for non-gui setup
-  " map <Leader>/ <plug>NERDCommenterToggle<CR>
-  " let NERDSpaceDelims=1
-  " }}}
-
   " Setup keybindings for tpope's vim-commentary
   map <D-/> gcc
   map <Leader>c gcc
@@ -345,22 +349,6 @@ if has("gui_macvim")
   endif
 
   source ~/.gvimrc
-endif
-" }}}
-
-" Non-GUI Settings {{{
-if has("gui_running")
-  " Do nothing.
-else
-  " Pick Configuration.  More info: https://github.com/thoughtbot/pick.vim/
-  let g:pick_height = 10
-  let g:pick_executable = "/usr/local/bin/pick"
-  nnoremap <Leader>pf :call PickFile()<CR>
-  nnoremap <Leader>ps :call PickFileSplit()<CR>
-  nnoremap <Leader>pv :call PickFileVerticalSplit()<CR>
-  nnoremap <Leader>pt :call PickFileTab()<CR>
-  nnoremap <Leader>pb :call PickBuffer()<CR>
-  nnoremap <Leader>pg :call PickTag()<CR>
 endif
 " }}}
 
@@ -391,8 +379,8 @@ map [z <Plug>SneakPrevious
 
 " Open files in directory of current file with Leader mappings
 cnoremap <expr> %% expand('%:h').'/'
-map <leader>e :edit %%
-map <leader>v :view %%
+map <Leader>e :edit %%
+map <Leader>v :view %%
 
 " AutoCommand Settings {{{
 if has("autocmd")
@@ -470,14 +458,13 @@ augroup textobj_quote
 augroup END
 " }}}
 
-" Center the screen more easily
+" Center the screen more easily {{{
 nmap <Space> zz
-" Open folds more easily
-nmap <Leader><Space> za
 
 " Center the screen on searches
 nmap n nzz
 nmap N Nzz
+" }}}
 
 " Mappings for Spelling {{{
 set spelllang=en_us
@@ -499,18 +486,9 @@ inoremap <C-S> [s1z=
 snoremap <C-S> [s1z=
 "}}}
 
-" Toggle gundo
-nnoremap <Leader>u :GundoToggle<CR>
-
-" Create a default build mapping
-map <Leader>b :w<CR>:!./build<CR>
-
-" " vim-rspec mappings {{{
-" map <Leader>t :call RunCurrentSpecFile()<CR>
-" map <Leader>s :call RunNearestSpec()<CR>
-" map <Leader>l :call RunLastSpec()<CR>
-" let g:rspec_command="bundle exec rspec --format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out  {spec}\n"
-" " }}}
+" Toggle Undotree {{{
+nnoremap <Leader>u :UndotreeToggle<CR>
+" }}}
 
 " vim-test mappings {{{
 " make test commands execute using dispatch.vim
@@ -523,12 +501,18 @@ nnoremap <silent> <Leader>l :TestLast<CR>
 nnoremap <silent> <Leader>g :TestVisit<CR>
 " }}}
 
+" Invisibles Settings {{{
 " Shortcut to toggle invisibles
 nmap <Leader>i :set list!<CR>
 
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=nbsp:·,tab:▸\ ,trail:·,eol:¬
 set list!
+
+" Invisible character colors
+highlight NonText guifg=#4a4a59
+highlight SpecialKey guifg=#4a4a59
+" }}}
 
 " Use context-based completion in SuperTab
 let g:SuperTabDefaultCompletionType = 'context'
@@ -539,6 +523,7 @@ autocmd FileType *
 " Don't compelete at the start of a line or after whitespace
 let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
 
+" LatexBox settings {{{
 " Currently, there's a bug in vimtex that doesn't let SuperTab work
 " let g:vimtex_complete_enabled=0
 let g:LatexBox_Folding=1
@@ -574,21 +559,18 @@ nnoremap <LocalLeader>lt :LatexTOCToggle<CR>
 "        ID's.
 "<LocalLeader>le                                                 |:LatexErrors|
 "        Load the log file for the current document and jump to the first error.
+" }}}
 
+" EasyAlign Settings {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 "
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-" Invisible character colors
-highlight NonText guifg=#4a4a59
-highlight SpecialKey guifg=#4a4a59
+" }}}
 
 " Allow easy opening of files in Marked
 :nnoremap <Leader>m :silent !open -a "Marked 2.app" '%:p'<cr>:redraw!<cr>
-" command! Marked :silent !open -a "Marked.app" expand("%:p")
-" :nnoremap <Leader>m :silent !open -a "Marked.app" expand("%:p")
 
 " OS X only due to use of `open`. Adapted from
 " http://vim.wikia.com/wiki/Open_a_web-browser_with_the_URL_in_the_current_line
@@ -629,11 +611,12 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-" Since we just remapped the defaults for UltiSnips...
+" UltiSnips Settings {{{
 let g:UltiSnipsJumpForwardTrigger="<Leader>j"
 let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 let g:UltiSnipsEnableSnipMate=0
+" }}}
 
 " Clear the search buffer when hitting return
 nnoremap <CR> :nohlsearch<cr>
@@ -671,6 +654,7 @@ vnoremap <Leader>f :call Preserve("'<,'>!fmt -s -78")<CR>
 
 " Filter Markdown
 map <Leader>7 :call Preserve("%!poppins")<CR>
+let g:vim_markdown_frontmatter=1
 
 " Don't use Ex mode, use Q for formatting
 " map Q gqap
@@ -739,7 +723,7 @@ cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
 " Flush CtrlP Cachce
 nnoremap <silent> <Leader>P :ClearCtrlPCache<cr>\|:CtrlP<cr>
 " Needed for CtrlP Runtime
-set runtimepath^=~/.vim/bundle/ctrlp.vim
+set runtimepath^=~/.vim/plugged/ctrlp.vim
 
 " Searching options
 set incsearch  " search while you're typing the search string
@@ -847,8 +831,10 @@ endif
 " bind K to grep word under cursor
 nnoremap <Leader>k :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " }}}
+
 " viewdoc settings {{{
 let g:viewdoc_open = 'new'
+let g:viewdoc_only=1
 " }}}
 
 " NERDTree Settings {{{
@@ -1021,3 +1007,7 @@ command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-arg
 command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
 command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
 " }}}
+
+if exists("g:loaded_webdevicons")
+  call webdevicons#refresh()
+endif
