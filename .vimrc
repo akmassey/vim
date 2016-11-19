@@ -1,5 +1,3 @@
-" vim:fdm=marker
-
 set nocompatible              " be iMproved, required
 
 " initialize vim-plug
@@ -233,8 +231,15 @@ set scrolloff=3
 " Set the title when you're in terminal mode
 set title
 
+" Alternative to escape
+inoremap jk <Esc>
+" }}}
+
+" Folding Settings {{{
 " Toggle folds more easily
-nmap <Leader><Space> za
+nnoremap <Leader><Space> za
+
+set foldlevelstart=4
 " }}}
 
 " Finding files {{{
@@ -834,7 +839,6 @@ nnoremap <Leader>k :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " viewdoc settings {{{
 let g:viewdoc_open = 'new'
-let g:viewdoc_only=1
 " }}}
 
 " NERDTree Settings {{{
@@ -1011,3 +1015,5 @@ command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q
 if exists("g:loaded_webdevicons")
   call webdevicons#refresh()
 endif
+
+" vim:fdm=marker:foldlevel=0
