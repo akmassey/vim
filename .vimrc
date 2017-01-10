@@ -1,4 +1,6 @@
-set nocompatible              " be iMproved, required
+set nocompatible
+
+" you should probably examine spacevim for plugins: https://github.com/SpaceVim/SpaceVim/blob/dev/autoload/SpaceVim/plugins.vim
 
 " initialize vim-plug
 call plug#begin('~/.vim/plugged')
@@ -119,6 +121,7 @@ Plug 'majutsushi/tagbar'
 
 " Terminal or tmux vim plugins
 Plug 'sjl/vitality.vim'
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1  " environment variable needed for nvim cursor shapes
 
 " Git related plugins plugins
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
