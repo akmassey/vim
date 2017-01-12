@@ -25,7 +25,7 @@ Plug 'chrisbra/vim-diff-enhanced'
 Plug 'duggiefresh/vim-easydir'
 " Plug 'wincent/terminus'  " enhanced terminal support
 " Plug 'neomake/neomake'  " could replace vim-dispatch and syntastic
-" Plug 'Chiel92/vim-autoformat'
+Plug 'sbdchd/neoformat'
 Plug 'akmassey/vim-cheat' " personal vim cheatsheet
 " Plug 'b4winckler/vim-angry'
 " Plug 'gorkunov/smartpairs.vim'
@@ -88,7 +88,7 @@ Plug 'rizzatti/dash.vim'
 " Snippets {{{
 " Plug "MarcWeber/vim-addon-mw-utils"
 " Plug "tomtom/tlib_vim"
-Plug 'sirver/ultisnips' | Plug 'akmassey/vim-snippets' | Plug 'rbonvall/snipmate-snippets-bib'
+Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
 " }}}
 
 " Folding plugins
@@ -144,8 +144,8 @@ Plug 'kchmck/vim-coffee-script'
 " }}}
 
 " Python related plugins {{{
-Plug 'davidhalter/jedi-vim'
-Plug 'nvie/vim-flake8'
+" Plug 'davidhalter/jedi-vim'
+" Plug 'nvie/vim-flake8'
 " }}}
 
 " Markdown related plugins
@@ -620,6 +620,7 @@ nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 " UltiSnips Settings {{{
+let g:UltiSnipsExpandTrigger="<Leader>j"
 let g:UltiSnipsJumpForwardTrigger="<Leader>j"
 let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
