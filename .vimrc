@@ -625,6 +625,12 @@ let g:UltiSnipsJumpForwardTrigger="<Leader>j"
 let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 let g:UltiSnipsEnableSnipMate=0
+let g:UltiSnipsEditSplit="vertical"
+
+" vim-snippets variables:
+let g:snips_author = "Aaron Massey"
+let g:snips_email = "akmassey@umbc.edu"
+let g:snips_github = "https://github.com/akmassey"
 " }}}
 
 " Clear the search buffer when hitting return
