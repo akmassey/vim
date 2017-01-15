@@ -10,6 +10,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'  " Press crs (coerce to snake_case). MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru).
+" Plug 'jdelkins/vim-correction'  " automatic spelling correction based on vim-abolish
 Plug 'tpope/vim-repeat'   " to repeat Plugin-mapped commands
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-dispatch' " for asyncrhonous Make
@@ -116,12 +117,14 @@ Plug 'scrooloose/nerdtree'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-scripts/bufexplorer.zip'
 Plug 'majutsushi/tagbar'
+Plug 'justinmk/vim-dirvish'
 " Plug 'vim-scripts/VOoM'
 " }}}
 
 " Terminal or tmux vim plugins
 Plug 'sjl/vitality.vim'
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1  " environment variable needed for nvim cursor shapes
+let g:vitality_fix_focus=0  " don't enable focus events
 
 " Git related plugins plugins
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
@@ -151,6 +154,9 @@ Plug 'kchmck/vim-coffee-script'
 " Markdown related plugins
 Plug 'tpope/vim-markdown'
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+
+" TOML syntax
+Plug 'cespare/vim-toml'
 
 " Google Go support
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
