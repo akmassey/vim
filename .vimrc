@@ -251,6 +251,12 @@ nnoremap <Leader><Space> za
 set foldlevelstart=4
 " }}}
 
+" Neovim miscellaneousness {{{
+" Don't forget to pip install --upgrade neovim and do the same for pip3
+let g:python2_host_prog = '/usr/local/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
+" }}}
+
 " Finding files {{{
 set path +=**  " Recursive search into subfolders enables tab completion for many file-related tasks.
 set wildmenu   " Display all matching files when tab completing
