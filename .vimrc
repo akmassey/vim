@@ -151,9 +151,21 @@ Plug 'kchmck/vim-coffee-script'
 " Plug 'nvie/vim-flake8'
 " }}}
 
-" Markdown related plugins
+" Markdown related plugins {{{
 Plug 'tpope/vim-markdown'
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'junegunn/goyo.vim'
+let g:goyo_width=85
+function! s:goyo_enter()
+  set nonumber
+  set norelativenumber
+endfunction
+function! s:goyo_leave()
+  set number
+  set relativenumber
+endfunction
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+" }}}
 
 " TOML syntax
 Plug 'cespare/vim-toml'
@@ -457,6 +469,7 @@ if has("autocmd")
   " Use flowed text in email
   au FileType mail setlocal fo+=aw
   au FileType mail set spell
+  au FileType mail call goyo#execute(0, 85)
   au BufRead ~/.mutt/temp/mutt-* execute 'normal gg}'
 
   " Ensure spell checking is enabled for LaTeX and Markdown
@@ -828,13 +841,6 @@ map <Leader>4 :call Preserve("%s/\\n\\n\\+/\\r\\r/g")<CR>
 " " Split statements into separate lines
 " map <Leader>, :s/\s*;\s*/\r/g<CR>
 
-" start NERDTree when opening vim
-if (has("autocmd") && !(&ft=='mail'))
-  autocmd VimEnter * NERDTree
-  autocmd BufEnter * NERDTreeMirror
-  autocmd VimEnter * wincmd w
-endif
-
 " Convert DOS-style carriage returns to UNIX-style
 map <Leader>d :call Preserve("%s/\\r/\\r/g")<CR>
 
@@ -864,6 +870,13 @@ let g:viewdoc_open = 'new'
 " }}}
 
 " NERDTree Settings {{{
+" Start NERDTree when opening vim
+" if (has("autocmd") && !(&ft=='mail'))
+"   autocmd VimEnter * NERDTree
+"   autocmd BufEnter * NERDTreeMirror
+"   autocmd VimEnter * wincmd w
+" endif
+
 " Ignore some LaTeX things in NERDTree
 let NERDTreeIgnore = ['\.acn$', '\.acr$', '\.alg$', '\.aux$', '\.bbl$', '\.blg$', '\.dvi$', '\.fdb_latexmk$', '\.glg$', '\.glo$', '\.gls$', '\.idx$', '\.ilg$', '\.ind$', '\.ist$', '\.lof$', '\.log$', '\.lot$', '\.maf$', '\.mtc$', '\.mtc0$', '\.nav$', '\.nlo$', '\.out$', '\.pdfsync$', '\.ps$', '\.snm$', '\.synctex.gz$', '\.toc$', '\.vrb$', '\.xdy$', '\.tdo$', '\.make$', '\.temp$', '\.d$', '\.fls$', '\.run\.xml$', '\.bcf$', '\.orig$' ]
 
