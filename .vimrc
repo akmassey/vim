@@ -158,10 +158,12 @@ let g:goyo_width=85
 function! s:goyo_enter()
   set nonumber
   set norelativenumber
+  NumbersDisable
 endfunction
 function! s:goyo_leave()
   set number
   set relativenumber
+  NumbersEnable
 endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
@@ -681,15 +683,15 @@ function! Preserve(command) range
   call cursor(l, c)
 endfunction
 " Strip trailing whitespace
-nmap <Leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
+nnoremap <Leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
 
 " Reformat a program or structured document
-nmap <Leader>= :call Preserve("normal gg=G")<CR>
+nnoremap <Leader>= :call Preserve("normal gg=G")<CR>
 
 " Reformat a plain text document to use hard wrapping and uniform spacing
 "   Note: This uses the BSD `fmt` program.  The GNU coreutils version takes
 "   different options.
-nmap <Leader>f :call Preserve("%!fmt -s -78")<CR>
+nnoremap <Leader>f :call Preserve("%!fmt -s -78")<CR>
 vnoremap <Leader>f :call Preserve("'<,'>!fmt -s -78")<CR>
 
 " Filter Markdown
@@ -698,7 +700,8 @@ let g:vim_markdown_frontmatter=1
 
 " Don't use Ex mode, use Q for formatting
 " map Q gqap
-map Q :call Preserve("normal gqap")<CR>
+nnoremap Q :call Preserve("normal gqap")<CR>
+nnoremap <Leader>Q :call Preserve("normal vapJgqap")<CR>
 " }}}
 
 " Toggle NERDTree and Tagbar
