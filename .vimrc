@@ -1,6 +1,7 @@
 set nocompatible
 
-" you should probably examine spacevim for plugins: https://github.com/SpaceVim/SpaceVim/blob/dev/autoload/SpaceVim/plugins.vim
+" you should probably examine spacevim for plugins:
+" https://github.com/SpaceVim/SpaceVim/blob/dev/autoload/SpaceVim/plugins.vim
 
 " initialize vim-plug
 call plug#begin('~/.vim/plugged')
@@ -34,8 +35,17 @@ Plug 'akmassey/vim-cheat' " personal vim cheatsheet
 
 " Slightly less baseline plugins {{{
 Plug 'mileszs/ack.vim'
-Plug 'scrooloose/syntastic'
-Plug 'akmassey/syntastic_proselint'
+" Plug 'scrooloose/syntastic'
+" let g:syntastic_mode_map = { "mode": "active", "passive_filetypes": ["python"] }
+" Plug 'akmassey/syntastic_proselint'
+Plug 'w0rp/ale'
+nmap <silent> [w <Plug>(ale_previous_wrap)
+nmap <silent> ]w <Plug>(ale_next_wrap)
+let g:ale_sign_error = 'EE'
+let g:ale_sign_warning = 'WW'
+let g:ale_echo_msg_error_str = 'Error'
+let g:ale_echo_msg_warning_str = 'Warning'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 Plug 'ervandew/supertab'
 " Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
@@ -147,6 +157,8 @@ Plug 'kchmck/vim-coffee-script'
 " }}}
 
 " Python related plugins {{{
+Plug 'python-mode/python-mode'
+let g:pymode_lint_cwindow=0  " don't automatically open the cwindow
 " Plug 'davidhalter/jedi-vim'
 " Plug 'nvie/vim-flake8'
 " }}}
@@ -421,10 +433,6 @@ if has("autocmd")
   " make and python use real tabs
   au FileType make set noexpandtab
   au FileType python set ts=8 et sw=4 sts=4
-
-  " disable syntastic for python in favor of using python-mode
-  au FileType python let g:syntastic_ignore_files = ['\.py$']
-
   au FileType python set omnifunc=pythoncomplete#Complete
   au FileType javascript set omnifunc=javascriptcomplete#CompleteJS
   au FileType html set omnifunc=htmlcomplete#CompleteTags
