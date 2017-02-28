@@ -63,6 +63,36 @@ Plug 'Keithbsmiley/investigate.vim'
 Plug 'powerman/vim-plugin-viewdoc'
 " }}}
 
+" " nvim-completion-manager {{{
+" Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+" " Requires vim8 with has('python') or has('python3')
+" " Requires the installation of msgpack-python. (pip install msgpack-python)
+" if !has('nvim')
+"     Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" Plug 'roxma/python-support.nvim'
+" " for python completions
+" let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'jedi')
+" " language specific completions on markdown file
+" let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'mistune')
+
+" " utils, optional
+" let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'psutil')
+" let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'setproctitle')
+
+" " tab completion, replaces SuperTab
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" " }}}
+
+" completer.vim {{{
+Plug 'maralla/completor.vim'
+let g:completer_python_binary = '/usr/local/bin/python3'
+let g:completer_node_binary = '/Users/masseya/.nvm/versions/node/v6.3.0/bin/node'
+let g:completer_min_chars = 4
+" }}}
+
 " Search-related plugins {{{
 " Commenting this out in favor of sneak
 " Plug 'Lokaltog/vim-easymotion'
