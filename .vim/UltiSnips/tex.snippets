@@ -57,7 +57,7 @@ snippet table "Create a simple table" b
 \begin{table}[htbp]
 \centering
 \caption{${1:caption}}
-\label{${2:label}}
+\label{tab:${2:label}}
 \begin{tabular}{llr}
 \toprule
 \multicolumn{2}{c}{Item} & \\\\
@@ -72,6 +72,15 @@ Armadillo & frozen   & 8.99   \\\\
 \bottomrule
 \end{tabular}
 \end{table}
+endsnippet
+
+snippet figure "Create a simple figure." b
+\begin{figure*}[!hbtp]
+  \centering
+  \includegraphics[width=\textwidth]{img/${1:figure.pdf}}
+  \caption{${2:caption}}
+  \label{fig:${3:label}}
+\end{figure*}
 endsnippet
 
 snippet todo "Create a footnote marked as something TODO."
