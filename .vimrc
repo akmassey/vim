@@ -507,7 +507,7 @@ if has("autocmd")
   au FileType crontab set nobackup nowritebackup
 
   " Settings for composing email {{{
-  au FileType mail setlocal fo+=aw
+  au FileType mail setlocal formatoptions+=aw
   au FileType mail setlocal textwidth=72 foldmethod=manual
   au FileType mail set spell
   au FileType mail set colorcolumn=78
