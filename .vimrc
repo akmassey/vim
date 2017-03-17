@@ -506,11 +506,14 @@ if has("autocmd")
   " http://drawohara.com/post/6344279/crontab-temp-file-must-be-edited-in-place
   au FileType crontab set nobackup nowritebackup
 
-  " Use flowed text in email
+  " Settings for composing email {{{
   au FileType mail setlocal fo+=aw
+  au FileType mail setlocal textwidth=72 foldmethod=manual
   au FileType mail set spell
+  au FileType mail set colorcolumn=78
   au FileType mail call goyo#execute(0, 85)
-  au BufRead ~/.mutt/temp/mutt-* execute 'normal gg}'
+  au BufNewFile,BufRead ~/.mutt/temp/mutt-* execute 'normal gg}'
+  " }}}
 
   " Ensure spell checking is enabled for LaTeX and Markdown
   au FileType plaintex,context,tex,latex,markdown set spell
