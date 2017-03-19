@@ -33,9 +33,3 @@ imap <D-/> <plug>NERDCommenterToggle<CR>i
 
 " Stop the annoying bell
 set vb
-
-if has("autocmd")
-  " Automatically resize splits when resizing MacVim window
-  autocmd VimResized * wincmd =
-endif
-
