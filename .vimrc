@@ -162,9 +162,27 @@ Plug 'justinmk/vim-dirvish'
 " }}}
 
 " Terminal or tmux vim plugins
-Plug 'sjl/vitality.vim'
+" Plug 'sjl/vitality.vim'
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1  " environment variable needed for nvim cursor shapes
 let g:vitality_fix_focus=0  " don't enable focus events
+Plug 'benmills/vimux'
+Plug 'christoomey/vim-tmux-navigator'
+if has('nvim')
+  nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
+endif
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
+" Inspect runner pane
+map <Leader>vi :VimuxInspectRunner<CR>
+" Zoom the tmux runner pane
+map <Leader>vz :VimuxZoomRunner<CR>
+if !has('gui_running')
+  if !has('nvim')
+    set term=xterm-256color
+  endif
+endif
 
 " Git related plugins plugins
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
