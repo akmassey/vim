@@ -704,7 +704,7 @@ nnoremap <c-l> <c-w>l
 let g:UltiSnipsExpandTrigger="<Leader>j"
 let g:UltiSnipsJumpForwardTrigger="<Leader>j"
 let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
 let g:UltiSnipsEnableSnipMate=0
 let g:UltiSnipsEditSplit="vertical"
 
