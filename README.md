@@ -24,20 +24,21 @@ forget to ignore the readme when you deploy it:
 
     stow --ignore "README.md|LICENSE.md" vim
 
-Please also note that I'm using [Vundle][2] to manage my plugins.  If you're
+Please also note that I'm using [vim-plug][2] to manage my plugins.  If you're
 just cloning this repository, then you should install Vundle:
 
-    git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 And you should install those plugins with something like this:
 
-    vim +PluginInstall +qall
+    vim +PlugInstall +qall
 
 If you're new to vim, I strongly recommend [Drew Neil's Practical Vim][3] and
 his screencasts over on [vimcasts.org][4].
 
 
 [1]: http://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html
-[2]: https://github.com/gmarik/Vundle.vim
+[2]: https://github.com/junegunn/vim-plug
 [3]: https://pragprog.com/book/dnvim/practical-vim
 [4]: http://vimcasts.org
