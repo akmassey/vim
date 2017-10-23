@@ -46,7 +46,7 @@ let g:ale_sign_warning = 'WW'
 let g:ale_echo_msg_error_str = 'Error'
 let g:ale_echo_msg_warning_str = 'Warning'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
 " Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
@@ -98,11 +98,26 @@ let g:completer_min_chars = 4
 " Plug 'Lokaltog/vim-easymotion'
 Plug 'justinmk/vim-sneak'
 Plug 'nelstrom/vim-visual-star-search'
+
 Plug 'junegunn/fzf.vim'
+
+" Configure fzf using Homebrew
+set rtp+=/usr/local/opt/fzf
+nnoremap <C-p> :Files<CR>
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+
 Plug 'junegunn/vim-slash'
 Plug 'wincent/scalpel'  " for improved search/replace for words under the cursor
-" Plug 'wincent/loupe' " for improve default searching
-" Plug 'wincent/ferret' " for multi-file search and replace
+Plug 'mileszs/ack.vim'
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
 " }}}
 
 " Random Language or Markup related plugins {{{
@@ -126,10 +141,113 @@ Plug 'rizzatti/funcoo.vim'
 Plug 'rizzatti/dash.vim'
 " }}}
 
-" Snippets {{{
+" Snippets and Completion {{{
 " Plug "MarcWeber/vim-addon-mw-utils"
 " Plug "tomtom/tlib_vim"
-Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
+" Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
+
+"Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+" Use smartcase.
+let g:deoplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:deoplete#auto_complete_start_length = 4
+" Add a bit more delay before completion
+let g:deoplete#auto_complete_delay = 100
+
+" " Older settings from neocomplete
+" " Define dictionary.
+" let g:neocomplete#sources#dictionary#dictionaries = {
+"     \ 'default' : '',
+"     \ 'vimshell' : $HOME.'/.vimshell_hist',
+"     \ 'scheme' : $HOME.'/.gosh_completions'
+"         \ }
+
+" " Define keyword.
+" if !exists('g:neocomplete#keyword_patterns')
+"     let g:neocomplete#keyword_patterns = {}
+" endif
+" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     deoplete#undo_completion()
+inoremap <expr><C-l>     deoplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:deoplete#sources#omni#input_patterns')
+  let g:deoplete#sources#omni#input_patterns = {}
+endif
+"let g:deoplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:deoplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:deoplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:deoplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <Leader>j     <Plug>(neosnippet_expand_or_jump)
+smap <Leader>j     <Plug>(neosnippet_expand_or_jump)
+xmap <Leader>j     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <Leader>j     <Plug>(neosnippet_expand_or_jump)
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets/'
+
 " }}}
 
 " Folding plugins
@@ -154,7 +272,6 @@ Plug 'reedes/vim-pencil'
 " Movement / file browsing plugins {{{
 Plug 'scrooloose/nerdtree'
 " Plug 'tpope/vim-vinegar'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-scripts/bufexplorer.zip'
 Plug 'majutsushi/tagbar'
 Plug 'justinmk/vim-dirvish'
@@ -361,16 +478,7 @@ let g:fml_all_sources = 1
 " Mappings to edit and source vim configuration
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
-
-" Remap Ferret's default leader keys {{{
-nmap <Leader>aa <Plug>(FerretAck)
-nmap <Leader>al <Plug>(FerretLack)
-nmap <Leader>as <Plug>(FerretAckWord)
-nmap <Leader>ar <Plug>(FerretAcks)
 " }}}
-
-" Configure fzf using Homebrew
-set rtp+=/usr/local/opt/fzf
 
 " Custom Whitespace Modifiers {{{
 set textwidth=78
@@ -603,14 +711,14 @@ highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
 " }}}
 
-" Use context-based completion in SuperTab
-let g:SuperTabDefaultCompletionType = 'context'
-autocmd FileType *
-      \ if &omnifunc != '' |
-      \   call SuperTabChain(&omnifunc, "<c-p>") |
-      \ endif
-" Don't compelete at the start of a line or after whitespace
-let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
+" " Use context-based completion in SuperTab
+" let g:SuperTabDefaultCompletionType = 'context'
+" autocmd FileType *
+"       \ if &omnifunc != '' |
+"       \   call SuperTabChain(&omnifunc, "<c-p>") |
+"       \ endif
+" " Don't compelete at the start of a line or after whitespace
+" let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
 
 " LatexBox settings {{{
 " Currently, there's a bug in vimtex that doesn't let SuperTab work
@@ -817,10 +925,6 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 " Shortcut to writing a file as root from non-root vim
 cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
 
-" Flush CtrlP Cachce
-nnoremap <silent> <Leader>P :ClearCtrlPCache<cr>\|:CtrlP<cr>
-" Needed for CtrlP Runtime
-set runtimepath^=~/.vim/plugged/ctrlp.vim
 
 " Searching options
 set incsearch  " search while you're typing the search string
@@ -910,12 +1014,6 @@ let g:TestKey = { 'testkey': '<Leader><Enter>' }
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
 endif
 
 " bind K to grep word under cursor
