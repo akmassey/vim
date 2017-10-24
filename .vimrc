@@ -34,7 +34,6 @@ Plug 'akmassey/vim-cheat' " personal vim cheatsheet
 " }}}
 
 " Slightly less baseline plugins {{{
-Plug 'mileszs/ack.vim'
 " Plug 'scrooloose/syntastic'
 " let g:syntastic_mode_map = { "mode": "active", "passive_filetypes": ["python"] }
 " Plug 'akmassey/syntastic_proselint'
@@ -86,12 +85,12 @@ Plug 'powerman/vim-plugin-viewdoc'
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " " }}}
 
-" completer.vim {{{
-Plug 'maralla/completor.vim'
-let g:completer_python_binary = '/usr/local/bin/python3'
-let g:completer_node_binary = '/Users/masseya/.nvm/versions/node/v6.3.0/bin/node'
-let g:completer_min_chars = 4
-" }}}
+" " completer.vim {{{
+" Plug 'maralla/completor.vim'
+" let g:completer_python_binary = '/usr/local/bin/python3'
+" let g:completer_node_binary = '/Users/masseya/.nvm/versions/node/v6.3.0/bin/node'
+" let g:completer_min_chars = 4
+" " }}}
 
 " Search-related plugins {{{
 " Commenting this out in favor of sneak
@@ -104,6 +103,8 @@ Plug 'junegunn/fzf.vim'
 " Configure fzf using Homebrew
 set rtp+=/usr/local/opt/fzf
 nnoremap <C-p> :Files<CR>
+" TODO: Create a <C-e> mapping that you can use to open any file in your home
+" directory.
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
@@ -168,39 +169,33 @@ let g:deoplete#auto_complete_start_length = 4
 " Add a bit more delay before completion
 let g:deoplete#auto_complete_delay = 100
 
-" " Older settings from neocomplete
-" " Define dictionary.
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"     \ 'default' : '',
-"     \ 'vimshell' : $HOME.'/.vimshell_hist',
-"     \ 'scheme' : $HOME.'/.gosh_completions'
-"         \ }
-
-" " Define keyword.
-" if !exists('g:neocomplete#keyword_patterns')
-"     let g:neocomplete#keyword_patterns = {}
-" endif
-" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
 inoremap <expr><C-g>     deoplete#undo_completion()
-inoremap <expr><C-l>     deoplete#complete_common_string()
+" inoremap <expr><C-l>     deoplete#complete_common_string()
 
-" Recommended key-mappings.
 " <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<CR>"
+" <Space>: close popup by <Space>.
+inoremap <expr><Space> pumvisible() ? "\<C-y>\<Space>" : "\<Space>"
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+inoremap <expr><TAB>
+\ pumvisible() ? "\<C-n>" :
+\ neosnippet#expandable_or_jumpable() ?
+\    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+snoremap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+inoremap <expr><C-y> neosnippet#expandable_or_jumpable() ? 
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<Enter>"
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -221,22 +216,6 @@ endif
 " https://github.com/c9s/perlomni.vim
 let g:deoplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-" Plugin key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <Leader>j     <Plug>(neosnippet_expand_or_jump)
-smap <Leader>j     <Plug>(neosnippet_expand_or_jump)
-xmap <Leader>j     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <Leader>j     <Plug>(neosnippet_expand_or_jump)
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
 " For conceal markers.
 if has('conceal')
   set conceallevel=2 concealcursor=niv
@@ -244,10 +223,6 @@ endif
 
 " Enable snipMate compatibility feature.
 let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets/'
-
 " }}}
 
 " Folding plugins
@@ -272,7 +247,7 @@ Plug 'reedes/vim-pencil'
 " Movement / file browsing plugins {{{
 Plug 'scrooloose/nerdtree'
 " Plug 'tpope/vim-vinegar'
-Plug 'vim-scripts/bufexplorer.zip'
+" Plug 'vim-scripts/bufexplorer.zip'
 Plug 'majutsushi/tagbar'
 Plug 'justinmk/vim-dirvish'
 " Plug 'vim-scripts/VOoM'
@@ -924,7 +899,6 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 
 " Shortcut to writing a file as root from non-root vim
 cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
-
 
 " Searching options
 set incsearch  " search while you're typing the search string
