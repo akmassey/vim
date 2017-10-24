@@ -20,7 +20,9 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-sensible'
+if !has('nvim')
+  Plug 'tpope/vim-sensible'
+endif
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-textobj-delimited'
 Plug 'chrisbra/vim-diff-enhanced'
@@ -45,7 +47,7 @@ let g:ale_sign_warning = 'WW'
 let g:ale_echo_msg_error_str = 'Error'
 let g:ale_echo_msg_warning_str = 'Warning'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" Plug 'ervandew/supertab'
+
 " Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
@@ -62,15 +64,103 @@ Plug 'Keithbsmiley/investigate.vim'
 Plug 'powerman/vim-plugin-viewdoc'
 " }}}
 
+" " SuperTab {{{
+Plug 'ervandew/supertab'
+" let g:SuperTabDefaultCompletionType = 'context'
+" autocmd FileType *
+"       \ if &omnifunc != '' |
+"       \   call SuperTabChain(&omnifunc, "<c-p>") |
+"       \ endif
+" " Don't complete at the start of a line or after whitespace
+" let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
+" " }}}
+
+" YouCompleteMe {{{
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+" }}}
+
+" UltiSnips {{{
+Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
+
+" Force Python2 for YCM compatibility
+let g:UltiSnipsUsePythonVersion = 3
+
+let g:UltiSnipsExpandTrigger="<Leader>j"
+let g:UltiSnipsJumpForwardTrigger="<Leader>j"
+let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
+
+function! g:UltiSnips_Complete()
+  call UltiSnips#ExpandSnippet()
+  if g:ulti_expand_res == 0
+    if pumvisible()
+      return "\<C-n>"
+    else
+      call UltiSnips#JumpForwards()
+      if g:ulti_jump_forwards_res == 0
+        return "\<TAB>"
+      endif
+    endif
+  endif
+  return ""
+endfunction
+
+function! g:UltiSnips_Reverse()
+  call UltiSnips#JumpBackwards()
+  if g:ulti_jump_backwards_res == 0
+    return "\<C-P>"
+  endif
+
+  return ""
+endfunction
+
+
+if !exists("g:UltiSnipsJumpForwardTrigger")
+  let g:UltiSnipsJumpForwardTrigger = "<tab>"
+endif
+
+if !exists("g:UltiSnipsJumpBackwardTrigger")
+  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+endif
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
+
+let g:UltiSnipsSnippetsDir=$HOME.".vim/UltiSnips"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "plugged/vim-snippets/UltiSnips/"]
+let g:UltiSnipsEnableSnipMate=0
+let g:UltiSnipsEditSplit="vertical"
+
+" vim-snippets variables:
+let g:snips_author = "Aaron Massey"
+let g:snips_email = "akmassey@umbc.edu"
+let g:snips_github = "https://github.com/akmassey"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+" }}}
+
 " " nvim-completion-manager {{{
 " Plug 'roxma/nvim-completion-manager'
 " Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+
 " " Requires vim8 with has('python') or has('python3')
 " " Requires the installation of msgpack-python. (pip install msgpack-python)
 " if !has('nvim')
 "     Plug 'roxma/vim-hug-neovim-rpc'
 " endif
+
+" " To manage required python3 modules
 " Plug 'roxma/python-support.nvim'
+
 " " for python completions
 " let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'jedi')
 " " language specific completions on markdown file
@@ -80,9 +170,18 @@ Plug 'powerman/vim-plugin-viewdoc'
 " let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'psutil')
 " let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'setproctitle')
 
+" " Ensure UltiSnips is recognized
+" let g:cm_completed_snippet_engine = "ultisnips"
+
 " " tab completion, replaces SuperTab
 " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" " " to complete snippets with <Enter> in the popup menu
+" " inoremap <expr> <silent> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<C-g>u<CR>")
+" " inoremap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
+
+" " inoremap <expr> <silent> <cr> pumvisible() ? "<c-y>" : "<c-g>u<cr>"
 " " }}}
 
 " " completer.vim {{{
@@ -102,9 +201,12 @@ Plug 'junegunn/fzf.vim'
 
 " Configure fzf using Homebrew
 set rtp+=/usr/local/opt/fzf
+
+" Replace ctrlP
 nnoremap <C-p> :Files<CR>
-" TODO: Create a <C-e> mapping that you can use to open any file in your home
-" directory.
+
+" Search for any file in the home directory
+nnoremap <C-e> :Files ~<CR>
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
@@ -118,6 +220,13 @@ Plug 'mileszs/ack.vim'
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
+endif
+
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
+  set grepprg=rg\ --vimgrep
+
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 " }}}
 
@@ -142,87 +251,71 @@ Plug 'rizzatti/funcoo.vim'
 Plug 'rizzatti/dash.vim'
 " }}}
 
-" Snippets and Completion {{{
-" Plug "MarcWeber/vim-addon-mw-utils"
-" Plug "tomtom/tlib_vim"
-" Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
+" deoplete and neosnippet for Completion {{{
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
 
-Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
+" "Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+" " Disable AutoComplPop.
+" let g:acp_enableAtStartup = 0
+" " Use deoplete.
+" let g:deoplete#enable_at_startup = 1
+" " Use smartcase.
+" let g:deoplete#enable_smart_case = 1
+" " Set minimum syntax keyword length.
+" let g:deoplete#auto_complete_start_length = 4
+" " Add a bit more delay before completion
+" let g:deoplete#auto_complete_delay = 100
 
-"Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-" Use smartcase.
-let g:deoplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:deoplete#auto_complete_start_length = 4
-" Add a bit more delay before completion
-let g:deoplete#auto_complete_delay = 100
+" inoremap <expr><C-g>     deoplete#undo_completion()
+" " inoremap <expr><C-l>     deoplete#complete_common_string()
 
-inoremap <expr><C-g>     deoplete#undo_completion()
-" inoremap <expr><C-l>     deoplete#complete_common_string()
+" " <CR>: close popup and save indent.
+" " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" " inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<CR>"
+" " <Space>: close popup by <Space>.
+" inoremap <expr><Space> pumvisible() ? "\<C-y>\<Space>" : "\<Space>"
+" " <TAB>: completion.
+" " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+" " <C-h>, <BS>: close popup and delete backword char.
+" inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
 
-" <CR>: close popup and save indent.
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<CR>"
-" <Space>: close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? "\<C-y>\<Space>" : "\<Space>"
-" <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+" " SuperTab like snippets behavior.
+" " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+" inoremap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" snoremap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-inoremap <expr><TAB>
-\ pumvisible() ? "\<C-n>" :
-\ neosnippet#expandable_or_jumpable() ?
-\    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-snoremap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" inoremap <expr><C-y> neosnippet#expandable_or_jumpable() ? 
+" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<Enter>"
 
-inoremap <expr><C-y> neosnippet#expandable_or_jumpable() ? 
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<Enter>"
+" " Enable heavy omni completion.
+" if !exists('g:deoplete#sources#omni#input_patterns')
+"   let g:deoplete#sources#omni#input_patterns = {}
+" endif
+" "let g:deoplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" "let g:deoplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+" "let g:deoplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" " For perlomni.vim setting.
+" " https://github.com/c9s/perlomni.vim
+" let g:deoplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-" Enable heavy omni completion.
-if !exists('g:deoplete#sources#omni#input_patterns')
-  let g:deoplete#sources#omni#input_patterns = {}
-endif
-"let g:deoplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:deoplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:deoplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:deoplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
+" " Enable snipMate compatibility feature.
+" let g:neosnippet#enable_snipmate_compatibility = 1
 " }}}
 
 " Folding plugins
@@ -254,8 +347,12 @@ Plug 'justinmk/vim-dirvish'
 " }}}
 
 " Terminal or tmux vim plugins
+if has('nvim')
+  set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+    \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+    \,sm:block-blinkwait175-blinkoff150-blinkon175
+endif
 " Plug 'sjl/vitality.vim'
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1  " environment variable needed for nvim cursor shapes
 let g:vitality_fix_focus=0  " don't enable focus events
 Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
@@ -686,15 +783,6 @@ highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
 " }}}
 
-" " Use context-based completion in SuperTab
-" let g:SuperTabDefaultCompletionType = 'context'
-" autocmd FileType *
-"       \ if &omnifunc != '' |
-"       \   call SuperTabChain(&omnifunc, "<c-p>") |
-"       \ endif
-" " Don't compelete at the start of a line or after whitespace
-" let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
-
 " LatexBox settings {{{
 " Currently, there's a bug in vimtex that doesn't let SuperTab work
 " let g:vimtex_complete_enabled=0
@@ -782,20 +870,6 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
-
-" UltiSnips Settings {{{
-let g:UltiSnipsExpandTrigger="<Leader>j"
-let g:UltiSnipsJumpForwardTrigger="<Leader>j"
-let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
-let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnips"]
-let g:UltiSnipsEnableSnipMate=0
-let g:UltiSnipsEditSplit="vertical"
-
-" vim-snippets variables:
-let g:snips_author = "Aaron Massey"
-let g:snips_email = "akmassey@umbc.edu"
-let g:snips_github = "https://github.com/akmassey"
-" }}}
 
 " Clear the search buffer when hitting return
 nnoremap <CR> :nohlsearch<cr>
@@ -983,16 +1057,6 @@ map <Leader>d :call Preserve("%s/\\r/\\r/g")<CR>
 "   Hit <Leader><Enter> in any test file to save and run it.
 "   Hit <Leader><Enter> in any other file to save it and rerun the last test.
 let g:TestKey = { 'testkey': '<Leader><Enter>' }
-
-" The Silver Searcher {{{
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
-
-" bind K to grep word under cursor
-nnoremap <Leader>k :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-" }}}
 
 " viewdoc settings {{{
 let g:viewdoc_open = 'new'
