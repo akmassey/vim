@@ -77,6 +77,7 @@ Plug 'ervandew/supertab'
 
 " YouCompleteMe {{{
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+let g:ycm_min_num_identifier_candidate_chars = 2
 " }}}
 
 " UltiSnips {{{
