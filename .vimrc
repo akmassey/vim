@@ -15,6 +15,7 @@ Plug 'tpope/vim-abolish'  " Press crs (coerce to snake_case). MixedCase (crm), c
 Plug 'tpope/vim-repeat'   " to repeat Plugin-mapped commands
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-dispatch' " for asyncrhonous Make
+Plug 'radenling/vim-dispatch-neovim'
 Plug 'tpope/vim-rsi'
 " Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-eunuch'
