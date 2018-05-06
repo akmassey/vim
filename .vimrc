@@ -17,7 +17,7 @@ Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-dispatch' " for asyncrhonous Make
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'tpope/vim-rsi'
-" Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-speeddating'
