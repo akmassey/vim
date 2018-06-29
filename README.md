@@ -22,7 +22,7 @@ my file system:
 I'm [managing these files using stow][1].  If you wanted to do the same, don't
 forget to ignore the readme when you deploy it:
 
-    stow --ignore "README.md|LICENSE.md" vim
+    stow --ignore "tags|README.md|LICENSE.md" vim
 
 Please also note that I'm using [vim-plug][2] to manage my plugins.  If you're
 just cloning this repository, then you should install Vundle:
