@@ -4,3 +4,4 @@
 .vim/bundle
 .vim-backup
 .vim-swapfiles
+.vim/undos
