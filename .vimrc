@@ -324,8 +324,10 @@ Plug 'rizzatti/dash.vim'
 " Plug 'bimbalaszlo/vim-eightheader'
 
 " LaTeX related plugins {{{
-" Plug 'lervag/vimtex'
-Plug 'LaTeX-Box-Team/LaTeX-Box'
+" Plug 'vim-latex/vim-latex'
+Plug 'lervag/vimtex'
+" Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
+" Plug 'LaTeX-Box-Team/LaTeX-Box'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
 " }}}
