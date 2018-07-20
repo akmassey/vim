@@ -790,10 +790,11 @@ highlight SpecialKey guifg=#4a4a59
 " LatexBox settings {{{
 " Currently, there's a bug in vimtex that doesn't let SuperTab work
 " let g:vimtex_complete_enabled=0
-let g:LatexBox_Folding=1
-let g:LatexBox_latexmk_options = "-bibtex -pdf"
-let g:LatexBox_latexmk_preview_continuously=1
-let g:LatexBox_quickfix=2
+let g:vimtex_compiler_progname='nvr'
+" let g:LatexBox_Folding=1
+" let g:LatexBox_latexmk_options = "-bibtex -pdf"
+" let g:LatexBox_latexmk_preview_continuously=1
+" let g:LatexBox_quickfix=2
 " let g:LatexBox_quickfix=4 " only open errors in the quickfix list
 " let g:LatexBox_show_warnings=0 " don't show warnings as errors
 
