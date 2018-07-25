@@ -62,7 +62,30 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'myusuf3/numbers.vim'
 Plug 'ktonga/vim-follow-my-lead'
 Plug 'Keithbsmiley/investigate.vim'
+" viewdoc settings {{{
 Plug 'powerman/vim-plugin-viewdoc'
+let g:viewdoc_open = 'vnew'
+" }}}
+" Startify settings {{{
+Plug 'mhinz/vim-startify'
+let g:startify_custom_header =
+        \ map(split(system('fortune /Users/masseya/Documents/Fortunes/akm-quotes'), '\n'), '"   ". v:val')
+
+let g:startify_fortune_use_unicode = 1
+let g:startify_files_number = 5
+let g:startify_bookmarks = [ {'c': '~/dotfiles/vim/.vimrc'},
+      \ {'z': '~/dotfiles/zsh/.zshrc'},
+      \ {'m': '~/.mutt/muttrc'},
+      \ ]
+
+let g:startify_lists = [
+      \ { 'type': 'files',     'header': ['   Most Recent Files']            },
+      \ { 'type': 'dir',       'header': ['   Most Recent Files from '. getcwd()] },
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+      \ { 'type': 'commands',  'header': ['   Commands']       },
+      \ ]
+" }}}
 " }}}
 
 " " SuperTab {{{
@@ -1063,9 +1086,6 @@ map <Leader>d :call Preserve("%s/\\r/\\r/g")<CR>
 "   Hit <Leader><Enter> in any other file to save it and rerun the last test.
 let g:TestKey = { 'testkey': '<Leader><Enter>' }
 
-" viewdoc settings {{{
-let g:viewdoc_open = 'new'
-" }}}
 
 " NERDTree Settings {{{
 " Start NERDTree when opening vim
