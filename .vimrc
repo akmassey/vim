@@ -73,9 +73,10 @@ let g:startify_custom_header =
 
 let g:startify_fortune_use_unicode = 1
 let g:startify_files_number = 5
-let g:startify_bookmarks = [ {'c': '~/dotfiles/vim/.vimrc'},
-      \ {'z': '~/dotfiles/zsh/.zshrc'},
+let g:startify_bookmarks = [ {'f': '~/.fortune'},
       \ {'m': '~/.mutt/muttrc'},
+      \ {'v': '~/dotfiles/vim/.vimrc'},
+      \ {'z': '~/dotfiles/zsh/.zshrc'},
       \ ]
 
 let g:startify_lists = [
@@ -349,6 +350,7 @@ Plug 'rizzatti/dash.vim'
 " LaTeX related plugins {{{
 " Plug 'vim-latex/vim-latex'
 Plug 'lervag/vimtex'
+let g:vimtex_syntax_enabled=0
 " Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
 " Plug 'LaTeX-Box-Team/LaTeX-Box'
 " Plug 'vim-pandoc/vim-pandoc'
@@ -558,6 +560,7 @@ let g:airline_powerline_fonts = 1
 
 " Set airline colorscheme
 let g:airline_theme = 'jellybeans'
+" let g:airline_theme = 'papercolor'
 
 " Let airline clean up the tabline as well
 let g:airline#extensions#tabline#enabled = 1
@@ -604,13 +607,14 @@ set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
 " }}}
 
 " non-GUI colorschemes
-" set background=dark
+set background=dark
 " colorscheme solarized
 " colorscheme darkerdesert
 " colorscheme wombat
 " colorscheme tomorrow-night-bright
-colorscheme jellybeans
 " colorscheme tender
+colorscheme jellybeans
+" colorscheme papercolor
 if has("termguicolors")
   set termguicolors
 endif
