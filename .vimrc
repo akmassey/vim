@@ -906,10 +906,10 @@ nnoremap <c-l> <c-w>l
 " Clear the search buffer when hitting return
 nnoremap <CR> :nohlsearch<cr>
 
-" Enter a blank line above and below without entering insert mode
-nnoremap <S-Enter> O<Esc>jo<Esc>
-" Same as above, but reflow the line
-nnoremap <C-Enter> O<Esc>jo<Esc>kgqap
+" TODO: Clean this up and pick one.
+" Add space above and below the current line
+nnoremap <Leader>o O<Esc>jo<Esc>k
+vnoremap <Leader>o c<Esc>o<Esc>P
 
 " Preserve Commands {{{
 " A command to preserve last search and cursor position after running another
