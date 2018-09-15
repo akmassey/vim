@@ -453,12 +453,23 @@ Plug 'cespare/vim-toml'
 " Google Go support
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 
-" Rust support
+" Rust support {{{
 Plug 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+"}}}
 
-" Testing support
-" Plug 'botandrose/vim-testkey'
+" Testing support with vim-test {{{
 Plug 'janko-m/vim-test'
+
+" make test commands execute using dispatch.vim
+let test#strategy = "dispatch"
+let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
+nnoremap <silent> <Leader>t :TestNearest<CR>
+nnoremap <silent> <Leader>T :TestFile<CR>
+nnoremap <silent> <Leader>a :TestSuite<CR>
+nnoremap <silent> <Leader>l :TestLast<CR>
+nnoremap <silent> <Leader>g :TestVisit<CR>
+" }}}
 
 " Colorschemes {{{
 Plug 'chriskempson/vim-tomorrow-theme'
@@ -788,17 +799,6 @@ snoremap <C-S> [s1z=
 
 " Toggle Undotree {{{
 nnoremap <Leader>u :UndotreeToggle<CR>
-" }}}
-
-" vim-test mappings {{{
-" make test commands execute using dispatch.vim
-let test#strategy = "dispatch"
-let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
-nnoremap <silent> <Leader>t :TestNearest<CR>
-nnoremap <silent> <Leader>T :TestFile<CR>
-nnoremap <silent> <Leader>a :TestSuite<CR>
-nnoremap <silent> <Leader>l :TestLast<CR>
-nnoremap <silent> <Leader>g :TestVisit<CR>
 " }}}
 
 " Invisibles Settings {{{
