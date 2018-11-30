@@ -1014,11 +1014,9 @@ set smartcase  " but if we search for big letters, make search case sensitive ag
 
 " Correct for common command typos and mis-keys {{{
 command! W w
+command! Wq wq
 command! Wa wall
-command! Q q
-command! Qall qall
-command! Qq qall
-command! Wqq wqall
+command! Wqa wqall
 command! WQa wqall
 " }}}
 
