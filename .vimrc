@@ -234,6 +234,9 @@ nnoremap <C-p> :Files<CR>
 " Search for any file in the home directory
 nnoremap <C-e> :Files ~<CR>
 
+" Search for an open buffer
+nnoremap <Leader>b :Buffers<CR>
+
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 
