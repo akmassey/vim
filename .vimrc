@@ -367,6 +367,8 @@ Plug 'reedes/vim-textobj-quote'
 Plug 'reedes/vim-textobj-sentence'
 Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-pencil'
+Plug 'itspriddle/vim-marked'  " to open things in Marked or Marked 2
+:nnoremap <Leader>m :MarkedOpen
 " }}}
 
 " Movement / file browsing plugins {{{
@@ -863,9 +865,6 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 " }}}
-
-" Allow easy opening of files in Marked
-:nnoremap <Leader>m :silent !open -a "Marked 2.app" '%:p'<cr>:redraw!<cr>
 
 " OS X only due to use of `open`. Adapted from
 " http://vim.wikia.com/wiki/Open_a_web-browser_with_the_URL_in_the_current_line
