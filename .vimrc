@@ -368,6 +368,8 @@ Plug 'reedes/vim-textobj-sentence'
 Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-pencil'
 Plug 'itspriddle/vim-marked'  " to open things in Marked or Marked 2
+let g:marked_app = "Marked"
+let g:marked_filetypes = ["markdown", "mkd", "md", "ghmarkdown", "vimwiki"]
 :nnoremap <Leader>m :MarkedOpen
 " }}}
 
