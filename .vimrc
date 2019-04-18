@@ -65,6 +65,7 @@ Plug 'Keithbsmiley/investigate.vim'
 " viewdoc settings {{{
 Plug 'powerman/vim-plugin-viewdoc'
 let g:viewdoc_open = 'vnew'
+let g:no_viewdoc_maps = 1
 " }}}
 " Startify settings {{{
 Plug 'mhinz/vim-startify'
@@ -550,8 +551,10 @@ set scrolloff=3
 " Set the title when you're in terminal mode
 set title
 
-" Alternative to escape
+" Alternatives to escape
 inoremap jk <Esc>
+map <F1> <Esc>
+imap <F1> <Esc>
 " }}}
 
 " Folding Settings {{{
