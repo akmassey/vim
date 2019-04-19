@@ -62,22 +62,22 @@ endsnippet
 
 snippet table "Create a simple table" b
 \begin{table}[htbp]
-\centering
-\caption{${1:caption}}
-\label{tab:${2:label}}
-\begin{tabular}{llr}
-\toprule
-\multicolumn{2}{c}{Item} & \\\\
-\cmidrule(r){1-2}
-Animal                   & Description & Price \\\\
-\midrule
-Gnat      & per gram & 13.65  \\\\
-          & each     & 0.0173 \\\\
-Gnu       & stuffed  & 92.59  \\\\
-Emu       & stuffed  & 33.33  \\\\
-Armadillo & frozen   & 8.99   \\\\
-\bottomrule
-\end{tabular}
+  \centering
+  \caption{${1:caption}}%
+  \label{tab:${2:label}}
+  \begin{tabular}{llr}
+    \toprule
+    \multicolumn{2}{c}{Item} & \\\\
+    \cmidrule(r){1-2}
+    Animal                   & Description & Price \\\\
+    \midrule
+    Gnat      & per gram & 13.65  \\\\
+              & each     & 0.0173 \\\\
+    Gnu       & stuffed  & 92.59  \\\\
+    Emu       & stuffed  & 33.33  \\\\
+    Armadillo & frozen   & 8.99   \\\\
+    \bottomrule
+  \end{tabular}
 \end{table}
 endsnippet
 
@@ -85,7 +85,7 @@ snippet figure "Create a simple figure." b
 \begin{figure*}[!hbtp]
   \centering
   \includegraphics[width=\textwidth]{img/${1:figure.pdf}}
-  \caption{${2:caption}}
+  \caption{${2:caption}}%
   \label{fig:${3:label}}
 \end{figure*}
 endsnippet
