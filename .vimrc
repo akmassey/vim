@@ -370,6 +370,7 @@ Plug 'reedes/vim-textobj-quote'
 Plug 'reedes/vim-textobj-sentence'
 Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-pencil'
+Plug 'christoomey/vim-titlecase'
 Plug 'itspriddle/vim-marked'  " to open things in Marked or Marked 2
 let g:marked_app = "Marked"
 let g:marked_filetypes = ["markdown", "mkd", "md", "ghmarkdown", "vimwiki"]
