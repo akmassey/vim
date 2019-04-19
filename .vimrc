@@ -248,10 +248,12 @@ Plug 'junegunn/vim-slash'
 Plug 'wincent/scalpel'  " for improved search/replace for words under the cursor
 Plug 'mileszs/ack.vim'
 
+" prefer the silver searcher for vim, if it is available
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
+" prefer ripgrep and fzf for vim, if it is available
 if executable('rg')
   let g:ackprg = 'rg --vimgrep'
   set grepprg=rg\ --vimgrep
