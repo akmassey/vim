@@ -461,13 +461,18 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 " TOML syntax
 Plug 'cespare/vim-toml'
 
-" Google Go support
+" Google Go support {{{
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+"}}}
 
 " Rust support {{{
 Plug 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
 "}}}
+
+" Swift Support {{{
+Plug 'keith/swift.vim'
+" }}}
 
 " Testing support with vim-test {{{
 Plug 'janko-m/vim-test'
