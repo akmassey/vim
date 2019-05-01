@@ -48,6 +48,11 @@ let g:ale_sign_warning = 'WW'
 let g:ale_echo_msg_error_str = 'Error'
 let g:ale_echo_msg_warning_str = 'Warning'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" I would like to disable ale entirely for the 'mail' filetype, but this seems
+" good enough for now.
+let g:ale_linters = {
+\   'mail': [],
+\}
 
 " Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
@@ -765,7 +770,9 @@ if has("autocmd")
   au FileType mail set spell
   au FileType mail set colorcolumn=78
   au FileType mail call goyo#execute(0, 85)
-  au BufNewFile,BufRead ~/.mutt/temp/mutt-* execute 'normal gg}'
+  " au FileType mail call ale#ale_disable()
+  au FileType mail execute 'normal gg}'
+  " au BufNewFile,BufRead ~/.mutt/temp/mutt-* execute 'normal gg}'
   " }}}
 
   " Ensure spell checking is enabled for LaTeX and Markdown
