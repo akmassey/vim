@@ -36,10 +36,7 @@ Plug 'akmassey/vim-cheat' " personal vim cheatsheet
 " Plug 'gorkunov/smartpairs.vim'
 " }}}
 
-" Slightly less baseline plugins {{{
-" Plug 'scrooloose/syntastic'
-" let g:syntastic_mode_map = { "mode": "active", "passive_filetypes": ["python"] }
-" Plug 'akmassey/syntastic_proselint'
+" Asynchronous Linting Engine configuration {{{
 Plug 'w0rp/ale'
 nmap <silent> [w <Plug>(ale_previous_wrap)
 nmap <silent> ]w <Plug>(ale_next_wrap)
@@ -52,8 +49,22 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " good enough for now.
 let g:ale_linters = {
 \   'mail': [],
+\   'javascript': ['prettier', 'eslint'],
+\   'tex': ['chktex', 'proselint', 'redpen', 'textlint', 'vale'],
 \}
 
+let g:ale_fixers = {
+\   'javascript': ['prettier', 'eslint'],
+\}
+
+let g:ale_fix_on_save = 1
+" }}}
+
+
+" Slightly less baseline plugins {{{
+" Plug 'scrooloose/syntastic'
+" let g:syntastic_mode_map = { "mode": "active", "passive_filetypes": ["python"] }
+" Plug 'akmassey/syntastic_proselint'
 " Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
@@ -267,6 +278,15 @@ if executable('rg')
 endif
 " }}}
 
+" A plugin that executes files with a shebang and puts the output in a buffer {{{
+Plug 'fboender/bexec'
+let g:bexec_splitdir="ver"
+" }}}
+
+" Use <Leader>ww to mark and swap windows {{{
+Plug 'wesQ3/vim-windowswap'
+" }}}
+
 " Random Language or Markup related plugins {{{
 Plug 'tpope/vim-haml'
 Plug 'mustache/vim-mustache-handlebars'
@@ -362,6 +382,14 @@ Plug 'rizzatti/dash.vim'
 " Plug 'vim-latex/vim-latex'
 Plug 'lervag/vimtex'
 let g:vimtex_syntax_enabled=0
+" Disable overfull/underfull \hbox and all package warnings
+let g:vimtex_quickfix_latexlog = {
+      \ 'overfull' : 0,
+      \ 'underfull' : 0,
+      \ 'packages' : {
+      \   'default' : 0,
+      \ },
+      \}
 " Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
 " Plug 'LaTeX-Box-Team/LaTeX-Box'
 " Plug 'vim-pandoc/vim-pandoc'
@@ -391,7 +419,7 @@ Plug 'justinmk/vim-dirvish'
 " Plug 'vim-scripts/VOoM'
 " }}}
 
-" Terminal or tmux vim plugins
+" Terminal or tmux vim plugins {{{
 if has('nvim')
   set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
     \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
@@ -417,11 +445,13 @@ if !has('gui_running')
     set term=xterm-256color
   endif
 endif
+" }}}
 
-" Git related plugins plugins
+" Git related plugins plugins {{{
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
 " Plug 'mhinz/vim-signify'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+" }}}
 
 " Ruby related plugins {{{
 Plug 'tpope/vim-rails'
@@ -435,6 +465,7 @@ Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'moll/vim-node'
 " Plug 'HerringtonDarkholme/yats.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'leshill/vim-json'
 Plug 'kchmck/vim-coffee-script'
 " }}}
 
@@ -508,8 +539,9 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'jacoborus/tender.vim'
 " }}}
 
-" we want this one to load last
+" Load devicons last {{{
 Plug 'ryanoasis/vim-devicons'
+" }}}
 
 call plug#end()
 
@@ -518,8 +550,8 @@ if !has('nvim')
   packadd! matchit
 endif
 
-" AKM Reminder -- You can use :scriptnames to see which scripts are executed
-" when loading vim.
+" Reminder -- You can use :scriptnames to see which scripts are executed when
+" loading vim.
 
 " Map the leader to something more reasonable.  Also, keep the reverse
 " motion command available by mapping it to the old leader key.
@@ -777,6 +809,10 @@ if has("autocmd")
 
   " Ensure spell checking is enabled for LaTeX and Markdown
   au FileType plaintex,context,tex,latex,markdown set spell
+
+  " vimtex would otherwise hide things like boldface and italics commands
+  " au FileType plaintex,context,tex,latex,markdown set conceallevel=0
+  " au FileType plaintex,context,tex,latex,markdown set concealcursor=""
 
   " Word count macro for LaTeX
   au FileType plaintex,context,tex,latex nmap <Leader>w :!texcount %<CR>
