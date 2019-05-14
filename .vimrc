@@ -6,6 +6,10 @@ set nocompatible
 " initialize vim-plug
 call plug#begin('~/.vim/plugged')
 
+" TODO: Consider enabling Plug 'sheerun/vim-polyglot'
+"
+" TODO: Create a mapping for the :BTags command from FZF
+
 " Baseline Plugins {{{
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
@@ -407,7 +411,7 @@ Plug 'christoomey/vim-titlecase'
 Plug 'itspriddle/vim-marked'  " to open things in Marked or Marked 2
 let g:marked_app = "Marked"
 let g:marked_filetypes = ["markdown", "mkd", "md", "ghmarkdown", "vimwiki"]
-:nnoremap <Leader>m :MarkedOpen
+nnoremap <Leader>m :MarkedOpen
 " }}}
 
 " Movement / file browsing plugins {{{
@@ -466,6 +470,8 @@ Plug 'moll/vim-node'
 " Plug 'HerringtonDarkholme/yats.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'leshill/vim-json'
+Plug 'mxw/vim-jsx'
+let g:jsx_ext_required = 1  " don't enable this for *.js files, just *.jsx
 Plug 'kchmck/vim-coffee-script'
 " }}}
 
@@ -817,6 +823,9 @@ if has("autocmd")
   " Word count macro for LaTeX
   au FileType plaintex,context,tex,latex nmap <Leader>w :!texcount %<CR>
 
+  " Replace macros for quotes, requires textobj-quote
+  au FileType plaintex,context,tex,latex map <silent> <leader>qc <Plug>ReplaceWithCurly
+  au FileType plaintex,context,tex,latex map <silent> <leader>qs <Plug>ReplaceWithStraight
 endif
 
 " Automatically convert things to smartquotes for these filetypes
