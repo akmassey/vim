@@ -382,10 +382,6 @@ Plug 'vim-scripts/ruby-matchit'
 Plug 'nelstrom/vim-textobj-rubyblock'
 " }}}
 
-" Crystalrelated plugins {{{
-Plug 'rhysd/vim-crystal'
-" }}}
-
 " JavaScript related plugins {{{
 Plug 'moll/vim-node'
 " Plug 'HerringtonDarkholme/yats.vim'
