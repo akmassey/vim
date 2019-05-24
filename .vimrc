@@ -6,8 +6,6 @@ set nocompatible
 " initialize vim-plug
 call plug#begin('~/.vim/plugged')
 
-" TODO: Consider enabling Plug 'sheerun/vim-polyglot'
-"
 " TODO: Create a mapping for the :BTags command from FZF
 
 " Baseline Plugins {{{
@@ -195,52 +193,7 @@ if has('conceal')
 endif
 " }}}
 
-" " nvim-completion-manager {{{
-" Plug 'roxma/nvim-completion-manager'
-" Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
-
-" " Requires vim8 with has('python') or has('python3')
-" " Requires the installation of msgpack-python. (pip install msgpack-python)
-" if !has('nvim')
-"     Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-
-" " To manage required python3 modules
-" Plug 'roxma/python-support.nvim'
-
-" " for python completions
-" let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'jedi')
-" " language specific completions on markdown file
-" let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'mistune')
-
-" " utils, optional
-" let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'psutil')
-" let g:python_support_python3_requirements = add(get(g:,'python_support_python3_requirements',[]),'setproctitle')
-
-" " Ensure UltiSnips is recognized
-" let g:cm_completed_snippet_engine = "ultisnips"
-
-" " tab completion, replaces SuperTab
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" " " to complete snippets with <Enter> in the popup menu
-" " inoremap <expr> <silent> <CR>  (pumvisible() ?  "\<c-y>\<Plug>(expand_or_nl)" : "\<C-g>u<CR>")
-" " inoremap <expr> <Plug>(expand_or_nl) (cm#completed_is_snippet() ? "\<C-U>":"\<CR>")
-
-" " inoremap <expr> <silent> <cr> pumvisible() ? "<c-y>" : "<c-g>u<cr>"
-" " }}}
-
-" " completer.vim {{{
-" Plug 'maralla/completor.vim'
-" let g:completer_python_binary = '/usr/local/bin/python3'
-" let g:completer_node_binary = '/Users/masseya/.nvm/versions/node/v6.3.0/bin/node'
-" let g:completer_min_chars = 4
-" " }}}
-
 " Search-related plugins {{{
-" Commenting this out in favor of sneak
-" Plug 'Lokaltog/vim-easymotion'
 Plug 'justinmk/vim-sneak'
 Plug 'nelstrom/vim-visual-star-search'
 
@@ -257,6 +210,10 @@ nnoremap <C-e> :Files ~<CR>
 
 " Search for an open buffer
 nnoremap <Leader>b :Buffers<CR>
+
+" TODO: Possible mappings for these?
+" nnoremap <Leader>somethign :BTags [QUERY]  " searches for tags in buffer
+" nnoremap <Leader>somethign :Tags [QUERY]  " searches for tags in project
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
@@ -304,86 +261,12 @@ Plug 'sukima/xmledit'
 Plug 'vim-scripts/CheckAttach.vim'
 " }}}
 
-" epub plugins
-" Plug 'etnadji/vim-epub'
-
 " Dash plugins {{{
 Plug 'rizzatti/funcoo.vim'
 Plug 'rizzatti/dash.vim'
 " }}}
 
-" deoplete and neosnippet for Completion {{{
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-
-" Plug 'Shougo/neosnippet' | Plug 'Shougo/neosnippet-snippets'
-
-" "Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" " Disable AutoComplPop.
-" let g:acp_enableAtStartup = 0
-" " Use deoplete.
-" let g:deoplete#enable_at_startup = 1
-" " Use smartcase.
-" let g:deoplete#enable_smart_case = 1
-" " Set minimum syntax keyword length.
-" let g:deoplete#auto_complete_start_length = 4
-" " Add a bit more delay before completion
-" let g:deoplete#auto_complete_delay = 100
-
-" inoremap <expr><C-g>     deoplete#undo_completion()
-" " inoremap <expr><C-l>     deoplete#complete_common_string()
-
-" " <CR>: close popup and save indent.
-" " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" " inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<CR>"
-" " <Space>: close popup by <Space>.
-" inoremap <expr><Space> pumvisible() ? "\<C-y>\<Space>" : "\<Space>"
-" " <TAB>: completion.
-" " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-" " <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
-
-" " SuperTab like snippets behavior.
-" " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-" inoremap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" snoremap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" inoremap <expr><C-y> neosnippet#expandable_or_jumpable() ? 
-" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<Enter>"
-
-" " Enable heavy omni completion.
-" if !exists('g:deoplete#sources#omni#input_patterns')
-"   let g:deoplete#sources#omni#input_patterns = {}
-" endif
-" "let g:deoplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" "let g:deoplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-" "let g:deoplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" " For perlomni.vim setting.
-" " https://github.com/c9s/perlomni.vim
-" let g:deoplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
-" " Enable snipMate compatibility feature.
-" let g:neosnippet#enable_snipmate_compatibility = 1
-" }}}
-
-" Folding plugins
-" Plug 'bimbalaszlo/vim-eightheader'
-
 " LaTeX related plugins {{{
-" Plug 'vim-latex/vim-latex'
 Plug 'lervag/vimtex'
 let g:vimtex_syntax_enabled=0
 " Disable overfull/underfull \hbox and all package warnings
@@ -394,10 +277,40 @@ let g:vimtex_quickfix_latexlog = {
       \   'default' : 0,
       \ },
       \}
-" Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
-" Plug 'LaTeX-Box-Team/LaTeX-Box'
+Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
+"
+" Currently, there's a bug in vimtex that doesn't let SuperTab work
+" let g:vimtex_complete_enabled=0
+let g:vimtex_compiler_progname='nvr'
+
+" Set FastFold options
+let g:tex_fold_enabled=1
+let g:vimsyn_folding='af'
+let g:xml_syntax_folding = 1
+
+" Toggle the display of the LaTeX Table of Contents window
+nnoremap <LocalLeader>lt :LatexTOCToggle<CR>
+" Other LaTeX mappings:
+"
+"<LocalLeader>ll                                                     |:Latexmk|
+"        Compile with latexmk.
+"<LocalLeader>lL                                                    |:Latexmk!|
+"        Force compilation with latexmk.
+"<LocalLeader>lc                                                |:LatexmkClean|
+"        Clean temporary output from LaTeX.
+"<LocalLeader>lC                                               |:LatexmkClean!|
+"        Clean all output from LaTeX.
+"<LocalLeader>lk                                                 |:LatexmkStop|
+"        Stop latexmk if it is running.
+"<LocalLeader>lg                                               |:LatexmkStatus|
+"        Show the running status of latexmk for the current buffer.
+"<LocalLeader>lG                                              |:LatexmkStatus!|
+"        Show the running status of latexmk for all buffers with process group
+"        ID's.
+"<LocalLeader>le                                                 |:LatexErrors|
+"        Load the log file for the current document and jump to the first error.
 " }}}
 
 " Writing related plugins {{{
@@ -417,10 +330,8 @@ nnoremap <Leader>m :MarkedOpen
 " Movement / file browsing plugins {{{
 Plug 'scrooloose/nerdtree'
 " Plug 'tpope/vim-vinegar'
-" Plug 'vim-scripts/bufexplorer.zip'
 Plug 'majutsushi/tagbar'
 Plug 'justinmk/vim-dirvish'
-" Plug 'vim-scripts/VOoM'
 " }}}
 
 " Terminal or tmux vim plugins {{{
@@ -451,6 +362,12 @@ if !has('gui_running')
 endif
 " }}}
 
+" Polyglot, a collection of language packs for vim {{{
+"     https://github.com/sheerun/vim-polyglot
+Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['ruby', 'latex']
+" }}}
+
 " Git related plugins plugins {{{
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
 " Plug 'mhinz/vim-signify'
@@ -472,10 +389,6 @@ Plug 'rhysd/vim-crystal'
 " JavaScript related plugins {{{
 Plug 'moll/vim-node'
 " Plug 'HerringtonDarkholme/yats.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'leshill/vim-json'
-Plug 'mxw/vim-jsx'
-let g:jsx_ext_required = 1  " don't enable this for *.js files, just *.jsx
 Plug 'kchmck/vim-coffee-script'
 " }}}
 
@@ -487,7 +400,6 @@ let g:pymode_lint_cwindow=0  " don't automatically open the cwindow
 " }}}
 
 " Markdown related plugins {{{
-Plug 'tpope/vim-markdown'
 Plug 'junegunn/goyo.vim'
 let g:goyo_width=85
 function! s:goyo_enter()
@@ -820,6 +732,9 @@ if has("autocmd")
   " Ensure spell checking is enabled for LaTeX and Markdown
   au FileType plaintex,context,tex,latex,markdown set spell
 
+  " Make completion a little less annoying for plain text
+  au FileType plaintex,context,tex,latex,markdown let g:ycm_min_num_identifier_candidate_chars = 4
+
   " vimtex would otherwise hide things like boldface and italics commands
   " au FileType plaintex,context,tex,latex,markdown set conceallevel=0
   " au FileType plaintex,context,tex,latex,markdown set concealcursor=""
@@ -888,45 +803,6 @@ highlight NonText guifg=#4a4a59
 highlight SpecialKey guifg=#4a4a59
 " }}}
 
-" LatexBox settings {{{
-" Currently, there's a bug in vimtex that doesn't let SuperTab work
-" let g:vimtex_complete_enabled=0
-let g:vimtex_compiler_progname='nvr'
-" let g:LatexBox_Folding=1
-" let g:LatexBox_latexmk_options = "-bibtex -pdf"
-" let g:LatexBox_latexmk_preview_continuously=1
-" let g:LatexBox_quickfix=2
-" let g:LatexBox_quickfix=4 " only open errors in the quickfix list
-" let g:LatexBox_show_warnings=0 " don't show warnings as errors
-
-" Set FastFold options
-let g:tex_fold_enabled=1
-let g:vimsyn_folding='af'
-let g:xml_syntax_folding = 1
-
-" Toggle the display of the LaTeX Table of Contents window
-nnoremap <LocalLeader>lt :LatexTOCToggle<CR>
-" Other LaTeX mappings:
-"
-"<LocalLeader>ll                                                     |:Latexmk|
-"        Compile with latexmk.
-"<LocalLeader>lL                                                    |:Latexmk!|
-"        Force compilation with latexmk.
-"<LocalLeader>lc                                                |:LatexmkClean|
-"        Clean temporary output from LaTeX.
-"<LocalLeader>lC                                               |:LatexmkClean!|
-"        Clean all output from LaTeX.
-"<LocalLeader>lk                                                 |:LatexmkStop|
-"        Stop latexmk if it is running.
-"<LocalLeader>lg                                               |:LatexmkStatus|
-"        Show the running status of latexmk for the current buffer.
-"<LocalLeader>lG                                              |:LatexmkStatus!|
-"        Show the running status of latexmk for all buffers with process group
-"        ID's.
-"<LocalLeader>le                                                 |:LatexErrors|
-"        Load the log file for the current document and jump to the first error.
-" }}}
-
 " EasyAlign Settings {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
@@ -977,7 +853,6 @@ nnoremap <c-l> <c-w>l
 " Clear the search buffer when hitting return
 nnoremap <CR> :nohlsearch<cr>
 
-" TODO: Clean this up and pick one.
 " Add space above and below the current line
 nnoremap <Leader>o O<Esc>jo<Esc>k
 vnoremap <Leader>o c<Esc>o<Esc>P
@@ -1034,17 +909,6 @@ function! RenameFile()
 endfunction
 map <Leader>n :call RenameFile()<cr>
 " }}}
-
-" Promote variable to let for RSpec
-" function! PromoteToLet()
-"   :normal! dd
-"   " :exec '?^\s*it\>'
-"   :normal! P
-"   :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
-"   :normal ==
-" endfunction
-" :command! PromoteToLet :call PromoteToLet()
-" :map <leader>p :PromoteToLet<cr>
 
 " Switch Between Test and Production code
 function! OpenTestAlternate()
