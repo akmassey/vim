@@ -60,25 +60,87 @@ snippet part "Add a new part to a multi-part question" b
 \part[${1:points}] $0
 endsnippet
 
-snippet table "Create a simple table" b
-\begin{table}[htbp]
-  \centering
-  \caption{${1:caption}}%
-  \label{tab:${2:label}}
-  \begin{tabular}{llr}
-    \toprule
-    \multicolumn{2}{c}{Item} & \\\\
-    \cmidrule(r){1-2}
-    Animal                   & Description & Price \\\\
-    \midrule
-    Gnat      & per gram & 13.65  \\\\
-              & each     & 0.0173 \\\\
-    Gnu       & stuffed  & 92.59  \\\\
-    Emu       & stuffed  & 33.33  \\\\
-    Armadillo & frozen   & 8.99   \\\\
-    \bottomrule
-  \end{tabular}
+# Generic LaTeX snippets
+
+snippet table "Create a simple book-style table" b
+\begin{table}[h!]% requires the booktabs package
+  \begin{center}
+    \caption{${1:caption}}%
+    \label{tab:${2:table name}}
+    \begin{tabular}{lSr}
+      \toprule
+      \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+      $\alpha$ & $\beta$ & $\gamma$ \\
+      \midrule
+      1 & 1110.1 & a\\
+      2 & 10.1 & b\\
+      3 & 23.113231 & c\\
+      \bottomrule
+    \end{tabular}
+  \end{center}
 \end{table}
+endsnippet
+
+snippet multirow "Create a simple multirow table" b
+\begin{table}[h!]
+  \begin{center}
+    \caption{${1:caption}}%
+    \label{tab:${2:table name}}
+    \begin{tabular}{l|S|r}
+      \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+      $\alpha$ & $\beta$ & $\gamma$ \\
+      \hline
+      \multirow{2}{*}{12} & 1110.1 & a\\ % <-- Combining 2 rows with arbitrary with (*) and content 12
+      & 10.1 & b\\ % <-- Content of first column omitted.
+      \hline
+      3 & 23.113231 & c\\
+      4 & 25.113231 & d\\
+    \end{tabular}
+  \end{center}
+\end{table}
+endsnippet
+
+snippet multicolumn "Create a simple multicolumn table" b
+\begin{table}[h!]
+  \begin{center}
+    \caption{${1:caption}}%
+    \label{tab:${2:table name}}
+    \begin{tabular}{l|S|r}
+      \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+      $\alpha$ & $\beta$ & $\gamma$ \\
+      \hline
+      \multicolumn{2}{c|}{12} & a\\ % <-- Combining two cells with alignment c| and content 12.
+      \hline
+      2 & 10.1 & b\\
+      3 & 23.113231 & c\\
+      4 & 25.113231 & d\\
+    \end{tabular}
+  \end{center}
+\end{table}
+endsnippet
+
+snippet longtable "Create a multipage table." b
+\begin{longtable}[c]{l|S|r} % <-- Replaces \begin{table}, alignment must be specified here (no more tabular)
+  \caption{${1:caption}}%
+  \label{tab:${2:table name}}
+  \toprule
+  \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+  $\alpha$ & $\beta$ & $\gamma$ \\
+  \midrule
+  \endfirsthead % <-- This denotes the end of the header, which will be shown on the first page only
+  \toprule
+  \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+  $\alpha$ & $\beta$ & $\gamma$ \\
+  \midrule
+  \endhead % <-- Everything between \endfirsthead and \endhead will be shown as a header on every page
+  1 & 1110.1 & a\\
+  2 & 10.1 & b\\
+  % ...
+  % ... Many rows in between
+  % ...
+  3 & 23.113231 & c\\
+  \bottomrule
+\end{longtable}
 endsnippet
 
 snippet figure "Create a simple figure." b
@@ -90,6 +152,27 @@ snippet figure "Create a simple figure." b
 \end{figure*}
 endsnippet
 
+snippet subfigure "Create a figure with subfigures." b
+% requires the following:
+% \usepackage{graphix}
+% \usepackage{subcaption}
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{coffee.jpg}
+    \caption{Coffee.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{coffee.jpg}
+    \caption{More coffee.}
+  \end{subfigure}
+  \caption{The same cup of coffee. Two times.}
+  \label{fig:coffee}
+\end{figure}
+endsnippet
+
 snippet todo "Create a footnote marked as something TODO."
 \footnote{TODO\@: $0}
 endsnippet
+
+
