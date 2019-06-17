@@ -278,6 +278,8 @@ let g:vimtex_quickfix_latexlog = {
       \ },
       \}
 Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
+let g:gutentags_cache_dir='~/.gutentags'
+
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
 "
