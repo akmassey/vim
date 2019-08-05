@@ -52,7 +52,7 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_linters = {
 \   'mail': [],
 \   'javascript': ['prettier', 'eslint'],
-\   'tex': ['chktex', 'proselint', 'redpen', 'textlint', 'vale'],
+\   'tex': ['chktex', 'proselint', 'textlint', 'vale'],
 \}
 
 let g:ale_fixers = {
