@@ -382,6 +382,9 @@ Plug 'vim-ruby/vim-ruby'
 " Plug 'thoughtbot/vim-rspec'
 Plug 'vim-scripts/ruby-matchit'
 Plug 'nelstrom/vim-textobj-rubyblock'
+
+" TODO: Maybe put some checks around this to ensure the file exists?
+let g:ruby_host_prog = '/usr/local/opt/rbenv/shims/ruby'
 " }}}
 
 " JavaScript related plugins {{{
@@ -531,7 +534,7 @@ set foldlevelstart=4
 
 " Neovim miscellaneousness {{{
 " Don't forget to pip install --upgrade neovim and do the same for pip3
-let g:python2_host_prog = '/usr/local/bin/python'
+let g:python_host_prog = '/usr/local/bin/python2'
 let g:python3_host_prog = '/usr/local/bin/python3'
 " }}}
 
