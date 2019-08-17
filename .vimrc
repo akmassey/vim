@@ -1,8 +1,5 @@
 set nocompatible
 
-" you should probably examine spacevim for plugins:
-" https://github.com/SpaceVim/SpaceVim/blob/dev/autoload/SpaceVim/plugins.vim
-
 " initialize vim-plug
 call plug#begin('~/.vim/plugged')
 
@@ -13,30 +10,40 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-abolish'  " Press crs (coerce to snake_case). MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru).
-" Plug 'jdelkins/vim-correction'  " automatic spelling correction based on vim-abolish
 Plug 'tpope/vim-repeat'   " to repeat Plugin-mapped commands
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-dispatch' " for asyncrhonous Make
 Plug 'radenling/vim-dispatch-neovim'
-Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-rsi' " for readline style insertion shortcuts
 Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-eunuch' " for UNIX commands like :Mkdir, :Cfind, and :Wall
+Plug 'tpope/vim-commentary' " to comment things in or out
+Plug 'tpope/vim-speeddating' " to increment / decrement dates
 if !has('nvim')
   Plug 'tpope/vim-sensible'
 endif
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-textobj-delimited'
 Plug 'chrisbra/vim-diff-enhanced'
-Plug 'duggiefresh/vim-easydir'
 " Plug 'wincent/terminus'  " enhanced terminal support
-" Plug 'neomake/neomake'  " could replace vim-dispatch and syntastic
 Plug 'sbdchd/neoformat'
 Plug 'akmassey/vim-cheat' " personal vim cheatsheet
-" Plug 'b4winckler/vim-angry'
-" Plug 'gorkunov/smartpairs.vim'
+Plug 'gorkunov/smartpairs.vim' " to progressively select larger scopes using 'v' again
 " }}}
+
+" Testing support with vim-test {{{
+Plug 'janko-m/vim-test'
+
+" make test commands execute using dispatch.vim
+let test#strategy = "dispatch"
+let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
+nnoremap <silent> <Leader>t :TestNearest<CR>
+nnoremap <silent> <Leader>T :TestFile<CR>
+nnoremap <silent> <Leader>a :TestSuite<CR>
+nnoremap <silent> <Leader>l :TestLast<CR>
+nnoremap <silent> <Leader>g :TestVisit<CR>
+" }}}
+
 
 " Asynchronous Linting Engine configuration {{{
 Plug 'w0rp/ale'
@@ -53,6 +60,7 @@ let g:ale_linters = {
 \   'mail': [],
 \   'javascript': ['prettier', 'eslint'],
 \   'tex': ['chktex', 'proselint', 'textlint', 'vale'],
+\   'go': ['gopls'],
 \}
 
 let g:ale_fixers = {
@@ -64,27 +72,24 @@ let g:ale_fix_on_save = 1
 
 
 " Slightly less baseline plugins {{{
-" Plug 'scrooloose/syntastic'
-" let g:syntastic_mode_map = { "mode": "active", "passive_filetypes": ["python"] }
-" Plug 'akmassey/syntastic_proselint'
-" Plug 'godlygeek/tabular'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/zoom.vim'
-" Plug 'severin-lemaignan/vim-minimap'  " <Leader>mm to see the minimap
 Plug 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace
-Plug 'AndrewRadev/splitjoin.vim'  " gS to split and gJ to join
+Plug 'AndrewRadev/splitjoin.vim'  " gS to do multi-line split and gJ to do multi-line join
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-" Plug 'mbadran/headlights'
-Plug 'myusuf3/numbers.vim'
+Plug 'myusuf3/numbers.vim' " for smarter line numbers
 Plug 'ktonga/vim-follow-my-lead'
-Plug 'Keithbsmiley/investigate.vim'
+Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
+" }}}
+
 " viewdoc settings {{{
 Plug 'powerman/vim-plugin-viewdoc'
 let g:viewdoc_open = 'vnew'
 let g:no_viewdoc_maps = 1
 " }}}
+
 " Startify settings {{{
 Plug 'mhinz/vim-startify'
 let g:startify_custom_header =
@@ -106,7 +111,7 @@ let g:startify_lists = [
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 " }}}
-" }}}
+
 
 " " SuperTab {{{
 " Plug 'ervandew/supertab'
@@ -120,14 +125,15 @@ let g:startify_lists = [
 " " }}}
 
 " Conqurer of Completion {{{
+"     https://github.com/neoclide/coc.nvim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " if hidden is not set, TextEdit might fail.
 set hidden
 
-" Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
+" " Some servers have issues with backup files, see #649
+" set nobackup
+" set nowritebackup
 
 " Better display for messages
 set cmdheight=2
@@ -141,25 +147,36 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
+" Conqurer of Completion has a separate configuration file, so let's create a
+" shortcut to edit it.
+function! SetupCommandAbbrs(from, to)
+  exec 'cnoreabbrev <expr> '.a:from
+        \ .' ((getcmdtype() ==# ":" && getcmdline() ==# "'.a:from.'")'
+        \ .'? ("'.a:to.'") : ("'.a:from.'"))'
+endfunction
+
+" Use C to open coc config
+call SetupCommandAbbrs('C', 'CocConfig')
+call SetupCommandAbbrs('EditSnippets', 'CocCommand snippets.editSnippets')
+call SetupCommandAbbrs('OpenSnippets', 'CocCommand snippets.openSnippetFiles')
+
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : \"\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+let g:coc_snippet_next = '<Leader>j'
+let g:coc_snippet_prev = '<Leader>k'
 
 " Use `[c` and `]c` to navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
@@ -170,6 +187,9 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" prefer coc.nvim's definition features
+let g:go_def_mapping_enable = 0
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -186,11 +206,11 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+nmap <Leader>rn <Plug>(coc-rename)
 
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" " Remap for format selected region
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -201,13 +221,13 @@ augroup mygroup
 augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+xmap <Leader>a  <Plug>(coc-codeaction-selected)
+nmap <Leader>a  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <Leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <Leader>qf  <Plug>(coc-fix-current)
 
 " Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
 nmap <silent> <TAB> <Plug>(coc-range-select)
@@ -228,96 +248,42 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+nnoremap <silent> ;a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent> ;e  :<C-u>CocList extensions<cr>
 " Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+nnoremap <silent> ;c  :<C-u>CocList commands<cr>
 " Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent> ;o  :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> ;s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent> ;j  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent> ;k  :<C-u>CocPrev<CR>
 " Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent> ;p  :<C-u>CocListResume<CR>
+
+" Setup shortcuts for the coc-snippets plugin {{{
+" Use <C-;> for trigger snippet expand.
+imap <C-;> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <Leader>j <Plug>(coc-snippets-select)
+
+" Use <Leader>j for jump to next placeholder
+let g:coc_snippet_next = '<Leader>j'
+
+" Use <Leader>k for jump to previous placeholder
+let g:coc_snippet_prev = '<Leader>k'
+
+" Use <Leader>j for both expand and jump (make expand higher priority.)
+imap <Leader>j <Plug>(coc-snippets-expand-jump)
+"}}}
 " }}}
 
-" YouCompleteMe {{{
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-" let g:ycm_min_num_identifier_candidate_chars = 2
-" }}}
-
-" UltiSnips {{{
-Plug 'sirver/ultisnips' | Plug 'honza/vim-snippets'
-
-" Force Python2 for YCM compatibility
-let g:UltiSnipsUsePythonVersion = 3
-
-let g:UltiSnipsExpandTrigger="<Leader>j"
-let g:UltiSnipsJumpForwardTrigger="<Leader>j"
-let g:UltiSnipsJumpBackwardTrigger="<Leader>k"
-
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
-  endif
-
-  return ""
-endfunction
-
-
-if !exists("g:UltiSnipsJumpForwardTrigger")
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-endif
-
-if !exists("g:UltiSnipsJumpBackwardTrigger")
-  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-endif
-
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
-
-let g:UltiSnipsSnippetsDir=$HOME.".vim/UltiSnips"
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "plugged/vim-snippets/UltiSnips/"]
-let g:UltiSnipsEnableSnipMate=0
-let g:UltiSnipsEditSplit="vertical"
-
-" vim-snippets variables:
-let g:snips_author = "Aaron Massey"
-let g:snips_email = "akmassey@umbc.edu"
-let g:snips_github = "https://github.com/akmassey"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-" }}}
+" Snippets
+Plug 'honza/vim-snippets' " for snippets to be used with coc-snippets plugin
 
 " Search-related plugins {{{
 Plug 'justinmk/vim-sneak'
@@ -347,7 +313,9 @@ let g:fzf_buffers_jump = 1
 " [Tags] Command to generate tags file
 let g:fzf_tags_command = 'ctags -R'
 
-Plug 'junegunn/vim-slash'
+Plug 'junegunn/vim-slash'  " for improved searches using '/' from normal mode
+noremap <Plug>(slash-after) zz
+
 Plug 'wincent/scalpel'  " for improved search/replace for words under the cursor
 Plug 'mileszs/ack.vim'
 
@@ -374,22 +342,8 @@ let g:bexec_splitdir="ver"
 Plug 'wesQ3/vim-windowswap'
 " }}}
 
-" Random Language or Markup related plugins {{{
-Plug 'tpope/vim-haml'
-Plug 'mustache/vim-mustache-handlebars'
-Plug 'tpope/vim-jdaddy'
-Plug 'tpope/vim-ragtag'
-Plug 'vim-scripts/paredit.vim'
-Plug 'sukima/xmledit'
-" }}}
-
 " Email-related plugins {{{
 Plug 'vim-scripts/CheckAttach.vim'
-" }}}
-
-" Dash plugins {{{
-Plug 'rizzatti/funcoo.vim'
-Plug 'rizzatti/dash.vim'
 " }}}
 
 " LaTeX related plugins {{{
@@ -406,11 +360,6 @@ let g:vimtex_quickfix_latexlog = {
 Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
 let g:gutentags_cache_dir='~/.gutentags'
 
-" Plug 'vim-pandoc/vim-pandoc'
-" Plug 'vim-pandoc/vim-pandoc-syntax'
-"
-" Currently, there's a bug in vimtex that doesn't let SuperTab work
-" let g:vimtex_complete_enabled=0
 let g:vimtex_compiler_progname='nvr'
 
 " Set FastFold options
@@ -457,7 +406,6 @@ nnoremap <Leader>m :MarkedOpen
 
 " Movement / file browsing plugins {{{
 Plug 'scrooloose/nerdtree'
-" Plug 'tpope/vim-vinegar'
 Plug 'majutsushi/tagbar'
 Plug 'justinmk/vim-dirvish'
 " }}}
@@ -490,15 +438,8 @@ if !has('gui_running')
 endif
 " }}}
 
-" Polyglot, a collection of language packs for vim {{{
-"     https://github.com/sheerun/vim-polyglot
-Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['ruby', 'latex']
-" }}}
-
 " Git related plugins plugins {{{
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
-" Plug 'mhinz/vim-signify'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " }}}
 
@@ -511,6 +452,15 @@ Plug 'nelstrom/vim-textobj-rubyblock'
 
 " TODO: Maybe put some checks around this to ensure the file exists?
 let g:ruby_host_prog = '/usr/local/opt/rbenv/shims/ruby'
+" }}}
+
+" Go related plugins {{{
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" Configure gopls: https://github.com/golang/go/wiki/gopls
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+
 " }}}
 
 " JavaScript related plugins {{{
@@ -543,33 +493,12 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 " }}}
 
-" TOML syntax
-Plug 'cespare/vim-toml'
+" Polyglot, a collection of language packs for vim {{{
+"     https://github.com/sheerun/vim-polyglot
+Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['ruby', 'latex', 'go']
 
-" Google Go support {{{
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-"}}}
-
-" Rust support {{{
-Plug 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
-"}}}
-
-" Swift Support {{{
-Plug 'keith/swift.vim'
-" }}}
-
-" Testing support with vim-test {{{
-Plug 'janko-m/vim-test'
-
-" make test commands execute using dispatch.vim
-let test#strategy = "dispatch"
-let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
-nnoremap <silent> <Leader>t :TestNearest<CR>
-nnoremap <silent> <Leader>T :TestFile<CR>
-nnoremap <silent> <Leader>a :TestSuite<CR>
-nnoremap <silent> <Leader>l :TestLast<CR>
-nnoremap <silent> <Leader>g :TestVisit<CR>
 " }}}
 
 " Colorschemes {{{
@@ -840,6 +769,7 @@ if has("autocmd")
   au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
   au FileType go nmap <Leader>dt <Plug>(go-def-tab)
   au FileType go nmap <Leader>e <Plug>(go-rename)
+  au BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
   " Unbreak 'crontab -e' with Vim:
   " http://drawohara.com/post/6344279/crontab-temp-file-must-be-edited-in-place
@@ -1135,12 +1065,6 @@ map <Leader>6 :call Preserve("%s/\\.\\s\\([A-Z]\\)/\\.  \\1/g")<CR>
 
 " Squeeze newlines.
 map <Leader>4 :call Preserve("%s/\\n\\n\\+/\\r\\r/g")<CR>
-
-" " Split hash arguments into separate lines
-" map <Leader>h :s/\s*,\s\+/,\r/g<CR>
-
-" " Split statements into separate lines
-" map <Leader>, :s/\s*;\s*/\r/g<CR>
 
 " Convert DOS-style carriage returns to UNIX-style
 map <Leader>d :call Preserve("%s/\\r/\\r/g")<CR>
