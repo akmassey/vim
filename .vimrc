@@ -3,8 +3,6 @@ set nocompatible
 " initialize vim-plug
 call plug#begin('~/.vim/plugged')
 
-" TODO: Create a mapping for the :BTags command from FZF
-
 " Baseline Plugins {{{
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
@@ -302,6 +300,9 @@ nnoremap <C-e> :Files ~<CR>
 
 " Search for an open buffer
 nnoremap <Leader>b :Buffers<CR>
+
+" Search for a tag in the current file
+nnoremap <Leader>gt :BTags<CR>
 
 " TODO: Possible mappings for these?
 " nnoremap <Leader>somethign :BTags [QUERY]  " searches for tags in buffer
@@ -697,7 +698,7 @@ endif
 " }}}
 
 " Scalpel settings {{{
-" Use <Leader>s instead of default <Leader>e:
+" Use <Leader>s for Scalpel instead of default <Leader>e:
 nmap <Leader>s <Plug>(Scalpel)
 " }}}
 
