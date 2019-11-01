@@ -475,6 +475,7 @@ Plug 'python-mode/python-mode', { 'branch': 'develop' }
 let g:pymode_lint_cwindow=0  " don't automatically open the cwindow
 " Plug 'davidhalter/jedi-vim'
 " Plug 'nvie/vim-flake8'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 " }}}
 
 " Markdown related plugins {{{
