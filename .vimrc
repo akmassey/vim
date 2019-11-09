@@ -29,6 +29,9 @@ Plug 'akmassey/vim-cheat' " personal vim cheatsheet
 Plug 'gorkunov/smartpairs.vim' " to progressively select larger scopes using 'v' again
 " }}}
 
+" TODO: Maybe put some checks around this to ensure the file exists?
+let g:ruby_host_prog = '/usr/local/opt/rbenv/shims/neovim-ruby-host'
+
 " Testing support with vim-test {{{
 Plug 'janko-m/vim-test'
 
@@ -44,7 +47,7 @@ nnoremap <silent> <Leader>g :TestVisit<CR>
 
 
 " Asynchronous Linting Engine configuration {{{
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 nmap <silent> [w <Plug>(ale_previous_wrap)
 nmap <silent> ]w <Plug>(ale_next_wrap)
 let g:ale_sign_error = 'EE'
@@ -450,9 +453,6 @@ Plug 'vim-ruby/vim-ruby'
 " Plug 'thoughtbot/vim-rspec'
 Plug 'vim-scripts/ruby-matchit'
 Plug 'nelstrom/vim-textobj-rubyblock'
-
-" TODO: Maybe put some checks around this to ensure the file exists?
-let g:ruby_host_prog = '/usr/local/opt/rbenv/shims/ruby'
 " }}}
 
 " Go related plugins {{{
@@ -552,8 +552,8 @@ syntax enable         " Turn on syntax highlighting allowing local overrides
 set encoding=utf-8    " Set default encoding to UTF-8
 
 " Use a single location for temporary files and swap files.
-set backupdir=~/.vim-backup,/tmp
-set directory=~/.vim-swapfiles,/tmp
+set backupdir=~/.vim/backup,/tmp
+set directory=~/.vim/swapfiles,/tmp
 
 " Disable output and VCS files
 set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
