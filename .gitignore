@@ -7,4 +7,5 @@
 .vim/backup
 .vim/swapfiles
 .vim/undos
+.vim/sessions
 tags

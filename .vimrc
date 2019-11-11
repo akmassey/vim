@@ -30,6 +30,7 @@ Plug 'gorkunov/smartpairs.vim' " to progressively select larger scopes using 'v'
 " }}}
 
 " TODO: Maybe put some checks around this to ensure the file exists?
+let g:ruby_path='/usr/local/opt/rbenv/shims/ruby'
 let g:ruby_host_prog = '/usr/local/opt/rbenv/shims/neovim-ruby-host'
 
 " Testing support with vim-test {{{
@@ -62,6 +63,7 @@ let g:ale_linters = {
 \   'javascript': ['prettier', 'eslint'],
 \   'tex': ['chktex', 'proselint', 'textlint', 'vale'],
 \   'go': ['gopls'],
+\   'markdown' : ['prettier', 'textlint', 'vale', 'proselint', 'mdl']
 \}
 
 let g:ale_fixers = {
