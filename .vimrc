@@ -1,5 +1,6 @@
 set nocompatible
 
+
 " initialize vim-plug
 call plug#begin('~/.vim/plugged')
 
@@ -130,6 +131,31 @@ let g:startify_lists = [
 " Conqurer of Completion {{{
 "     https://github.com/neoclide/coc.nvim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+let g:coc_global_extensions = [
+  \ 'coc-snippets',
+  \ 'coc-ultisnips',
+  \ 'coc-bibtex',
+  \ 'coc-css',
+  \ 'coc-dictionary',
+  \ 'coc-eslint',
+  \ 'coc-git',
+  \ 'coc-go',
+  \ 'coc-html',
+  \ 'coc-json',
+  \ 'coc-marketplace',
+  \ 'coc-omni',
+  \ 'coc-python',
+  \ 'coc-rls',
+  \ 'coc-solargraph',
+  \ 'coc-tag',
+  \ 'coc-texlab',
+  \ 'coc-vimtex',
+  \ 'coc-yaml',
+  \ 'coc-gocode',
+  \ 'coc-lists',
+  \ 'coc-word',
+  \ ]
 
 " if hidden is not set, TextEdit might fail.
 set hidden
