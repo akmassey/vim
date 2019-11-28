@@ -765,6 +765,7 @@ if has("autocmd")
   au FileType make set noexpandtab
   au FileType python set ts=8 et sw=4 sts=4
   au FileType python set omnifunc=pythoncomplete#Complete
+  au FileType python nnoremap <buffer> <Leader>q :exec '!python3' shellescape(@%, 1)<cr>
   au FileType javascript set omnifunc=javascriptcomplete#CompleteJS
   au FileType html set omnifunc=htmlcomplete#CompleteTags
   au FileType css set omnifunc=csscomplete#CompleteCSS
