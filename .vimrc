@@ -834,8 +834,8 @@ if has("autocmd")
   au FileType plaintex,context,tex,latex nmap <Leader>w :!texcount %<CR>
 
   " Replace macros for quotes, requires textobj-quote
-  au FileType plaintex,context,tex,latex map <silent> <leader>qc <Plug>ReplaceWithCurly
-  au FileType plaintex,context,tex,latex map <silent> <leader>qs <Plug>ReplaceWithStraight
+  au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qc <Plug>ReplaceWithCurly
+  au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qs <Plug>ReplaceWithStraight
 endif
 
 " Automatically convert things to smartquotes for these filetypes
