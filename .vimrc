@@ -80,12 +80,28 @@ Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/zoom.vim'
-Plug 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace
 Plug 'AndrewRadev/splitjoin.vim'  " gS to do multi-line split and gJ to do multi-line join
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'myusuf3/numbers.vim' " for smarter line numbers
-Plug 'ktonga/vim-follow-my-lead'
 Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
+" }}}
+
+" Strip Trailing Whitespace {{{
+Plug 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace
+" Strip trailing whitespace
+"    This approach works withouth relying on the vim-better-whitespace plugin
+" nnoremap <Leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
+"    This approach DOES rely on vim-better-whitespace
+nnoremap <Leader>$ :StripWhitespace<CR>
+let g:show_spaces_that_precede_tabs = 1
+let g:strip_whitespace_on_save = 1
+let g:strip_whitelines_at_eof = 1
+" }}}
+
+" User <Leader>fml to open leader mappings {{{
+Plug 'ktonga/vim-follow-my-lead'
+" Show leaders for plugins as well as ~/.vimrc
+let g:fml_all_sources = 1
 " }}}
 
 " viewdoc settings {{{
@@ -335,10 +351,6 @@ nnoremap <Leader>b :Buffers<CR>
 " Search for a tag in the current file
 nnoremap <Leader>gt :BTags<CR>
 
-" TODO: Possible mappings for these?
-" nnoremap <Leader>somethign :BTags [QUERY]  " searches for tags in buffer
-" nnoremap <Leader>somethign :Tags [QUERY]  " searches for tags in project
-
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
 
@@ -431,7 +443,6 @@ Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-pencil'
 Plug 'christoomey/vim-titlecase'
 Plug 'itspriddle/vim-marked'  " to open things in Marked or Marked 2
-let g:marked_app = "Marked"
 let g:marked_filetypes = ["markdown", "mkd", "md", "ghmarkdown", "vimwiki"]
 nnoremap <Leader>m :MarkedOpen
 " }}}
@@ -508,6 +519,13 @@ let g:pymode_lint_cwindow=0  " don't automatically open the cwindow
 " Plug 'nvie/vim-flake8'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 " }}}
+
+" " Nim related configuration {{{
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
+" " }}}
 
 " Markdown related plugins {{{
 Plug 'junegunn/goyo.vim'
@@ -649,15 +667,6 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'vimshell', 'w3m', 'nerdtree']
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
-
-" User <Leader>fml to open leader mappings
-" Show leaders for plugins as well as ~/.vimrc
-let g:fml_all_sources = 1
-
-" Mappings to edit and source vim configuration
-:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-:nnoremap <leader>sv :source $MYVIMRC<cr>
-" }}}
 
 " Custom Whitespace Modifiers {{{
 set textwidth=78
@@ -863,18 +872,29 @@ set spelllang=en_us
 " Some spelling-related stuff from here:
 " https://vi.stackexchange.com/questions/68/autocorrect-spelling-mistakes
 "
-" Go back to last misspelled word and pick first suggestion.
+" Move to the next misspelled word and center the screen.
+nnoremap ]s ]szz
+nnoremap [s [szz
+
+" Correct the last misspelled word using the first suggestion and return.
 inoremap <C-L> <C-G>u<Esc>[s1z=`]a<C-G>u
 
 " Select last misspelled word (typing will edit).
-nnoremap <C-K> <Esc>[sve<C-G>
-inoremap <C-K> <Esc>[sve<C-G>
-snoremap <C-K> <Esc>b[sviw<C-G>
+"   Mnemonic: 'spell last'
+nnoremap <Leader>sl <Esc>[sve<C-G>
+inoremap <Leader>sl <Esc>[sve<C-G>
+snoremap <Leader>sl <Esc>b[sviw<C-G>
 
-" Replace a misspelled word with the first suggestion.
-nnoremap <C-S> [s1z=
-inoremap <C-S> [s1z=
-snoremap <C-S> [s1z=
+" Move to the next misspelled word and replace it with the first suggestion.
+"   Mnemonic: 'spell next'
+nnoremap <Leader>sn ]s1z=
+inoremap <Leader>sn ]s1z=
+snoremap <Leader>sn ]s1z=
+
+" Correct the current next using the first suggestion.
+"   Mnemonic: 'spell current'
+nnoremap <Leader>sc 1z=
+inoremap <Leader>sc <Esc>1z=ea
 "}}}
 
 " Toggle Undotree {{{
@@ -940,6 +960,8 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+" Swap window positions
+nnoremap <c-x> <c-w>x
 
 " Clear the search buffer when hitting return
 nnoremap <CR> :nohlsearch<cr>
@@ -962,8 +984,6 @@ function! Preserve(command) range
   let @/=_s
   call cursor(l, c)
 endfunction
-" Strip trailing whitespace
-nnoremap <Leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
 
 " Reformat a program or structured document
 nnoremap <Leader>= :call Preserve("normal gg=G")<CR>
@@ -1027,7 +1047,7 @@ function! AlternateForCurrentFile()
   endif
   return new_file
 endfunction
-nnoremap <leader>. :call OpenTestAlternate()<cr>
+nnoremap <Leader>. :call OpenTestAlternate()<cr>
 
 " Shortcut to writing a file as root from non-root vim
 cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
