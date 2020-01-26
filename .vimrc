@@ -84,6 +84,7 @@ Plug 'AndrewRadev/splitjoin.vim'  " gS to do multi-line split and gJ to do multi
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'myusuf3/numbers.vim' " for smarter line numbers
 Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
+Plug 'psliwka/vim-smoothie'  " for smooth scrolling on normal mode movement commands
 " }}}
 
 " Strip Trailing Whitespace {{{
