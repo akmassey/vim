@@ -79,6 +79,7 @@ let g:ale_fix_on_save = 1
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
 Plug 'vim-scripts/zoom.vim'
 Plug 'AndrewRadev/splitjoin.vim'  " gS to do multi-line split and gJ to do multi-line join
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -483,8 +484,12 @@ endif
 " }}}
 
 " Git related plugins plugins {{{
-Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim'
+Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim' | Plug 'christoomey/vim-conflicted'
+" NOTE: use `dgu` to diffget upstream changes and `dgl` to diffget local
+" changes
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'inkarkat/vim-ingo-library' | Plug 'inkarkat/vim-CountJump' | Plug 'inkarkat/vim-ConflictMotions'
 " }}}
 
 " Ruby related plugins {{{
@@ -662,6 +667,9 @@ let g:airline_theme = 'jellybeans'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+
+" set a theme for tmuxline as well
+let g:tmuxline_theme = 'jellybeans'
 " }}}
 
 " Ensure line numbers are not shown in these file types.
