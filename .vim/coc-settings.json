@@ -6,5 +6,8 @@
       "filetypes": ["go"]
     }
   },
-  "python.setLinter": "flake8"
+  "python.setLinter": "flake8",
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--target-version", "py37", "--line-length", "80"],
+  "coc.preferences.formatOnSaveFiletypes": ["python"]
 }
