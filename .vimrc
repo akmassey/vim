@@ -24,7 +24,6 @@ endif
 Plug 'wellle/targets.vim'
 Plug 'machakann/vim-textobj-delimited'
 Plug 'chrisbra/vim-diff-enhanced'
-" Plug 'wincent/terminus'  " enhanced terminal support
 Plug 'sbdchd/neoformat'
 Plug 'akmassey/vim-cheat' " personal vim cheatsheet
 Plug 'gorkunov/smartpairs.vim' " to progressively select larger scopes using 'v' again
