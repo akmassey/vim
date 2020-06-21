@@ -5,29 +5,94 @@ set nocompatible
 call plug#begin('~/.vim/plugged')
 
 " Baseline Plugins {{{
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-surround' " to manage surrounding parens, brackets, quotes, etc...
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-abolish'  " Press crs (coerce to snake_case). MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru).
-Plug 'tpope/vim-repeat'   " to repeat Plugin-mapped commands
-Plug 'tpope/vim-characterize'
-Plug 'tpope/vim-dispatch' " for asyncrhonous Make
+Plug 'tpope/vim-endwise'               " to end certain structures automatically  (adding 'end' in Ruby, etc...)
+Plug 'tpope/vim-surround'              " to manage surrounding parens, brackets, quotes, etc...
+Plug 'tpope/vim-unimpaired'            " mappings for [ and ], including toggles for options and encodings
+Plug 'tpope/vim-abolish'               " press crs (coerce to snake_case). MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru).
+Plug 'tpope/vim-repeat'                " to repeat Plugin-mapped commands
+Plug 'tpope/vim-characterize'          " update `ga' for modern text encodings like emoji
+Plug 'tpope/vim-dispatch'              " for asyncrhonous Make
 Plug 'radenling/vim-dispatch-neovim'
-Plug 'tpope/vim-rsi' " for readline style insertion shortcuts
+Plug 'tpope/vim-rsi'                   " for readline style insertion shortcuts
 Plug 'tpope/vim-projectionist'
-Plug 'tpope/vim-eunuch' " for UNIX commands like :Mkdir, :Cfind, and :Wall
-Plug 'tpope/vim-commentary' " to comment things in or out
-Plug 'tpope/vim-speeddating' " to increment / decrement dates
+Plug 'tpope/vim-eunuch'                " for UNIX commands like :Mkdir, :Cfind, and :Wall
+Plug 'tpope/vim-commentary'            " to comment things in or out
+Plug 'tpope/vim-speeddating'           " to increment / decrement dates
 if !has('nvim')
-  Plug 'tpope/vim-sensible'
+  Plug 'tpope/vim-sensible'            " more sensible defaults that are built into nvim
 endif
-Plug 'wellle/targets.vim'
-Plug 'machakann/vim-textobj-delimited'
-Plug 'chrisbra/vim-diff-enhanced'
-Plug 'sbdchd/neoformat'
-Plug 'akmassey/vim-cheat' " personal vim cheatsheet
-Plug 'gorkunov/smartpairs.vim' " to progressively select larger scopes using 'v' again
+Plug 'wellle/targets.vim'              " better text objects for selections (e.g., `vi)' and the like)
+Plug 'machakann/vim-textobj-delimited' " better repeated selections of text objects (e.g., `vi)i)' and the like)
+Plug 'gorkunov/smartpairs.vim'         " to progressively select larger scopes using 'v' again
+Plug 'sbdchd/neoformat'                " for simple code formatting
+Plug 'akmassey/vim-cheat'              " personal vim cheatsheet  (:h cheat)
 " }}}
+
+" Reminder -- You can use :scriptnames to see which scripts are executed when
+" loading vim.
+
+" Map the leader to something more reasonable.  Also, keep the reverse  {{{
+" motion command available by mapping it to the old leader key.
+let mapleader=","
+let maplocalleader=","
+noremap \ ,
+" }}}
+
+" Timeout Settings {{{
+set timeout
+set timeoutlen=500
+" }}}
+
+" Basic Settings {{{
+set nocompatible      " Use vim, no vi defaults
+set number            " Show line numbers
+set ruler             " Show line and column number
+syntax enable         " Turn on syntax highlighting allowing local overrides
+set encoding=utf-8    " Set default encoding to UTF-8
+
+" Use a single location for temporary files and swap files.
+set backupdir=~/.vim/backup,/tmp
+set directory=~/.vim/swapfiles,/tmp
+
+" Setup a permanent undo file to ensure you can just re-launch and undo
+" changes.
+set undodir=~/.vim/undos
+set undofile
+
+" Disable output and VCS files
+set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
+"
+" Disable archive files
+set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+"
+" Ignore bundler and sass cache
+set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
+"
+" Disable temp and backup files
+set wildignore+=*.swp,*~,._*
+
+" Show partially typed command sequences.
+set showcmd
+
+" Minimal number of lines to always show above/below the caret.
+set scrolloff=3
+
+" Set the title when you're in terminal mode
+set title
+
+" Alternatives to escape
+inoremap jk <Esc>
+map <F1> <Esc>
+imap <F1> <Esc>
+" }}}
+
+" Folding Settings {{{
+" Toggle folds more easily
+nnoremap <Leader><Space> za
+
+set foldlevelstart=4
+" }}}
+
 
 " TODO: Maybe put some checks around this to ensure the file exists?
 let g:ruby_path='/usr/local/opt/rbenv/shims/ruby'
@@ -39,11 +104,11 @@ Plug 'janko-m/vim-test'
 " make test commands execute using dispatch.vim
 let test#strategy = "dispatch"
 let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
-nnoremap <silent> <Leader>t :TestNearest<CR>
-nnoremap <silent> <Leader>T :TestFile<CR>
-nnoremap <silent> <Leader>a :TestSuite<CR>
-nnoremap <silent> <Leader>l :TestLast<CR>
-nnoremap <silent> <Leader>g :TestVisit<CR>
+nnoremap <silent> <Leader>tn :TestNearest<CR>
+nnoremap <silent> <Leader>tf :TestFile<CR>
+nnoremap <silent> <Leader>ta :TestSuite<CR>
+nnoremap <silent> <Leader>tl :TestLast<CR>
+nnoremap <silent> <Leader>tv :TestVisit<CR>
 " }}}
 
 
@@ -80,20 +145,17 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 Plug 'vim-scripts/zoom.vim'
+Plug 'chrisbra/vim-diff-enhanced'      " to use the patience diff algorithm
 Plug 'AndrewRadev/splitjoin.vim'  " gS to do multi-line split and gJ to do multi-line join
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+let g:undotree_WindowLayout = 1
 Plug 'myusuf3/numbers.vim' " for smarter line numbers
 Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
 Plug 'psliwka/vim-smoothie'  " for smooth scrolling on normal mode movement commands
 " }}}
 
 " Strip Trailing Whitespace {{{
-Plug 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace
-" Strip trailing whitespace
-"    This approach works withouth relying on the vim-better-whitespace plugin
-" nnoremap <Leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
-"    This approach DOES rely on vim-better-whitespace
-nnoremap <Leader>$ :StripWhitespace<CR>
+Plug 'ntpeters/vim-better-whitespace'  " highlight unnecessary whitespace, also :StripWhitespace
 let g:show_spaces_that_precede_tabs = 1
 let g:strip_whitespace_on_save = 1
 let g:strip_whitelines_at_eof = 1
@@ -379,11 +441,12 @@ endif
 " }}}
 
 " A plugin that executes files with a shebang and puts the output in a buffer {{{
-Plug 'fboender/bexec'
+Plug 'fboender/bexec'  " use :Bexec or <Leader>bx, also :BexecLive and <Leader>bl
 let g:bexec_splitdir="ver"
 " }}}
 
-" Use <Leader>ww to mark and swap windows {{{
+" Use <Leader>ww to mark a window, then move to the target window, and  {{{
+" finally use <Leader>ww to swap windows
 Plug 'wesQ3/vim-windowswap'
 " }}}
 
@@ -411,28 +474,6 @@ let g:vimtex_compiler_progname='nvr'
 let g:tex_fold_enabled=1
 let g:vimsyn_folding='af'
 let g:xml_syntax_folding = 1
-
-" Toggle the display of the LaTeX Table of Contents window
-nnoremap <LocalLeader>lt :LatexTOCToggle<CR>
-" Other LaTeX mappings:
-"
-"<LocalLeader>ll                                                     |:Latexmk|
-"        Compile with latexmk.
-"<LocalLeader>lL                                                    |:Latexmk!|
-"        Force compilation with latexmk.
-"<LocalLeader>lc                                                |:LatexmkClean|
-"        Clean temporary output from LaTeX.
-"<LocalLeader>lC                                               |:LatexmkClean!|
-"        Clean all output from LaTeX.
-"<LocalLeader>lk                                                 |:LatexmkStop|
-"        Stop latexmk if it is running.
-"<LocalLeader>lg                                               |:LatexmkStatus|
-"        Show the running status of latexmk for the current buffer.
-"<LocalLeader>lG                                              |:LatexmkStatus!|
-"        Show the running status of latexmk for all buffers with process group
-"        ID's.
-"<LocalLeader>le                                                 |:LatexErrors|
-"        Load the log file for the current document and jump to the first error.
 " }}}
 
 " Writing related plugins {{{
@@ -583,65 +624,6 @@ call plug#end()
 if !has('nvim')
   packadd! matchit
 endif
-
-" Reminder -- You can use :scriptnames to see which scripts are executed when
-" loading vim.
-
-" Map the leader to something more reasonable.  Also, keep the reverse
-" motion command available by mapping it to the old leader key.
-let mapleader=","
-let maplocalleader=","
-noremap \ ,
-
-" Timeout Settings {{{
-set timeout
-set timeoutlen=500
-" }}}
-
-" Basic Settings {{{
-set nocompatible      " Use vim, no vi defaults
-set number            " Show line numbers
-set ruler             " Show line and column number
-syntax enable         " Turn on syntax highlighting allowing local overrides
-set encoding=utf-8    " Set default encoding to UTF-8
-
-" Use a single location for temporary files and swap files.
-set backupdir=~/.vim/backup,/tmp
-set directory=~/.vim/swapfiles,/tmp
-
-" Disable output and VCS files
-set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
-"
-" Disable archive files
-set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
-"
-" Ignore bundler and sass cache
-set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
-"
-" Disable temp and backup files
-set wildignore+=*.swp,*~,._*
-
-" Show partially typed command sequences.
-set showcmd
-
-" Minimal number of lines to always show above/below the caret.
-set scrolloff=3
-
-" Set the title when you're in terminal mode
-set title
-
-" Alternatives to escape
-inoremap jk <Esc>
-map <F1> <Esc>
-imap <F1> <Esc>
-" }}}
-
-" Folding Settings {{{
-" Toggle folds more easily
-nnoremap <Leader><Space> za
-
-set foldlevelstart=4
-" }}}
 
 " Neovim miscellaneousness {{{
 " Don't forget to pip install --upgrade neovim and do the same for pip3
@@ -1014,7 +996,7 @@ nnoremap <Leader>Q :call Preserve("normal vapJgqap")<CR>
 
 " Toggle NERDTree and Tagbar
 map <Leader>8 :NERDTreeToggle<CR>
-map <Leader>9 :TagbarToggle<CR>
+map <Leader>tb :TagbarToggle<CR>
 
 " Function to rename current file {{{
 function! RenameFile()
@@ -1264,6 +1246,9 @@ endfor
 
 let ft_execute_mappings = {
       \'c': 'gcc -o %:r -Wall -std=c99 % && ./%:r',
+      \'cpp': 'xcrun g++ % -o %:r && ./%:r',
+      \'java': 'javac % && java %:r',
+      \'coffee': 'coffee %',
       \'erlang': 'escript %',
       \'pascal': 'fpc % && ./%:r'
       \}
