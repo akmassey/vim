@@ -612,6 +612,7 @@ Plug 'jnurmine/Zenburn'
 Plug 'rainux/vim-desert-warm-256'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'jacoborus/tender.vim'
+Plug 'ayu-theme/ayu-vim'
 " }}}
 
 " Load devicons last {{{
@@ -683,17 +684,11 @@ set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
 " }}}
 
 " non-GUI colorschemes
-set background=dark
-" colorscheme solarized
-" colorscheme darkerdesert
-" colorscheme wombat
-" colorscheme tomorrow-night-bright
-" colorscheme tender
-colorscheme jellybeans
-" colorscheme papercolor
 if has("termguicolors")
   set termguicolors
 endif
+set background=dark
+colorscheme jellybeans
 
 " GUI Settings {{{
 if has("gui_macvim")
