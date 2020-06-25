@@ -152,6 +152,7 @@ let g:undotree_WindowLayout = 1
 Plug 'myusuf3/numbers.vim' " for smarter line numbers
 Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
 Plug 'psliwka/vim-smoothie'  " for smooth scrolling on normal mode movement commands
+Plug 'milkypostman/vim-togglelist' " to toggle the quickfix and location lists
 " }}}
 
 " Strip Trailing Whitespace {{{
