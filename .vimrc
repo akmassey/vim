@@ -25,6 +25,7 @@ Plug 'wellle/targets.vim'              " better text objects for selections (e.g
 Plug 'machakann/vim-textobj-delimited' " better repeated selections of text objects (e.g., `vi)i)' and the like)
 Plug 'gorkunov/smartpairs.vim'         " to progressively select larger scopes using 'v' again
 Plug 'sbdchd/neoformat'                " for simple code formatting
+Plug 'ConradIrwin/vim-bracketed-paste' " to automatically set paste when pasting in Insert mode
 Plug 'akmassey/vim-cheat'              " personal vim cheatsheet  (:h cheat)
 " }}}
 
@@ -214,7 +215,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 let g:coc_global_extensions = [
   \ 'coc-snippets',
-  \ 'coc-ultisnips',
   \ 'coc-bibtex',
   \ 'coc-css',
   \ 'coc-dictionary',
