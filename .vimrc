@@ -347,10 +347,10 @@ xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 command! -nargs=0 Format :call CocAction('format')
 
 " Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
@@ -420,6 +420,9 @@ let g:fzf_buffers_jump = 1
 
 " [Tags] Command to generate tags file
 let g:fzf_tags_command = 'ctags -R'
+
+" make the FZF window a little more central
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 
 Plug 'junegunn/vim-slash'  " for improved searches using '/' from normal mode
 noremap <Plug>(slash-after) zz
@@ -614,6 +617,7 @@ Plug 'rainux/vim-desert-warm-256'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'jacoborus/tender.vim'
 Plug 'ayu-theme/ayu-vim'
+Plug 'gruvbox-community/gruvbox'
 " }}}
 
 " Load devicons last {{{
