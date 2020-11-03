@@ -154,6 +154,7 @@ Plug 'myusuf3/numbers.vim' " for smarter line numbers
 Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
 Plug 'psliwka/vim-smoothie'  " for smooth scrolling on normal mode movement commands
 Plug 'milkypostman/vim-togglelist' " to toggle the quickfix and location lists
+Plug 'mattn/emmet-vim'
 " }}}
 
 " Strip Trailing Whitespace {{{
@@ -185,6 +186,7 @@ let g:startify_files_number = 5
 let g:startify_bookmarks = [ {'f': '~/.fortune'},
       \ {'m': '~/.mutt/muttrc'},
       \ {'v': '~/dotfiles/vim/.vimrc'},
+      \ {'w': '~/Dropbox/wiki/index.wiki'},
       \ {'z': '~/dotfiles/zsh/.zshrc'},
       \ ]
 
@@ -478,6 +480,8 @@ let g:vimtex_compiler_progname='nvr'
 let g:tex_fold_enabled=1
 let g:vimsyn_folding='af'
 let g:xml_syntax_folding = 1
+
+Plug 'Konfekt/vim-latexencode'  " requires pylatexenc to be separately installed
 " }}}
 
 " Writing related plugins {{{
@@ -489,8 +493,32 @@ Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-pencil'
 Plug 'christoomey/vim-titlecase'
 Plug 'itspriddle/vim-marked'  " to open things in Marked or Marked 2
-let g:marked_filetypes = ["markdown", "mkd", "md", "ghmarkdown", "vimwiki"]
 nnoremap <Leader>m :MarkedOpen
+let g:marked_filetypes = ["markdown", "mkd", "md", "ghmarkdown", "vimwiki"]
+" }}}
+
+" Vimwiki Configuration {{{
+Plug 'vimwiki/vimwiki'
+Plug 'mattn/calendar-vim'
+" open the Vimwiki Index
+nnoremap <Leader>11 <Plug>VimwikiIndex
+" select an item from the Vimwiki Index
+nnoremap <Leader>1s <Plug>VimwikiUISelect
+" open your Vimwiki diary
+nnoremap <Leader>1d <Plug>VimwikiDiaryIndex
+" create a new entry in your Vimwiki diary
+nnoremap <Leader>1n <Plug>VimwikiTabMakeDiaryNote
+" create a note in your Vimwiki diary for yesterday
+nnoremap <Leader>1y <Plug>VimwikiMakeYesterdayDiaryNote
+let g:vimwiki_table_mappins = 0
+let g:vimwiki_list = [{'path': '~/Dropbox/wiki/', 'syntax': 'markdown'}]
+command! Diary VimwikiDiaryIndex
+command! DiaryNew VimwikiMakeDiaryNote
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+augroup end
 " }}}
 
 " Movement / file browsing plugins {{{
@@ -534,6 +562,7 @@ Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim' | Plug 'christoomey/vim-confl
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'inkarkat/vim-ingo-library' | Plug 'inkarkat/vim-CountJump' | Plug 'inkarkat/vim-ConflictMotions'
+Plug 'airblade/vim-gitgutter'
 " }}}
 
 " Ruby related plugins {{{
@@ -568,6 +597,8 @@ let g:pymode_lint_cwindow=0  " don't automatically open the cwindow
 " Plug 'davidhalter/jedi-vim'
 " Plug 'nvie/vim-flake8'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'PieterjanMontens/vim-pipenv'
 " }}}
 
 " " Nim related configuration {{{
@@ -833,8 +864,8 @@ if has("autocmd")
   au FileType plaintex,context,tex,latex nmap <Leader>w :!texcount %<CR>
 
   " Replace macros for quotes, requires textobj-quote
-  au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qc <Plug>ReplaceWithCurly
-  au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qs <Plug>ReplaceWithStraight
+  au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qc :call Preserve("<Plug>ReplaceWithCurly")<CR>
+  au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qs :call Preserve("<Plug>ReplaceWithStraight")<CR>
 endif
 
 " Automatically convert things to smartquotes for these filetypes
@@ -1298,6 +1329,28 @@ endfunction
 command! -nargs=? -range=% Space2Tab call IndentConvert(<line1>,<line2>,0,<q-args>)
 command! -nargs=? -range=% Tab2Space call IndentConvert(<line1>,<line2>,1,<q-args>)
 command! -nargs=? -range=% RetabIndent call IndentConvert(<line1>,<line2>,&et,<q-args>)
+" }}}
+
+" Find non-printable characters {{{
+function! NonPrintable()
+   if search('[^\x00-\xff]') != 0
+     call matchadd('Error', '[^\x00-\xff]')
+     echo 'Non printable characters in text'
+   else
+     echo 'All characters are printable'
+   endif
+ endfunction
+" }}}
+
+" Find non-ASCII characters {{{
+function! NonASCII()
+   if search('[^\x00-\x7F]') != 0
+     call matchadd('Error', '[^\x00-\x7F]')
+     echo 'Non-ASCII characters in text'
+   else
+     echo 'All characters are ASCII'
+   endif
+ endfunction
 " }}}
 
 if exists("g:loaded_webdevicons")
