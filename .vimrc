@@ -81,6 +81,9 @@ set scrolloff=3
 " Set the title when you're in terminal mode
 set title
 
+" Prefer vertical splits for diffs
+set diffopt+=vertical
+
 " Alternatives to escape
 inoremap jk <Esc>
 map <F1> <Esc>
@@ -213,7 +216,7 @@ let g:startify_lists = [
 
 " Conqurer of Completion {{{
 "     https://github.com/neoclide/coc.nvim
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
 
 let g:coc_global_extensions = [
   \ 'coc-snippets',
@@ -623,6 +626,18 @@ function! s:goyo_leave()
 endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" Typing :Fo foo immediately places a Markdown extension footnote [^foo] after the current character and drops the footnote reference at the bottom of the text buffer.
+
+function! s:MdFootnote(note)
+  let s:footnote = "[^".a:note."]"
+  let @m = s:footnote
+  norm "mpmm
+  $put = s:footnote.':'
+  norm `m
+endfunction
+
+command! -nargs=1 Footnote call s:MdFootnote("<args>")
 " }}}
 
 " Polyglot, a collection of language packs for vim {{{
@@ -1351,6 +1366,61 @@ function! NonASCII()
      echo 'All characters are ASCII'
    endif
  endfunction
+" }}}
+
+" Make working with the arglist a little easier {{{
+"
+" Much of this is pulled from this excellent blogpost by Chris Toomey:
+"    https://ctoomey.com/writing/using-vims-arglist-as-a-todo-list/
+"
+" The basic idea is that if you need to operate on multiple files, you do the
+" following:
+"
+" 1.  Open Vim with the desired files, e.g., vim $(ag -l "from 'react'")
+"
+" 2.  Edit the current file as needed using all the flexibility of Vim
+"     (macros, plugins, brute force edits all welcome here)
+"
+" 3.  When the edits for the current file are done, run the :ThankYouNext
+"     command (see below for the bit of Vimscript that makes that work) to
+"     move on to the next file.
+"
+" 4.  Repeat from step 2 until all files are edited and you’re left with an
+"     empty Vim session.
+"
+" # Files matching a search
+" ❯ ag -l "from 'react-dom'" | xargs -o vim
+"
+" # Files w/ names matching a pattern
+" ❯ fd '_spec.rb$' spec/ | xargs -o vim
+"
+" # Files selected from fuzzy finding w/ fzf
+" ❯ fzf --multi | xargs -o vim
+"
+" # Files with uncommitted changes
+" ❯ git diff --name-only | xargs -o vim
+"
+" # Files modified on this branch
+" ❯ git diff master --name-only | xargs -o vim
+"
+" # Files w/ failing specs (using RSpec's persisted failure file)
+" ❯ grep 'failed' spec/examples.txt | awk '{print $1}' | sed 's/\[.*$//' | sort | uniq | xargs -o vim
+"
+" # Conflicted files in git
+" ❯ git ls-files -u | awk '{print $4}' | sort -u | xargs -o vim
+"
+" # A list of files copied to our clipboard
+" ❯ pbpaste | xargs -o vim
+function! s:ThankYouNext() abort
+  update
+  argdelete %
+  bdelete
+  if !empty(argv())
+    argument
+  endif
+endfunction
+
+command! ThankYouNext call <sid>ThankYouNext()
 " }}}
 
 if exists("g:loaded_webdevicons")
