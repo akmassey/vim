@@ -666,6 +666,11 @@ Plug 'jacoborus/tender.vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'hzchirs/vim-material'
+
+let g:material_style='oceanic'
+set background=dark
+colorscheme vim-material
 " }}}
 
 " Load devicons last {{{
@@ -695,7 +700,8 @@ set wildmenu   " Display all matching files when tab completing
 let g:airline_powerline_fonts = 1
 
 " Set airline colorscheme
-let g:airline_theme = 'dracula'
+let g:airline_theme = 'material'
+" let g:airline_theme = 'dracula'
 " let g:airline_theme = 'jellybeans'
 " let g:airline_theme = 'papercolor'
 
@@ -742,8 +748,6 @@ set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
 if has("termguicolors")
   set termguicolors
 endif
-set background=dark
-colorscheme dracula
 
 " GUI Settings {{{
 if has("gui_macvim")
