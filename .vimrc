@@ -562,6 +562,7 @@ endif
 Plug 'tpope/vim-fugitive' | Plug 'junegunn/gv.vim' | Plug 'christoomey/vim-conflicted'
 " NOTE: use `dgu` to diffget upstream changes and `dgl` to diffget local
 " changes
+Plug 'junegunn/gv.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'inkarkat/vim-ingo-library' | Plug 'inkarkat/vim-CountJump' | Plug 'inkarkat/vim-ConflictMotions'
