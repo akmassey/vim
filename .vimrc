@@ -664,6 +664,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'jacoborus/tender.vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'gruvbox-community/gruvbox'
+Plug 'dracula/vim', { 'as': 'dracula' }
 " }}}
 
 " Load devicons last {{{
@@ -693,7 +694,8 @@ set wildmenu   " Display all matching files when tab completing
 let g:airline_powerline_fonts = 1
 
 " Set airline colorscheme
-let g:airline_theme = 'jellybeans'
+let g:airline_theme = 'dracula'
+" let g:airline_theme = 'jellybeans'
 " let g:airline_theme = 'papercolor'
 
 " Let airline clean up the tabline as well
@@ -702,7 +704,8 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 
 " set a theme for tmuxline as well
-let g:tmuxline_theme = 'jellybeans'
+let g:tmuxline_theme = 'dracula'
+" let g:tmuxline_theme = 'jellybeans'
 " }}}
 
 " Ensure line numbers are not shown in these file types.
@@ -739,7 +742,7 @@ if has("termguicolors")
   set termguicolors
 endif
 set background=dark
-colorscheme jellybeans
+colorscheme dracula
 
 " GUI Settings {{{
 if has("gui_macvim")
