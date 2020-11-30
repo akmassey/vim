@@ -230,7 +230,7 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ 'coc-marketplace',
   \ 'coc-omni',
-  \ 'coc-python',
+  \ 'coc-pyright',
   \ 'coc-rls',
   \ 'coc-solargraph',
   \ 'coc-tag',
@@ -667,10 +667,6 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'hzchirs/vim-material'
-
-let g:material_style='oceanic'
-set background=dark
-colorscheme vim-material
 " }}}
 
 " Load devicons last {{{
@@ -747,6 +743,10 @@ set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
 " non-GUI colorschemes
 if has("termguicolors")
   set termguicolors
+
+  let g:material_style='oceanic'
+  set background=dark
+  colorscheme vim-material
 endif
 
 " GUI Settings {{{
