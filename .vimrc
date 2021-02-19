@@ -132,11 +132,13 @@ let g:ale_linters = {
 \   'javascript': ['prettier', 'eslint'],
 \   'tex': ['chktex', 'proselint', 'textlint', 'vale'],
 \   'go': ['gopls'],
-\   'markdown' : ['prettier', 'textlint', 'vale', 'proselint', 'mdl']
+\   'markdown' : ['prettier', 'textlint', 'vale', 'proselint', 'mdl'],
+\   'python' : ['flake8', 'pylint'],
 \}
 
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
+\   'python': ['autopep8', 'yapf'],
 \}
 
 let g:ale_fix_on_save = 1
@@ -230,10 +232,13 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ 'coc-marketplace',
   \ 'coc-omni',
+  \ 'coc-python',
   \ 'coc-pyright',
   \ 'coc-rls',
   \ 'coc-solargraph',
   \ 'coc-tag',
+  \ 'coc-prettier',
+  \ 'coc-tsserver',
   \ 'coc-texlab',
   \ 'coc-vimtex',
   \ 'coc-yaml',
@@ -474,8 +479,6 @@ let g:vimtex_quickfix_latexlog = {
       \   'default' : 0,
       \ },
       \}
-Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
-let g:gutentags_cache_dir='~/.gutentags'
 
 let g:vimtex_compiler_progname='nvr'
 
@@ -485,6 +488,48 @@ let g:vimsyn_folding='af'
 let g:xml_syntax_folding = 1
 
 Plug 'Konfekt/vim-latexencode'  " requires pylatexenc to be separately installed
+" }}}
+
+" Gutentags configuration {{{
+"
+" Much of this configuration is designed to avoid starting Gutentags for
+" filetypes or buffers that really shouldn't have tags generated for them.
+" Please see this GitHub issue for more information:
+"     https://github.com/ludovicchabant/vim-gutentags/issues/178
+Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
+let g:gutentags_cache_dir = expand('~/.gutentags')
+let g:gutentags_add_default_project_roots = 0
+let g:gutentags_project_root  = ['package.json', '.git', '.hg', '.svn']
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
+let g:gutentags_ctags_extra_args = ['--tag-relative=yes', '--fields=+ailmnS']
+let g:gutentags_ctags_exclude = [
+\  '*.git', '*.svn', '*.hg',
+\  'cache', 'build', 'dist', 'bin', 'node_modules', 'bower_components',
+\  '*-lock.json',  '*.lock',
+\  '*.min.*',
+\  '*.bak',
+\  '*.zip',
+\  '*.pyc',
+\  '*.class',
+\  '*.sln',
+\  '*.csproj', '*.csproj.user',
+\  '*.tmp',
+\  '*.cache',
+\  '*.vscode',
+\  '*.pdb',
+\  '*.exe', '*.dll', '*.bin',
+\  '*.mp3', '*.ogg', '*.flac',
+\  '*.swp', '*.swo',
+\  '.DS_Store', '*.plist',
+\  '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png', '*.svg',
+\  '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+\  '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx', '*.xls',
+\  '.fortune', '~/.mutt/temp/mutt-*',
+\]
 " }}}
 
 " Writing related plugins {{{
@@ -498,6 +543,10 @@ Plug 'christoomey/vim-titlecase'
 Plug 'itspriddle/vim-marked'  " to open things in Marked or Marked 2
 nnoremap <Leader>m :MarkedOpen
 let g:marked_filetypes = ["markdown", "mkd", "md", "ghmarkdown", "vimwiki"]
+Plug 'JamshedVesuna/vim-markdown-preview'
+let vim_markdown_preview_hotkey='<C-g>'
+let vim_markdown_preview_temp_file=1
+let vim_markdown_preview_pandoc=1
 " }}}
 
 " Vimwiki Configuration {{{
@@ -595,15 +644,15 @@ Plug 'moll/vim-node'
 Plug 'kchmck/vim-coffee-script'
 " }}}
 
-" Python related plugins {{{
-Plug 'python-mode/python-mode', { 'branch': 'develop' }
-let g:pymode_lint_cwindow=0  " don't automatically open the cwindow
-" Plug 'davidhalter/jedi-vim'
-" Plug 'nvie/vim-flake8'
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-Plug 'jmcantrell/vim-virtualenv'
-Plug 'PieterjanMontens/vim-pipenv'
-" }}}
+" " Python related plugins {{{
+" Plug 'python-mode/python-mode', { 'branch': 'develop' }
+" let g:pymode_lint_cwindow=0  " don't automatically open the cwindow
+" " Plug 'davidhalter/jedi-vim'
+" " Plug 'nvie/vim-flake8'
+" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+" Plug 'jmcantrell/vim-virtualenv'
+" Plug 'PieterjanMontens/vim-pipenv'
+" " }}}
 
 " " Nim related configuration {{{
 " Plug 'autozimu/LanguageClient-neovim', {
@@ -667,6 +716,7 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'hzchirs/vim-material'
+Plug 'humanoid-colors/vim-humanoid-colorscheme'
 " }}}
 
 " Load devicons last {{{
@@ -1004,6 +1054,7 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
 " Swap window positions
 nnoremap <c-x> <c-w>x
 
@@ -1131,8 +1182,8 @@ nnoremap <Leader>y :call system('nc localhost 8377', @0)<CR>
 
 " Saner way to copy / paste from the OS X system pasteboard
 " TODO: turn these into functions that won't override these keyboard shortcuts
-" vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
-" nmap <C-v> :call setreg("\"", system("pbpaste"))<CR>p
+vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
+nmap <C-v> :call setreg("\"", system("pbpaste"))<CR>p
 
 " Use very magic for searches by default
 nnoremap / /\v
