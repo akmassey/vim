@@ -102,18 +102,18 @@ set foldlevelstart=4
 let g:ruby_path='/usr/local/opt/rbenv/shims/ruby'
 let g:ruby_host_prog = '/usr/local/opt/rbenv/shims/neovim-ruby-host'
 
-" Testing support with vim-test {{{
-Plug 'janko-m/vim-test'
+" " Testing support with vim-test {{{
+" Plug 'janko-m/vim-test'
 
-" make test commands execute using dispatch.vim
-let test#strategy = "dispatch"
-let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
-nnoremap <silent> <Leader>tn :TestNearest<CR>
-nnoremap <silent> <Leader>tf :TestFile<CR>
-nnoremap <silent> <Leader>ta :TestSuite<CR>
-nnoremap <silent> <Leader>tl :TestLast<CR>
-nnoremap <silent> <Leader>tv :TestVisit<CR>
-" }}}
+" " make test commands execute using dispatch.vim
+" let test#strategy = "dispatch"
+" let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
+" nnoremap <silent> <Leader>tn :TestNearest<CR>
+" nnoremap <silent> <Leader>tf :TestFile<CR>
+" nnoremap <silent> <Leader>ta :TestSuite<CR>
+" nnoremap <silent> <Leader>tl :TestLast<CR>
+" nnoremap <silent> <Leader>tv :TestVisit<CR>
+" " }}}
 
 
 " Asynchronous Linting Engine configuration {{{
@@ -150,15 +150,15 @@ Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
-Plug 'vim-scripts/zoom.vim'
+" Plug 'vim-scripts/zoom.vim'
 Plug 'chrisbra/vim-diff-enhanced'      " to use the patience diff algorithm
 Plug 'AndrewRadev/splitjoin.vim'  " gS to do multi-line split and gJ to do multi-line join
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 let g:undotree_WindowLayout = 1
 Plug 'myusuf3/numbers.vim' " for smarter line numbers
-Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
-Plug 'psliwka/vim-smoothie'  " for smooth scrolling on normal mode movement commands
-Plug 'milkypostman/vim-togglelist' " to toggle the quickfix and location lists
+" Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
+" Plug 'psliwka/vim-smoothie'  " for smooth scrolling on normal mode movement commands
+" Plug 'milkypostman/vim-togglelist' " to toggle the quickfix and location lists
 Plug 'mattn/emmet-vim'
 " }}}
 
@@ -175,11 +175,11 @@ Plug 'ktonga/vim-follow-my-lead'
 let g:fml_all_sources = 1
 " }}}
 
-" viewdoc settings {{{
-Plug 'powerman/vim-plugin-viewdoc'
-let g:viewdoc_open = 'vnew'
-let g:no_viewdoc_maps = 1
-" }}}
+" " viewdoc settings {{{
+" Plug 'powerman/vim-plugin-viewdoc'
+" let g:viewdoc_open = 'vnew'
+" let g:no_viewdoc_maps = 1
+" " }}}
 
 " Startify settings {{{
 Plug 'mhinz/vim-startify'
@@ -490,47 +490,47 @@ let g:xml_syntax_folding = 1
 Plug 'Konfekt/vim-latexencode'  " requires pylatexenc to be separately installed
 " }}}
 
-" Gutentags configuration {{{
-"
-" Much of this configuration is designed to avoid starting Gutentags for
-" filetypes or buffers that really shouldn't have tags generated for them.
-" Please see this GitHub issue for more information:
-"     https://github.com/ludovicchabant/vim-gutentags/issues/178
-Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
-let g:gutentags_cache_dir = expand('~/.gutentags')
-let g:gutentags_add_default_project_roots = 0
-let g:gutentags_project_root  = ['package.json', '.git', '.hg', '.svn']
-let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
-let g:gutentags_generate_on_new = 1
-let g:gutentags_generate_on_missing = 1
-let g:gutentags_generate_on_write = 1
-let g:gutentags_generate_on_empty_buffer = 0
-let g:gutentags_ctags_extra_args = ['--tag-relative=yes', '--fields=+ailmnS']
-let g:gutentags_ctags_exclude = [
-\  '*.git', '*.svn', '*.hg',
-\  'cache', 'build', 'dist', 'bin', 'node_modules', 'bower_components',
-\  '*-lock.json',  '*.lock',
-\  '*.min.*',
-\  '*.bak',
-\  '*.zip',
-\  '*.pyc',
-\  '*.class',
-\  '*.sln',
-\  '*.csproj', '*.csproj.user',
-\  '*.tmp',
-\  '*.cache',
-\  '*.vscode',
-\  '*.pdb',
-\  '*.exe', '*.dll', '*.bin',
-\  '*.mp3', '*.ogg', '*.flac',
-\  '*.swp', '*.swo',
-\  '.DS_Store', '*.plist',
-\  '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png', '*.svg',
-\  '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
-\  '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx', '*.xls',
-\  '.fortune', '~/.mutt/temp/mutt-*',
-\]
-" }}}
+"" Gutentags configuration {{{
+""
+"" Much of this configuration is designed to avoid starting Gutentags for
+"" filetypes or buffers that really shouldn't have tags generated for them.
+"" Please see this GitHub issue for more information:
+""     https://github.com/ludovicchabant/vim-gutentags/issues/178
+"Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
+"let g:gutentags_cache_dir = expand('~/.gutentags')
+"let g:gutentags_add_default_project_roots = 0
+"let g:gutentags_project_root  = ['package.json', '.git', '.hg', '.svn']
+"let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git', 'mail', 'vimwiki']
+"let g:gutentags_generate_on_new = 1
+"let g:gutentags_generate_on_missing = 1
+"let g:gutentags_generate_on_write = 1
+"let g:gutentags_generate_on_empty_buffer = 0
+"let g:gutentags_ctags_extra_args = ['--tag-relative=yes', '--fields=+ailmnS']
+"let g:gutentags_ctags_exclude = [
+"\  '*.git', '*.svn', '*.hg',
+"\  'cache', 'build', 'dist', 'bin', 'node_modules', 'bower_components',
+"\  '*-lock.json',  '*.lock',
+"\  '*.min.*',
+"\  '*.bak',
+"\  '*.zip',
+"\  '*.pyc',
+"\  '*.class',
+"\  '*.sln',
+"\  '*.csproj', '*.csproj.user',
+"\  '*.tmp',
+"\  '*.cache',
+"\  '*.vscode',
+"\  '*.pdb',
+"\  '*.exe', '*.dll', '*.bin',
+"\  '*.mp3', '*.ogg', '*.flac',
+"\  '*.swp', '*.swo',
+"\  '.DS_Store', '*.plist',
+"\  '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png', '*.svg',
+"\  '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+"\  '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx', '*.xls',
+"\  '.fortune', '~/.mutt/temp/mutt-*',
+"\]
+"" }}}
 
 " Writing related plugins {{{
 Plug 'kana/vim-textobj-user'
@@ -638,11 +638,11 @@ let g:go_info_mode='gopls'
 
 " }}}
 
-" JavaScript related plugins {{{
-Plug 'moll/vim-node'
-" Plug 'HerringtonDarkholme/yats.vim'
-Plug 'kchmck/vim-coffee-script'
-" }}}
+" " JavaScript related plugins {{{
+" Plug 'moll/vim-node'
+" " Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'kchmck/vim-coffee-script'
+" " }}}
 
 " " Python related plugins {{{
 " Plug 'python-mode/python-mode', { 'branch': 'develop' }
@@ -700,23 +700,23 @@ let g:rustfmt_autosave = 1
 
 " Colorschemes {{{
 Plug 'chriskempson/vim-tomorrow-theme'
-Plug 'therubymug/vim-pyte'
+" Plug 'therubymug/vim-pyte'
 Plug 'altercation/vim-colors-solarized'
-Plug 'tpope/vim-vividchalk'
-Plug 'dsolstad/vim-wombat256i'
-Plug 'tomasr/molokai'
+" Plug 'tpope/vim-vividchalk'
+" Plug 'dsolstad/vim-wombat256i'
+" Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
-Plug 'akmassey/vim-codeschool'
-Plug 'twerth/ir_black'
-Plug 'jnurmine/Zenburn'
-Plug 'rainux/vim-desert-warm-256'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'jacoborus/tender.vim'
+" Plug 'akmassey/vim-codeschool'
+" Plug 'twerth/ir_black'
+" Plug 'jnurmine/Zenburn'
+" Plug 'rainux/vim-desert-warm-256'
+" Plug 'NLKNguyen/papercolor-theme'
+" Plug 'jacoborus/tender.vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'hzchirs/vim-material'
-Plug 'humanoid-colors/vim-humanoid-colorscheme'
+" Plug 'hzchirs/vim-material'
+" Plug 'humanoid-colors/vim-humanoid-colorscheme'
 " }}}
 
 " Load devicons last {{{
