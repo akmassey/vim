@@ -139,6 +139,7 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
 \   'python': ['autopep8', 'yapf'],
+\   'bib': ['bibclean'],
 \}
 
 let g:ale_fix_on_save = 1
@@ -232,7 +233,6 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ 'coc-marketplace',
   \ 'coc-omni',
-  \ 'coc-python',
   \ 'coc-pyright',
   \ 'coc-rls',
   \ 'coc-solargraph',
@@ -715,7 +715,7 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'dracula/vim', { 'as': 'dracula' }
-" Plug 'hzchirs/vim-material'
+Plug 'hzchirs/vim-material'
 " Plug 'humanoid-colors/vim-humanoid-colorscheme'
 " }}}
 
@@ -1223,6 +1223,17 @@ map <Leader>d :call Preserve("%s/\\r/\\r/g")<CR>
 "   Hit <Leader><Enter> in any other file to save it and rerun the last test.
 let g:TestKey = { 'testkey': '<Leader><Enter>' }
 
+" Highlight specific lines and clear them {{{
+"    See: https://vimtricks.com/p/highlight-specific-lines/
+" define line highlight color as the vim-material oceanic selection color
+highlight LineHighlight ctermbg=60 guibg='#1f2233'
+
+" highlight the current line
+nnoremap <silent> <Leader>h :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
+
+" clear all the highlighted lines
+nnoremap <silent> <Leader>c :call clearmatches()<CR>
+" }}}
 
 " NERDTree Settings {{{
 " Start NERDTree when opening vim
