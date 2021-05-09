@@ -1,6 +1,5 @@
 set nocompatible
 
-
 " initialize vim-plug
 call plug#begin('~/.vim/plugged')
 
@@ -37,6 +36,12 @@ Plug 'akmassey/vim-cheat'              " personal vim cheatsheet  (:h cheat)
 let mapleader=","
 let maplocalleader=","
 noremap \ ,
+" }}}
+
+" Enable the mouse, not that you use it much {{{
+if has('mouse')
+  set mouse=a
+endif
 " }}}
 
 " Timeout Settings {{{
@@ -115,7 +120,6 @@ let g:ruby_host_prog = '/usr/local/opt/rbenv/shims/neovim-ruby-host'
 " nnoremap <silent> <Leader>tv :TestVisit<CR>
 " " }}}
 
-
 " Asynchronous Linting Engine configuration {{{
 Plug 'dense-analysis/ale'
 nmap <silent> [w <Plug>(ale_previous_wrap)
@@ -145,7 +149,6 @@ let g:ale_fixers = {
 let g:ale_fix_on_save = 1
 " }}}
 
-
 " Slightly less baseline plugins {{{
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
@@ -156,6 +159,7 @@ Plug 'chrisbra/vim-diff-enhanced'      " to use the patience diff algorithm
 Plug 'AndrewRadev/splitjoin.vim'  " gS to do multi-line split and gJ to do multi-line join
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 let g:undotree_WindowLayout = 1
+nnoremap <Leader>u :UndotreeToggle<CR>
 Plug 'myusuf3/numbers.vim' " for smarter line numbers
 " Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
 " Plug 'psliwka/vim-smoothie'  " for smooth scrolling on normal mode movement commands
@@ -204,7 +208,6 @@ let g:startify_lists = [
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 " }}}
-
 
 " " SuperTab {{{
 " Plug 'ervandew/supertab'
@@ -404,26 +407,75 @@ imap <Leader>j <Plug>(coc-snippets-expand-jump)
 " Snippets
 Plug 'honza/vim-snippets' " for snippets to be used with coc-snippets plugin
 
-" Search-related plugins {{{
+" Search-related plugins and configuration {{{
 Plug 'justinmk/vim-sneak'
 Plug 'nelstrom/vim-visual-star-search'
 
 Plug 'junegunn/fzf.vim'
+Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 
 " Configure fzf using Homebrew
 set rtp+=/usr/local/opt/fzf
 
-" Replace ctrlP
-nnoremap <C-p> :Files<CR>
+nmap <C-p> [fzf-p]
+xmap <C-p> [fzf-p]
 
-" Search for any file in the home directory
-nnoremap <C-e> :Files ~<CR>
+nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
-" Search for an open buffer
-nnoremap <Leader>b :Buffers<CR>
+" " Replace ctrlP
+" nnoremap <C-p> :call FzfOmniFiles()<CR>
 
-" Search for a tag in the current file
-nnoremap <Leader>gt :BTags<CR>
+" " Search for any file in the home directory
+" nnoremap <C-e> :Files ~<CR>
+
+" " Search for an open buffer
+" nnoremap <Leader>b :Buffers<CR>
+
+" " Search for a tag in the current file
+" nnoremap <Leader>gt :BTags<CR>
+
+" " Search for lines in the current file
+" nnoremap // :BLines!<CR>
+
+" " Search the entire project
+" nnoremap ?? :Rg!<CR>
+
+" Search for commands
+nnoremap cc :Commands!<CR>
+
+" " Run FZF based on the cwd & git detection
+" " 1. Runs :Files, If cwd is not a git repository
+" " 2. Runs :GitFiles <cwd> If root is a git repository
+" fun! FzfOmniFiles()
+"   " Throws v:shell_error if is not a git directory
+"   let git_status = system('git status')
+"   if v:shell_error != 0
+"     :Files
+"   else
+"     " Reference examples which made this happen:
+"     " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L209
+"     " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L290
+"     " --exclude-standard - Respect gitignore
+"     " --others - Show untracked git files
+"     " dir: getcwd() - Shows file names relative to cwd
+"     let git_files_cmd = ":GitFiles --exclude-standard --cached --others"
+"     call fzf#vim#gitfiles('--exclude-standard --cached --others', {'dir': getcwd()})
+"   endif
+" endfun
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
@@ -438,25 +490,23 @@ Plug 'junegunn/vim-slash'  " for improved searches using '/' from normal mode
 noremap <Plug>(slash-after) zz
 
 Plug 'wincent/scalpel'  " for improved search/replace for words under the cursor
+" Use <Leader>s for Scalpel instead of default <Leader>e:
+nmap <Leader>s <Plug>(Scalpel)
 Plug 'mileszs/ack.vim'
 
-" prefer the silver searcher for vim, if it is available
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
+" " prefer the silver searcher for vim, if it is available
+" if executable('ag')
+"   let g:ackprg = 'ag --vimgrep'
+" endif
 
 " prefer ripgrep and fzf for vim, if it is available
 if executable('rg')
   let g:ackprg = 'rg --vimgrep'
   set grepprg=rg\ --vimgrep
 
+  " Search for a word and then narrow it down with ripgrep using :Find
   command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
-" }}}
-
-" A plugin that executes files with a shebang and puts the output in a buffer {{{
-Plug 'fboender/bexec'  " use :Bexec or <Leader>bx, also :BexecLive and <Leader>bl
-let g:bexec_splitdir="ver"
 " }}}
 
 " Use <Leader>ww to mark a window, then move to the target window, and  {{{
@@ -586,7 +636,7 @@ if has('nvim')
     \,sm:block-blinkwait175-blinkoff150-blinkon175
 endif
 " Plug 'sjl/vitality.vim'
-let g:vitality_fix_focus=0  " don't enable focus events
+" let g:vitality_fix_focus=0  " don't enable focus events
 Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
 if has('nvim')
@@ -638,23 +688,17 @@ let g:go_info_mode='gopls'
 
 " }}}
 
-" " JavaScript related plugins {{{
-" Plug 'moll/vim-node'
-" " Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'kchmck/vim-coffee-script'
-" " }}}
-
-" " Python related plugins {{{
+" Python related plugins {{{
 " Plug 'python-mode/python-mode', { 'branch': 'develop' }
 " let g:pymode_lint_cwindow=0  " don't automatically open the cwindow
 " " Plug 'davidhalter/jedi-vim'
 " " Plug 'nvie/vim-flake8'
 " Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-" Plug 'jmcantrell/vim-virtualenv'
-" Plug 'PieterjanMontens/vim-pipenv'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'PieterjanMontens/vim-pipenv'
 " " }}}
 
-" " Nim related configuration {{{
+" Nim related configuration {{{
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
 "     \ 'do': 'bash install.sh',
@@ -713,8 +757,8 @@ Plug 'nanotech/jellybeans.vim'
 " Plug 'NLKNguyen/papercolor-theme'
 " Plug 'jacoborus/tender.vim'
 Plug 'ayu-theme/ayu-vim'
-Plug 'gruvbox-community/gruvbox'
-Plug 'dracula/vim', { 'as': 'dracula' }
+" Plug 'gruvbox-community/gruvbox'
+" Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'hzchirs/vim-material'
 " Plug 'humanoid-colors/vim-humanoid-colorscheme'
 " }}}
@@ -790,7 +834,7 @@ set expandtab                     " use spaces, not tabs
 set statusline=%#warningmsg#%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\
 " }}}
 
-" non-GUI colorschemes
+" non-GUI colorschemes {{{
 if has("termguicolors")
   set termguicolors
 
@@ -798,6 +842,7 @@ if has("termguicolors")
   set background=dark
   colorscheme vim-material
 endif
+" }}}
 
 " GUI Settings {{{
 if has("gui_macvim")
@@ -830,11 +875,6 @@ if has("gui_macvim")
 
   source ~/.gvimrc
 endif
-" }}}
-
-" Scalpel settings {{{
-" Use <Leader>s for Scalpel instead of default <Leader>e:
-nmap <Leader>s <Plug>(Scalpel)
 " }}}
 
 " Sneak settings {{{
@@ -991,10 +1031,6 @@ nnoremap <Leader>sc 1z=
 inoremap <Leader>sc <Esc>1z=ea
 "}}}
 
-" Toggle Undotree {{{
-nnoremap <Leader>u :UndotreeToggle<CR>
-" }}}
-
 " Invisibles Settings {{{
 " Shortcut to toggle invisibles
 nmap <Leader>i :set list!<CR>
@@ -1016,38 +1052,12 @@ vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " }}}
 
-" OS X only due to use of `open`. Adapted from
-" http://vim.wikia.com/wiki/Open_a_web-browser_with_the_URL_in_the_current_line
-" Uses John Gruber's URL regexp: http://daringfireball.net/2010/07/improved_regex_for_matching_urls
-" ruby << EOF
-"   def open_uri
-"     re = %r{(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))*\))+(?:\((?:[^\s()<>]+|(?:\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))}
-"
-"     line = VIM::Buffer.current.line
-"     urls = line.scan(re).flatten
-"
-"     if urls.empty?
-"       VIM::message("No URI found in line.")
-"     else
-"       system("open", *urls)
-"       VIM::message(urls.join(" and "))
-"     end
-"   end
-" EOF
-"
-" function! OpenURI()
-"   ruby open_uri
-" endfunction
-
-" Open URL from this line (OS X only).
-" map <Leader>w :call OpenURI()<CR>
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BEGIN stuff from https://github.com/garybernhardt/dotfiles/blob/master/.vimrc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
-" set t_ti= t_te=
+set t_ti= t_te=
 
 " Move around splits with <c-hjkl>
 nnoremap <c-j> <c-w>j
@@ -1149,8 +1159,8 @@ cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
 
 " Searching options
 set incsearch  " search while you're typing the search string
-set hlsearch   " highlight search results
-set ignorecase " ignore case when searching
+set hlsearch   " highlight bearch results
+set ignorecase " ignore casb when searching
 set smartcase  " but if we search for big letters, make search case sensitive again
 
 " Correct for common command typos and mis-keys {{{
