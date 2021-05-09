@@ -248,6 +248,7 @@ let g:coc_global_extensions = [
   \ 'coc-gocode',
   \ 'coc-lists',
   \ 'coc-word',
+  \ 'coc-fzf-preview',
   \ ]
 
 " if hidden is not set, TextEdit might fail.
@@ -412,70 +413,70 @@ Plug 'justinmk/vim-sneak'
 Plug 'nelstrom/vim-visual-star-search'
 
 Plug 'junegunn/fzf.vim'
-Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 
 " Configure fzf using Homebrew
 set rtp+=/usr/local/opt/fzf
 
-nmap <C-p> [fzf-p]
-xmap <C-p> [fzf-p]
+" I'm using a coc.nvim plugin called coc-fzf-preview
+" nmap <Leader>f [fzf-p]
+" xmap <Leader>f [fzf-p]
 
-nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
-nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
-nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
-nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
-nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
-nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
-nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
-nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
-nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
-xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
-nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
-nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
+nnoremap <silent> <Leader>fp     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> <Leader>fgs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> <Leader>fga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> <Leader>fb     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> <Leader>fB     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> <Leader>fo     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> <Leader>f<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> <Leader>fg;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> <Leader>f/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> <Leader>f*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          <Leader>fgr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+xnoremap          <Leader>fgr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> <Leader>ft     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> <Leader>fq     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+nnoremap <silent> <Leader>fl     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
-" " Replace ctrlP
-" nnoremap <C-p> :call FzfOmniFiles()<CR>
+" Replace ctrlP
+nnoremap <C-p> :call FzfOmniFiles()<CR>
 
-" " Search for any file in the home directory
-" nnoremap <C-e> :Files ~<CR>
+" Search for any file in the home directory
+nnoremap <C-e> :Files ~<CR>
 
-" " Search for an open buffer
-" nnoremap <Leader>b :Buffers<CR>
+" Search for an open buffer
+nnoremap <Leader>b :Buffers<CR>
 
-" " Search for a tag in the current file
-" nnoremap <Leader>gt :BTags<CR>
+" Search for a tag in the current file
+nnoremap <Leader>gt :BTags<CR>
 
-" " Search for lines in the current file
-" nnoremap // :BLines!<CR>
+" Search for lines in the current file
+nnoremap // :Blines!<CR>
 
-" " Search the entire project
-" nnoremap ?? :Rg!<CR>
+" Search the entire project
+nnoremap ?? :Rg!<CR>
 
 " Search for commands
 nnoremap cc :Commands!<CR>
 
-" " Run FZF based on the cwd & git detection
-" " 1. Runs :Files, If cwd is not a git repository
-" " 2. Runs :GitFiles <cwd> If root is a git repository
-" fun! FzfOmniFiles()
-"   " Throws v:shell_error if is not a git directory
-"   let git_status = system('git status')
-"   if v:shell_error != 0
-"     :Files
-"   else
-"     " Reference examples which made this happen:
-"     " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L209
-"     " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L290
-"     " --exclude-standard - Respect gitignore
-"     " --others - Show untracked git files
-"     " dir: getcwd() - Shows file names relative to cwd
-"     let git_files_cmd = ":GitFiles --exclude-standard --cached --others"
-"     call fzf#vim#gitfiles('--exclude-standard --cached --others', {'dir': getcwd()})
-"   endif
-" endfun
+" Run FZF based on the cwd & git detection
+" 1. Runs :Files, If cwd is not a git repository
+" 2. Runs :GitFiles <cwd> If root is a git repository
+fun! FzfOmniFiles()
+  " Throws v:shell_error if is not a git directory
+  let git_status = system('git status')
+  if v:shell_error != 0
+    :Files
+  else
+    " Reference examples which made this happen:
+    " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L209
+    " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L290
+    " --exclude-standard - Respect gitignore
+    " --others - Show untracked git files
+    " dir: getcwd() - Shows file names relative to cwd
+    let git_files_cmd = ":GitFiles --exclude-standard --cached --others"
+    call fzf#vim#gitfiles('--exclude-standard --cached --others', {'dir': getcwd()})
+  endif
+endfun
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
@@ -1096,8 +1097,8 @@ nnoremap <Leader>= :call Preserve("normal gg=G")<CR>
 " Reformat a plain text document to use hard wrapping and uniform spacing
 "   Note: This uses the BSD `fmt` program.  The GNU coreutils version takes
 "   different options.
-nnoremap <Leader>f :call Preserve("%!fmt -s -78")<CR>
-vnoremap <Leader>f :call Preserve("'<,'>!fmt -s -78")<CR>
+nnoremap <Leader>g :call Preserve("%!fmt -s -78")<CR>
+vnoremap <Leader>g :call Preserve("'<,'>!fmt -s -78")<CR>
 
 " Filter Markdown
 map <Leader>7 :call Preserve("%!poppins")<CR>
@@ -1200,9 +1201,6 @@ nnoremap / /\v
 vnoremap / /\v
 nnoremap ? ?\v
 vnoremap ? ?\v
-
-" Wrap lines using BSD-style fmt command
-vnoremap <Leader>f :call Preserve("'<,'>!fmt -s -78")<CR>
 
 " TODO: add a mapping that allows you to automatically underline with '=' or
 " '-' since that's very useful in markdown files.
