@@ -421,11 +421,14 @@ set rtp+=/usr/local/opt/fzf
 " nmap <Leader>f [fzf-p]
 " xmap <Leader>f [fzf-p]
 
-nnoremap <silent> <Leader>fp     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+" nnoremap <silent> <C-p>          :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+" nnoremap <silent> <C-e>          :<C-u>CocCommand fzf-preview.DirectoryFiles<CR>
 nnoremap <silent> <Leader>fgs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
 nnoremap <silent> <Leader>fga    :<C-u>CocCommand fzf-preview.GitActions<CR>
-nnoremap <silent> <Leader>fb     :<C-u>CocCommand fzf-preview.Buffers<CR>
-nnoremap <silent> <Leader>fB     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> <Leader>b      :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> <Leader>bl     :<C-u>CocCommand fzf-preview.BufferLines<CR>
+nnoremap <silent> <Leader>bt     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> <Leader>ba     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
 nnoremap <silent> <Leader>fo     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
 nnoremap <silent> <Leader>f<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
 nnoremap <silent> <Leader>fg;    :<C-u>CocCommand fzf-preview.Changes<CR>
@@ -433,27 +436,27 @@ nnoremap <silent> <Leader>f/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-ar
 nnoremap <silent> <Leader>f*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
 nnoremap          <Leader>fgr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
 xnoremap          <Leader>fgr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-nnoremap <silent> <Leader>ft     :<C-u>CocCommand fzf-preview.BufferTags<CR>
 nnoremap <silent> <Leader>fq     :<C-u>CocCommand fzf-preview.QuickFix<CR>
 nnoremap <silent> <Leader>fl     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
-" Replace ctrlP
+" " Replace ctrlP
 nnoremap <C-p> :call FzfOmniFiles()<CR>
 
-" Search for any file in the home directory
-nnoremap <C-e> :Files ~<CR>
+" " Search for any file in the home directory
+" nnoremap <C-e> :Files ~<CR>
 
-" Search for an open buffer
-nnoremap <Leader>b :Buffers<CR>
+" " Search for an open buffer
+" nnoremap <Leader>b :Buffers<CR>
 
-" Search for a tag in the current file
-nnoremap <Leader>gt :BTags<CR>
+" " Search for a tag in the current file
+" nnoremap <Leader>gt :BTags<CR>
 
-" Search for lines in the current file
-nnoremap // :Blines!<CR>
+" " Search for lines in the current file
+" nnoremap // :Blines!<CR>
+nnoremap <silent> //     :<C-u>CocCommand fzf-preview.BufferLines<CR>
 
-" Search the entire project
-nnoremap ?? :Rg!<CR>
+" " Search the entire project
+nnoremap <silent> ??     :Rg!<CR>
 
 " Search for commands
 nnoremap cc :Commands!<CR>
@@ -465,18 +468,31 @@ fun! FzfOmniFiles()
   " Throws v:shell_error if is not a git directory
   let git_status = system('git status')
   if v:shell_error != 0
-    :Files
+    CocCommand fzf-preview.DirectoryFiles
   else
-    " Reference examples which made this happen:
-    " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L209
-    " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L290
-    " --exclude-standard - Respect gitignore
-    " --others - Show untracked git files
-    " dir: getcwd() - Shows file names relative to cwd
-    let git_files_cmd = ":GitFiles --exclude-standard --cached --others"
-    call fzf#vim#gitfiles('--exclude-standard --cached --others', {'dir': getcwd()})
+    CocCommand fzf-preview.FromResources project_mru git
   endif
 endfun
+
+" " Run FZF based on the cwd & git detection
+" " 1. Runs :Files, If cwd is not a git repository
+" " 2. Runs :GitFiles <cwd> If root is a git repository
+" fun! FzfOmniFiles()
+"   " Throws v:shell_error if is not a git directory
+"   let git_status = system('git status')
+"   if v:shell_error != 0
+"     :Files
+"   else
+"     " Reference examples which made this happen:
+"     " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L209
+"     " https://github.com/junegunn/fzf.vim/blob/master/doc/fzf-vim.txt#L290
+"     " --exclude-standard - Respect gitignore
+"     " --others - Show untracked git files
+"     " dir: getcwd() - Shows file names relative to cwd
+"     let git_files_cmd = ":GitFiles --exclude-standard --cached --others"
+"     call fzf#vim#gitfiles('--exclude-standard --cached --others', {'dir': getcwd()})
+"   endif
+" endfun
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
@@ -626,7 +642,8 @@ augroup end
 
 " Movement / file browsing plugins {{{
 Plug 'scrooloose/nerdtree'
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
+Plug 'liuchengxu/vista.vim'
 Plug 'justinmk/vim-dirvish'
 " }}}
 
@@ -643,6 +660,7 @@ Plug 'christoomey/vim-tmux-navigator'
 if has('nvim')
   nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 endif
+let g:VimuxHeight = "30"
 " Prompt for a command to run
 map <Leader>vp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand
@@ -656,6 +674,13 @@ if !has('gui_running')
     set term=xterm-256color
   endif
 endif
+
+" " Open an nvim terminal just to run lazygit
+" nnoremap <Leader>g :tab term ++close lazygit<CR>
+
+" " Terminal movement commands to change tabs
+" tmap <C-h> <C-w>:tabp<CR>
+" tmap <C-l> <C-w>:tabn<CR>
 " }}}
 
 " Git related plugins plugins {{{
