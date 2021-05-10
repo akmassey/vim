@@ -418,6 +418,10 @@ Plug 'junegunn/fzf.vim'
 set rtp+=/usr/local/opt/fzf
 
 " I'm using a coc.nvim plugin called coc-fzf-preview
+"
+" fzf command default options
+let g:fzf_preview_default_fzf_options = { '--preview-window': 'wrap' }
+
 " nmap <Leader>f [fzf-p]
 " xmap <Leader>f [fzf-p]
 
@@ -428,6 +432,7 @@ nnoremap <silent> <Leader>fga    :<C-u>CocCommand fzf-preview.GitActions<CR>
 nnoremap <silent> <Leader>b      :<C-u>CocCommand fzf-preview.Buffers<CR>
 nnoremap <silent> <Leader>bl     :<C-u>CocCommand fzf-preview.BufferLines<CR>
 nnoremap <silent> <Leader>bt     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> <Leader>vt     :<C-u>CocCommand fzf-preview.VistaCtags<CR>
 nnoremap <silent> <Leader>ba     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
 nnoremap <silent> <Leader>fo     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
 nnoremap <silent> <Leader>f<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
