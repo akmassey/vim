@@ -422,6 +422,9 @@ set rtp+=/usr/local/opt/fzf
 " fzf command default options
 let g:fzf_preview_default_fzf_options = { '--preview-window': 'wrap' }
 
+" Use vim-devicons
+let g:fzf_preview_use_dev_icons = 1
+
 " nmap <Leader>f [fzf-p]
 " xmap <Leader>f [fzf-p]
 
@@ -1010,6 +1013,10 @@ if has("autocmd")
   " Replace macros for quotes, requires textobj-quote
   au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qc :call Preserve("<Plug>ReplaceWithCurly")<CR>
   au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qs :call Preserve("<Plug>ReplaceWithStraight")<CR>
+
+  " Use docx2txt.pl to view the text content of a .docx file as read only
+  autocmd BufReadPre *.docx set ro
+  autocmd BufReadPost *.docx %!docx2txt.pl
 endif
 
 " Automatically convert things to smartquotes for these filetypes
