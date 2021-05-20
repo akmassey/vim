@@ -33,9 +33,9 @@ Plug 'akmassey/vim-cheat'              " personal vim cheatsheet  (:h cheat)
 
 " Map the leader to something more reasonable.  Also, keep the reverse  {{{
 " motion command available by mapping it to the old leader key.
-let mapleader=","
-let maplocalleader=","
-noremap \ ,
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+let maplocalleader=" "
 " }}}
 
 " Enable the mouse, not that you use it much {{{
@@ -96,9 +96,6 @@ imap <F1> <Esc>
 " }}}
 
 " Folding Settings {{{
-" Toggle folds more easily
-nnoremap <Leader><Space> za
-
 set foldlevelstart=4
 " }}}
 
@@ -1036,7 +1033,7 @@ augroup BIBTEX
 augroup END
 
 " Center the screen more easily {{{
-nmap <Space> zz
+nmap <Space><Space> zz
 
 " Center the screen on searches
 nmap n nzz
