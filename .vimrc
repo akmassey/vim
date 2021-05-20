@@ -1030,6 +1030,11 @@ augroup textobj_quote
 augroup END
 " }}}
 
+augroup BIBTEX
+  autocmd!
+  autocmd FileType plaintex,context,tex,latex,markdown source $HOME/.vim/ftplugin/fzf-bibtex.vim
+augroup END
+
 " Center the screen more easily {{{
 nmap <Space> zz
 
