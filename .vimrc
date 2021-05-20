@@ -716,7 +716,6 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Configure gopls: https://github.com/golang/go/wiki/gopls
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
-
 " }}}
 
 " Python related plugins {{{

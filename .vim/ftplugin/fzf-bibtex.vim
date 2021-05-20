@@ -11,17 +11,17 @@ function! s:bibtex_markdown_sink(lines)
     execute ':normal! a' . r
 endfunction
 
-nnoremap <silent> <leader>c :call fzf#run({
+nnoremap <silent> <Leader>c :call fzf#run({
                         \ 'source': 'bibtex-ls',
                         \ 'sink*': function('<sid>bibtex_cite_sink'),
-                        \ 'up': '40%',
-                        \ 'options': '--ansi --layout=reverse-list --multi --prompt "Cite> "'})<CR>
+                        \ 'down': '40%',
+                        \ 'options': '--ansi --prompt "Cite> "'})<CR>
 
-nnoremap <silent> <leader>m :call fzf#run({
+nnoremap <silent> <Leader>m :call fzf#run({
                         \ 'source': 'bibtex-ls',
                         \ 'sink*': function('<sid>bibtex_markdown_sink'),
-                        \ 'up': '40%',
-                        \ 'options': '--ansi --layout=reverse-list --multi --prompt "Markdown> "'})<CR>
+                        \ 'down': '40%',
+                        \ 'options': '--ansi --prompt "Markdown> "'})<CR>
 
 function! Bibtex_ls()
   let bibfiles = (
@@ -43,6 +43,6 @@ endfunction
 inoremap <silent> @@ <c-g>u<c-o>:call fzf#run({
                         \ 'source': Bibtex_ls(),
                         \ 'sink*': function('<sid>bibtex_cite_sink_insert'),
-                        \ 'up': '40%',
-                        \ 'options': '--ansi --layout=reverse-list --multi --prompt "Cite> "'})<CR>
+                        \ 'down': '40%',
+                        \ 'options': '--ansi --prompt "Cite> "'})<CR>
 
