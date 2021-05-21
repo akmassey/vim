@@ -648,7 +648,6 @@ augroup end
 
 " Movement / file browsing plugins {{{
 Plug 'scrooloose/nerdtree'
-" Plug 'majutsushi/tagbar'
 Plug 'liuchengxu/vista.vim'
 Plug 'justinmk/vim-dirvish'
 " }}}
@@ -837,7 +836,7 @@ let g:tmuxline_theme = 'dracula'
 " }}}
 
 " Ensure line numbers are not shown in these file types.
-let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'vimshell', 'w3m', 'nerdtree']
+let g:numbers_exclude = ['unite', 'startify', 'vimshell', 'w3m', 'nerdtree']
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
 
@@ -1027,7 +1026,7 @@ augroup textobj_quote
 augroup END
 " }}}
 
-augroup BIBTEX
+augroup fzfbibtex
   autocmd!
   autocmd FileType plaintex,context,tex,latex,markdown source $HOME/.vim/ftplugin/fzf-bibtex.vim
 augroup END
@@ -1154,9 +1153,8 @@ nnoremap Q :call Preserve("normal gqap")<CR>
 nnoremap <Leader>Q :call Preserve("normal vapJgqap")<CR>
 " }}}
 
-" Toggle NERDTree and Tagbar
+" Toggle NERDTree
 map <Leader>8 :NERDTreeToggle<CR>
-map <Leader>tb :TagbarToggle<CR>
 
 " Function to rename current file {{{
 function! RenameFile()
@@ -1170,34 +1168,6 @@ function! RenameFile()
 endfunction
 map <Leader>n :call RenameFile()<cr>
 " }}}
-
-" Switch Between Test and Production code
-function! OpenTestAlternate()
-  let new_file = AlternateForCurrentFile()
-  exec ':e ' . new_file
-endfunction
-function! AlternateForCurrentFile()
-  let current_file = expand("%")
-  let new_file = current_file
-  let in_spec = match(current_file, '^spec/') != -1
-  let going_to_spec = !in_spec
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1
-  if going_to_spec
-    if in_app
-      let new_file = substitute(new_file, '^app/', '', '')
-    end
-    let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
-    let new_file = 'spec/' . new_file
-  else
-    let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
-    let new_file = substitute(new_file, '^spec/', '', '')
-    if in_app
-      let new_file = 'app/' . new_file
-    end
-  endif
-  return new_file
-endfunction
-nnoremap <Leader>. :call OpenTestAlternate()<cr>
 
 " Shortcut to writing a file as root from non-root vim
 cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
@@ -1332,50 +1302,6 @@ let g:NERDTreeMapJumpNextSibling='<Nop>'
 
 " " Move up a directory using "-" like vim-vinegar (usually "u" does this).
 " nmap <buffer> <expr> - g:NERDTreeMapUpdir
-
-" gotags configuration for Tagbar {{{
-let g:tagbar_type_go = {
-      \ 'ctagstype' : 'go',
-      \ 'kinds'     : [
-      \ 'p:package',
-      \ 'i:imports:1',
-      \ 'c:constants',
-      \ 'v:variables',
-      \ 't:types',
-      \ 'n:interfaces',
-      \ 'w:fields',
-      \ 'e:embedded',
-      \ 'm:methods',
-      \ 'r:constructor',
-      \ 'f:functions'
-      \ ],
-      \ 'sro' : '.',
-      \ 'kind2scope' : {
-      \ 't' : 'ctype',
-      \ 'n' : 'ntype'
-      \ },
-      \ 'scope2kind' : {
-      \ 'ctype' : 't',
-      \ 'ntype' : 'n'
-      \ },
-      \ 'ctagsbin'  : 'gotags',
-      \ 'ctagsargs' : '-sort -silent'
-      \ }
-" }}}
-
-" LaTeX Configuration for TagBar {{{
-let g:tagbar_type_plaintex = {
-    \ 'ctagstype' : 'plaintex',
-    \ 'kinds'     : [
-        \ 's:sections',
-        \ 'g:graphics:0:0',
-        \ 'l:labels',
-        \ 'r:refs:1:0',
-        \ 'p:pagerefs:1:0'
-    \ ],
-    \ 'sort'    : 0,
-\ }
-" }}}
 
 " investigate.vim configuration {{{
 let g:investigate_use_dash=1
