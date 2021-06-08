@@ -770,6 +770,8 @@ Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['ruby', 'latex', 'go']
 
 let g:rustfmt_autosave = 1
+
+Plug 'jiangmiao/auto-pairs'
 " }}}
 
 " Colorschemes {{{
