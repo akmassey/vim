@@ -100,23 +100,9 @@ nnoremap <Leader><Space> za
 set foldlevelstart=4
 " }}}
 
-
 " TODO: Maybe put some checks around this to ensure the file exists?
 let g:ruby_path='/usr/local/opt/rbenv/shims/ruby'
 let g:ruby_host_prog = '/usr/local/opt/rbenv/shims/neovim-ruby-host'
-
-" " Testing support with vim-test {{{
-" Plug 'janko-m/vim-test'
-
-" " make test commands execute using dispatch.vim
-" let test#strategy = "dispatch"
-" let test#ruby#rspec#options = "--format progress --require ~/src/ruby/rspec-formatter/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out"
-" nnoremap <silent> <Leader>tn :TestNearest<CR>
-" nnoremap <silent> <Leader>tf :TestFile<CR>
-" nnoremap <silent> <Leader>ta :TestSuite<CR>
-" nnoremap <silent> <Leader>tl :TestLast<CR>
-" nnoremap <silent> <Leader>tv :TestVisit<CR>
-" " }}}
 
 " Asynchronous Linting Engine configuration {{{
 Plug 'dense-analysis/ale'
@@ -152,16 +138,12 @@ Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
-" Plug 'vim-scripts/zoom.vim'
 Plug 'chrisbra/vim-diff-enhanced'      " to use the patience diff algorithm
 Plug 'AndrewRadev/splitjoin.vim'  " gS to do multi-line split and gJ to do multi-line join
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 let g:undotree_WindowLayout = 1
 nnoremap <Leader>u :UndotreeToggle<CR>
 Plug 'myusuf3/numbers.vim' " for smarter line numbers
-" Plug 'Keithbsmiley/investigate.vim'  " search for help using gK
-" Plug 'psliwka/vim-smoothie'  " for smooth scrolling on normal mode movement commands
-" Plug 'milkypostman/vim-togglelist' " to toggle the quickfix and location lists
 Plug 'mattn/emmet-vim'
 " }}}
 
@@ -177,12 +159,6 @@ Plug 'ktonga/vim-follow-my-lead'
 " Show leaders for plugins as well as ~/.vimrc
 let g:fml_all_sources = 1
 " }}}
-
-" " viewdoc settings {{{
-" Plug 'powerman/vim-plugin-viewdoc'
-" let g:viewdoc_open = 'vnew'
-" let g:no_viewdoc_maps = 1
-" " }}}
 
 " Startify settings {{{
 Plug 'mhinz/vim-startify'
@@ -206,17 +182,6 @@ let g:startify_lists = [
       \ { 'type': 'commands',  'header': ['   Commands']       },
       \ ]
 " }}}
-
-" " SuperTab {{{
-" Plug 'ervandew/supertab'
-" let g:SuperTabDefaultCompletionType = 'context'
-" autocmd FileType *
-"       \ if &omnifunc != '' |
-"       \   call SuperTabChain(&omnifunc, "<c-p>") |
-"       \ endif
-" " Don't complete at the start of a line or after whitespace
-" let g:SuperTabNoCompleteAfter = ['^', ',', ';', '\s']
-" " }}}
 
 " Conqurer of Completion {{{
 "     https://github.com/neoclide/coc.nvim
@@ -563,48 +528,6 @@ let g:xml_syntax_folding = 1
 Plug 'Konfekt/vim-latexencode'  " requires pylatexenc to be separately installed
 " }}}
 
-"" Gutentags configuration {{{
-""
-"" Much of this configuration is designed to avoid starting Gutentags for
-"" filetypes or buffers that really shouldn't have tags generated for them.
-"" Please see this GitHub issue for more information:
-""     https://github.com/ludovicchabant/vim-gutentags/issues/178
-"Plug 'ludovicchabant/vim-gutentags'  " to automatically re-generate tags in the background
-"let g:gutentags_cache_dir = expand('~/.gutentags')
-"let g:gutentags_add_default_project_roots = 0
-"let g:gutentags_project_root  = ['package.json', '.git', '.hg', '.svn']
-"let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git', 'mail', 'vimwiki']
-"let g:gutentags_generate_on_new = 1
-"let g:gutentags_generate_on_missing = 1
-"let g:gutentags_generate_on_write = 1
-"let g:gutentags_generate_on_empty_buffer = 0
-"let g:gutentags_ctags_extra_args = ['--tag-relative=yes', '--fields=+ailmnS']
-"let g:gutentags_ctags_exclude = [
-"\  '*.git', '*.svn', '*.hg',
-"\  'cache', 'build', 'dist', 'bin', 'node_modules', 'bower_components',
-"\  '*-lock.json',  '*.lock',
-"\  '*.min.*',
-"\  '*.bak',
-"\  '*.zip',
-"\  '*.pyc',
-"\  '*.class',
-"\  '*.sln',
-"\  '*.csproj', '*.csproj.user',
-"\  '*.tmp',
-"\  '*.cache',
-"\  '*.vscode',
-"\  '*.pdb',
-"\  '*.exe', '*.dll', '*.bin',
-"\  '*.mp3', '*.ogg', '*.flac',
-"\  '*.swp', '*.swo',
-"\  '.DS_Store', '*.plist',
-"\  '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png', '*.svg',
-"\  '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
-"\  '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx', '*.xls',
-"\  '.fortune', '~/.mutt/temp/mutt-*',
-"\]
-"" }}}
-
 " Writing related plugins {{{
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-indent'
@@ -766,8 +689,8 @@ command! -nargs=1 Footnote call s:MdFootnote("<args>")
 
 " Polyglot, a collection of language packs for vim {{{
 "     https://github.com/sheerun/vim-polyglot
-Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['ruby', 'latex', 'go']
+Plug 'sheerun/vim-polyglot'
 
 let g:rustfmt_autosave = 1
 
@@ -1304,12 +1227,6 @@ let g:NERDTreeMapJumpNextSibling='<Nop>'
 
 " " Move up a directory using "-" like vim-vinegar (usually "u" does this).
 " nmap <buffer> <expr> - g:NERDTreeMapUpdir
-
-" investigate.vim configuration {{{
-let g:investigate_use_dash=1
-nnoremap <leader>K :call investigate#Investigate('n')<CR>
-vnoremap <leader>K :call investigate#Investigate('v')<CR>
-" }}}
 
 " Running one-off scripts...  {{{
 " TODO: Add Go and Rust mappings
