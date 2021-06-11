@@ -530,11 +530,12 @@ Plug 'Konfekt/vim-latexencode'  " requires pylatexenc to be separately installed
 
 " Writing related plugins {{{
 Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-indent'
 Plug 'reedes/vim-textobj-quote'
 Plug 'reedes/vim-textobj-sentence'
 Plug 'reedes/vim-wordy'
 Plug 'reedes/vim-pencil'
+let g:pencil#joinspaces = 1  " join with two spaces at the end of a sentence
+let g:pencil#textwidth = 78  " use 78 characters per line
 Plug 'christoomey/vim-titlecase'
 Plug 'itspriddle/vim-marked'  " to open things in Marked or Marked 2
 nnoremap <Leader>m :MarkedOpen
@@ -910,19 +911,11 @@ if has("autocmd")
   " Settings for composing email {{{
   au FileType mail setlocal formatoptions+=aw
   au FileType mail setlocal textwidth=72 foldmethod=manual
-  au FileType mail set spell
   au FileType mail set colorcolumn=78
   au FileType mail call goyo#execute(0, 85)
   " au FileType mail call ale#ale_disable()
   au FileType mail execute 'normal gg}'
-  " au BufNewFile,BufRead ~/.mutt/temp/mutt-* execute 'normal gg}'
   " }}}
-
-  " Ensure spell checking is enabled for LaTeX and Markdown
-  au FileType plaintex,context,tex,latex,markdown set spell
-
-  " Make completion a little less annoying for plain text
-  au FileType plaintex,context,tex,latex,markdown let g:ycm_min_num_identifier_candidate_chars = 4
 
   " vimtex would otherwise hide things like boldface and italics commands
   " au FileType plaintex,context,tex,latex,markdown set conceallevel=0
@@ -931,42 +924,46 @@ if has("autocmd")
   " Word count macro for LaTeX
   au FileType plaintex,context,tex,latex nmap <Leader>w :!texcount %<CR>
 
-  " Replace macros for quotes, requires textobj-quote
-  au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qc :call Preserve("<Plug>ReplaceWithCurly")<CR>
-  au FileType text,markdown,plaintex,context,tex,latex map <silent> <leader>qs :call Preserve("<Plug>ReplaceWithStraight")<CR>
-
   " Use docx2txt.pl to view the text content of a .docx file as read only
   autocmd BufReadPre *.docx set ro
   autocmd BufReadPost *.docx %!docx2txt.pl
 endif
 
-" Automatically convert things to smartquotes for these filetypes
-augroup textobj_quote
-  autocmd!
-  autocmd FileType plaintex,context,tex,latex call textobj#quote#init()
-  autocmd FileType markdown call textobj#quote#init()
-  autocmd FileType textile call textobj#quote#init()
-  autocmd FileType mail call textobj#quote#init()
-  autocmd FileType text call textobj#quote#init({'educate': 0})
-augroup END
-" }}}
+" Settings for editing prose {{{
+function! Prose()
+  call pencil#init()
+  call textobj#quote#init()
+  call textobj#sentence#init()
 
-augroup fzfbibtex
-  autocmd!
-  autocmd FileType plaintex,context,tex,latex,markdown source $HOME/.vim/ftplugin/fzf-bibtex.vim
-augroup END
+  " replace common punctuation
+  iabbrev <buffer> -- –
+  iabbrev <buffer> --- —
+  " iabbrev <buffer> << «
+  " iabbrev <buffer> >> »
 
-augroup helpfiles
-  au!
-  au BufRead,BufEnter */doc/* wincmd H
-augroup END
+  " open most folds
+  setlocal foldlevel=6
 
-" Center the screen more easily {{{
-nmap <Space> zz
+  " replace typographical quotes (reedes/vim-textobj-quote)
+  map <silent> <buffer> <leader>qc <Plug>ReplaceWithCurly
+  map <silent> <buffer> <leader>qs <Plug>ReplaceWithStraight
 
-" Center the screen on searches
-nmap n nzz
-nmap N Nzz
+  " highlight words (reedes/vim-wordy)
+  noremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
+  xnoremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
+  inoremap <silent> <buffer> <F8> <C-o>:NextWordy<cr>
+
+  set spell
+endfunction
+
+" automatically initialize buffer by file type
+autocmd FileType markdown,mkd,textile,text,mail,plaintex,context,tex,latex call Prose()
+
+" disable automatic replacement of quotes with smart quotes in plaintext
+autocmd FileType text call textobj#quote#init({'educate': 0})
+
+" invoke manually by command for other file types
+command! -nargs=0 Prose call Prose()
 " }}}
 
 " Mappings for Spelling {{{
@@ -999,6 +996,24 @@ snoremap <Leader>sn ]s1z=
 nnoremap <Leader>sc 1z=
 inoremap <Leader>sc <Esc>1z=ea
 "}}}
+
+augroup fzfbibtex
+  autocmd!
+  autocmd FileType plaintex,context,tex,latex,markdown source $HOME/.vim/ftplugin/fzf-bibtex.vim
+augroup END
+
+augroup helpfiles
+  au!
+  au BufRead,BufEnter */doc/* wincmd H
+augroup END
+
+" Center the screen more easily {{{
+nmap <Space> zz
+
+" Center the screen on searches
+nmap n nzz
+nmap N Nzz
+" }}}
 
 " Invisibles Settings {{{
 " Shortcut to toggle invisibles
