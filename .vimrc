@@ -936,7 +936,8 @@ if has("autocmd")
   " Settings for composing email {{{
   au FileType mail setlocal formatoptions+=aw
   au FileType mail setlocal textwidth=72 foldmethod=manual
-  au FileType mail set colorcolumn=78
+  au FileType mail let g:pencil#textwidth=72
+  au FileType mail set colorcolumn=72
   au FileType mail call goyo#execute(0, 85)
   " au FileType mail call ale#ale_disable()
   au FileType mail execute 'normal gg}'
