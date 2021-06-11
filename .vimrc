@@ -883,6 +883,74 @@ cnoremap <expr> %% expand('%:h').'/'
 map <Leader>e :edit %%
 map <Leader>v :view %%
 
+" Settings for editing prose {{{
+function! Prose()
+  call pencil#init()
+  call textobj#quote#init()
+  call textobj#sentence#init()
+
+  " replace common punctuation
+  iabbrev <buffer> -- –
+  iabbrev <buffer> --- —
+  " iabbrev <buffer> << «
+  " iabbrev <buffer> >> »
+
+  " open most folds
+  setlocal foldlevel=6
+
+  " replace typographical quotes (reedes/vim-textobj-quote)
+  map <silent> <buffer> <leader>qc <Plug>ReplaceWithCurly
+  map <silent> <buffer> <leader>qs <Plug>ReplaceWithStraight
+
+  " highlight words (reedes/vim-wordy)
+  noremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
+  xnoremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
+  inoremap <silent> <buffer> <F8> <C-o>:NextWordy<cr>
+
+  set spell
+endfunction
+
+" automatically initialize buffer by file type
+autocmd FileType markdown,mkd,textile,text,mail,plaintex,context,tex,latex call Prose()
+
+" disable automatic replacement of quotes with smart quotes in plaintext
+autocmd FileType text call textobj#quote#init({'educate': 0})
+
+" invoke manually by command for other file types
+command! -nargs=0 Prose call Prose()
+" }}}
+
+" Mappings for Spelling {{{
+set spelllang=en_us
+
+" Some spelling-related stuff from here:
+" https://vi.stackexchange.com/questions/68/autocorrect-spelling-mistakes
+"
+" Move to the next misspelled word and center the screen.
+nnoremap ]s ]szz
+nnoremap [s [szz
+
+" Correct the last misspelled word using the first suggestion and return.
+inoremap <C-L> <C-G>u<Esc>[s1z=`]a<C-G>u
+
+" Select last misspelled word (typing will edit).
+"   Mnemonic: 'spell last'
+nnoremap <Leader>sl <Esc>[sve<C-G>
+inoremap <Leader>sl <Esc>[sve<C-G>
+snoremap <Leader>sl <Esc>b[sviw<C-G>
+
+" Move to the next misspelled word and replace it with the first suggestion.
+"   Mnemonic: 'spell next'
+nnoremap <Leader>sn ]s1z=
+inoremap <Leader>sn ]s1z=
+snoremap <Leader>sn ]s1z=
+
+" Correct the current next using the first suggestion.
+"   Mnemonic: 'spell current'
+nnoremap <Leader>sc 1z=
+inoremap <Leader>sc <Esc>1z=ea
+"}}}
+
 " AutoCommand Settings {{{
 if has("autocmd")
   " make and python use real tabs
@@ -954,74 +1022,6 @@ if has("autocmd")
   autocmd BufReadPre *.docx set ro
   autocmd BufReadPost *.docx %!docx2txt.pl
 endif
-
-" Settings for editing prose {{{
-function! Prose()
-  call pencil#init()
-  call textobj#quote#init()
-  call textobj#sentence#init()
-
-  " replace common punctuation
-  iabbrev <buffer> -- –
-  iabbrev <buffer> --- —
-  " iabbrev <buffer> << «
-  " iabbrev <buffer> >> »
-
-  " open most folds
-  setlocal foldlevel=6
-
-  " replace typographical quotes (reedes/vim-textobj-quote)
-  map <silent> <buffer> <leader>qc <Plug>ReplaceWithCurly
-  map <silent> <buffer> <leader>qs <Plug>ReplaceWithStraight
-
-  " highlight words (reedes/vim-wordy)
-  noremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
-  xnoremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
-  inoremap <silent> <buffer> <F8> <C-o>:NextWordy<cr>
-
-  set spell
-endfunction
-
-" automatically initialize buffer by file type
-autocmd FileType markdown,mkd,textile,text,mail,plaintex,context,tex,latex call Prose()
-
-" disable automatic replacement of quotes with smart quotes in plaintext
-autocmd FileType text call textobj#quote#init({'educate': 0})
-
-" invoke manually by command for other file types
-command! -nargs=0 Prose call Prose()
-" }}}
-
-" Mappings for Spelling {{{
-set spelllang=en_us
-
-" Some spelling-related stuff from here:
-" https://vi.stackexchange.com/questions/68/autocorrect-spelling-mistakes
-"
-" Move to the next misspelled word and center the screen.
-nnoremap ]s ]szz
-nnoremap [s [szz
-
-" Correct the last misspelled word using the first suggestion and return.
-inoremap <C-L> <C-G>u<Esc>[s1z=`]a<C-G>u
-
-" Select last misspelled word (typing will edit).
-"   Mnemonic: 'spell last'
-nnoremap <Leader>sl <Esc>[sve<C-G>
-inoremap <Leader>sl <Esc>[sve<C-G>
-snoremap <Leader>sl <Esc>b[sviw<C-G>
-
-" Move to the next misspelled word and replace it with the first suggestion.
-"   Mnemonic: 'spell next'
-nnoremap <Leader>sn ]s1z=
-inoremap <Leader>sn ]s1z=
-snoremap <Leader>sn ]s1z=
-
-" Correct the current next using the first suggestion.
-"   Mnemonic: 'spell current'
-nnoremap <Leader>sc 1z=
-inoremap <Leader>sc <Esc>1z=ea
-"}}}
 
 augroup fzfbibtex
   autocmd!
