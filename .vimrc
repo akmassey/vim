@@ -544,6 +544,29 @@ Plug 'JamshedVesuna/vim-markdown-preview'
 let vim_markdown_preview_hotkey='<C-g>'
 let vim_markdown_preview_temp_file=1
 let vim_markdown_preview_pandoc=1
+
+Plug 'dhruvasagar/vim-table-mode'
+let g:table_mode_corner='|' " markdown-compatible corners
+
+" ReST compatible tables
+" let g:table_mode_corner_corner='+'
+" let g:table_mode_header_fillchar='='
+
+" Quickly enable Table Mode with `||` at the start of the line.
+" Disable with `__`.
+function! s:isAtStartOfLine(mapping)
+  let text_before_cursor = getline('.')[0 : col('.')-1]
+  let mapping_pattern = '\V' . escape(a:mapping, '\')
+  let comment_pattern = '\V' . escape(substitute(&l:commentstring, '%s.*$', '', ''), '\')
+  return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?') . '\s*\v' . mapping_pattern . '\v$')
+endfunction
+
+inoreabbrev <expr> <bar><bar>
+          \ <SID>isAtStartOfLine('\|\|') ?
+          \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>' : '<bar><bar>'
+inoreabbrev <expr> __
+          \ <SID>isAtStartOfLine('__') ?
+          \ '<c-o>:silent! TableModeDisable<cr>' : '__'
 " }}}
 
 " Vimwiki Configuration {{{
@@ -676,7 +699,6 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 " Typing :Fo foo immediately places a Markdown extension footnote [^foo] after the current character and drops the footnote reference at the bottom of the text buffer.
-
 function! s:MdFootnote(note)
   let s:footnote = "[^".a:note."]"
   let @m = s:footnote
@@ -686,6 +708,9 @@ function! s:MdFootnote(note)
 endfunction
 
 command! -nargs=1 Footnote call s:MdFootnote("<args>")
+
+" For previewing with livedown.
+Plug 'shime/vim-livedown'
 " }}}
 
 " Polyglot, a collection of language packs for vim {{{
