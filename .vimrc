@@ -145,6 +145,7 @@ let g:undotree_WindowLayout = 1
 nnoremap <Leader>u :UndotreeToggle<CR>
 Plug 'myusuf3/numbers.vim' " for smarter line numbers
 Plug 'mattn/emmet-vim'
+Plug 'romainl/vim-qf'
 " }}}
 
 " Strip Trailing Whitespace {{{
@@ -683,6 +684,17 @@ Plug 'PieterjanMontens/vim-pipenv'
 " " }}}
 
 " Markdown related plugins {{{
+" By default, Vim includes Tim Pope's Markdown syntax file.  You can find more
+" information about this file here:
+"     https://github.com/tpope/vim-markdown
+"
+" That said, let's customize some of those settings.
+"
+" These are the languages we may want to embed.
+let g:markdown_fenced_languages = ['html', 'ruby', 'python', 'javascript',  'rust', 'bash=sh']
+" Disable concealing syntax.
+let g:markdown_syntax_conceal = 0
+
 Plug 'junegunn/goyo.vim'
 let g:goyo_width=85
 function! s:goyo_enter()
@@ -885,7 +897,7 @@ map <Leader>v :view %%
 
 " Settings for editing prose {{{
 function! Prose()
-  call pencil#init()
+  " call pencil#init()
   call textobj#quote#init()
   call textobj#sentence#init()
 
