@@ -164,7 +164,7 @@ let g:fml_all_sources = 1
 " Startify settings {{{
 Plug 'mhinz/vim-startify'
 let g:startify_custom_header =
-        \ map(split(system('fortune /Users/masseya/Documents/Fortunes/akm-quotes'), '\n'), '"   ". v:val')
+      \ map(split(system('fortune /Users/masseya/Documents/Fortunes/akm-quotes'), '\n'), '"   ". v:val')
 
 let g:startify_fortune_use_unicode = 1
 let g:startify_files_number = 5
@@ -374,6 +374,26 @@ Plug 'honza/vim-snippets' " for snippets to be used with coc-snippets plugin
 
 " Search-related plugins and configuration {{{
 Plug 'justinmk/vim-sneak'
+" Sneak settings {{{
+" replace 'f' with 1-char Sneak
+nmap f <Plug>Sneak_f
+nmap F <Plug>Sneak_F
+xmap f <Plug>Sneak_f
+xmap F <Plug>Sneak_F
+omap f <Plug>Sneak_f
+omap F <Plug>Sneak_F
+" replace 't' with 1-char Sneak
+nmap t <Plug>Sneak_t
+nmap T <Plug>Sneak_T
+xmap t <Plug>Sneak_t
+xmap T <Plug>Sneak_T
+omap t <Plug>Sneak_t
+omap T <Plug>Sneak_T
+" manually specify a SneakNext and SneakPrevious
+map ]z <Plug>SneakNext
+map [z <Plug>SneakPrevious
+" }}}
+
 Plug 'nelstrom/vim-visual-star-search'
 
 Plug 'junegunn/fzf.vim'
@@ -660,6 +680,7 @@ Plug 'nelstrom/vim-textobj-rubyblock'
 
 " Go related plugins {{{
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'darrikonn/vim-gofmt'
 
 " Configure gopls: https://github.com/golang/go/wiki/gopls
 let g:go_def_mode='gopls'
@@ -870,26 +891,6 @@ if has("gui_macvim")
 endif
 " }}}
 
-" Sneak settings {{{
-" replace 'f' with 1-char Sneak
-nmap f <Plug>Sneak_f
-nmap F <Plug>Sneak_F
-xmap f <Plug>Sneak_f
-xmap F <Plug>Sneak_F
-omap f <Plug>Sneak_f
-omap F <Plug>Sneak_F
-" replace 't' with 1-char Sneak
-nmap t <Plug>Sneak_t
-nmap T <Plug>Sneak_T
-xmap t <Plug>Sneak_t
-xmap T <Plug>Sneak_T
-omap t <Plug>Sneak_t
-omap T <Plug>Sneak_T
-" manually specify a SneakNext and SneakPrevious
-map ]z <Plug>SneakNext
-map [z <Plug>SneakPrevious
-" }}}
-
 " Open files in directory of current file with Leader mappings
 cnoremap <expr> %% expand('%:h').'/'
 map <Leader>e :edit %%
@@ -962,6 +963,12 @@ snoremap <Leader>sn ]s1z=
 nnoremap <Leader>sc 1z=
 inoremap <Leader>sc <Esc>1z=ea
 "}}}
+
+" Useful Remaps {{{
+" Mimic the functionality of C and D but in Y.  Note that we only want the
+" last non-blank character to be included.
+nnoremap Y yg_
+" }}}
 
 " AutoCommand Settings {{{
 if has("autocmd")
@@ -1046,12 +1053,30 @@ augroup helpfiles
 augroup END
 
 " Center the screen more easily {{{
-nmap <Space> zz
+nnoremap <Space> zz
 
-" Center the screen on searches
-nmap n nzz
-nmap N Nzz
+" Center the screen on searches and joins
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
 " }}}
+
+" Undo Break Points {{{
+" These make entering larger amounts of things in insert mode a little saner
+" to undo when you've made mistakes.
+inoremap , ,<c-g>u
+inoremap . .<c-g>u
+inoremap ! !<c-g>u
+inoremap ? ?<c-g>u
+" }}}
+
+" Populate the Jumplist {{{
+" The goal here is to add any movement of more than a few lines to the
+" jumplist.
+nnoremap <expr> k (v:count > 5 ? "m'" . v:count : "") . 'k'
+nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
+" }}}
+
 
 " Invisibles Settings {{{
 " Shortcut to toggle invisibles
@@ -1159,9 +1184,12 @@ set smartcase  " but if we search for big letters, make search case sensitive ag
 " Correct for common command typos and mis-keys {{{
 command! W w
 command! Wq wq
+command! WQ wq
 command! Wa wall
+command! WA wall
 command! Wqa wqall
 command! WQa wqall
+command! WQA wqall
 " }}}
 
 " Move based on screen-viewable lines
