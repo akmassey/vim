@@ -530,16 +530,6 @@ Plug 'vim-scripts/CheckAttach.vim'
 " LaTeX related plugins {{{
 Plug 'lervag/vimtex'
 let g:vimtex_syntax_enabled=0
-" Disable overfull/underfull \hbox and all package warnings
-let g:vimtex_quickfix_latexlog = {
-      \ 'overfull' : 0,
-      \ 'underfull' : 0,
-      \ 'packages' : {
-      \   'default' : 0,
-      \ },
-      \}
-
-let g:vimtex_compiler_progname='nvr'
 
 " Set FastFold options
 let g:tex_fold_enabled=1
